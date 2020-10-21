@@ -45,10 +45,10 @@ module.exports = {
         xp++;
         await db.queryUpdate(`UPDATE discord_levels SET xp = '${xp}' WHERE guild = '${guild}' AND user = '${member}'`);
 
-        if (xp >= 50 && xp <= 100) {
-            level = 1;
-            await this.updateLevel(guild, member);
-        }
+        //if (xp >= 50 && xp <= 100) {
+        //    level = 1;
+        //    await this.updateLevel(guild, member);
+        //}
     }
     
 }
