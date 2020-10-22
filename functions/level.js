@@ -38,7 +38,7 @@ module.exports = {
         let level = await this.getLevel(guild, member);
         let xplimit = await this.getXPLimit(guild, member);
 
-        if (xp >= xplimit) {
+        if (xp > xplimit) {
             if (level < 5) xplimit += 500;
             if (level > 5 && level < 10) xplimit += 1000;
             if (level > 10 && level < 20) xplimit += 5000;
