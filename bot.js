@@ -37,9 +37,10 @@ client.on('ready', () => {
     });
 
     client.guilds.cache.forEach(guild => {
-        guild.fetchInvites()
-            .then(invites => guildInvites.set(guild.id, invites))
-            .catch(err => console.log(err));
+        if (guild.member(client.user).hasPermission('MANAGE_GUILD'))
+            guild.fetchInvites()
+                .then(invites => guildInvites.set(guild.id, invites))
+                .catch(err => console.log(err));
     });
 
     try {
@@ -57,7 +58,7 @@ client.on('message', async message => {
     */
     writeLog(message);
     autoResponse(message);
-    otuzbir(message);
+    otuzbir(client, message);
     levelSystem.updateMessageXP(message);
     
     if (await querySelectBool(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'oneri'`)) {
