@@ -42,7 +42,7 @@ module.exports = {
                         if (fileSizeInBytes === 0) { return infoMsg(msg, 'B20000', `<@${message.author.id}>, coub videosunun tamamı indirilemediği için işlemede hata oluştu.`, true, 10000); }
 
                         msg.delete({ timeout: 500, reason: 'Otomatik bot işlemi.' });
-                        const coubVideo = new MessageAttachment(file, 'keyubu-coub-'+ rn +'.mp4');
+                        const coubVideo = new MessageAttachment(file, 'amkanimecisi-coub-'+ rn +'.mp4');
 
                         infoMsg(message, 'd747ed', `<@${message.author.id}>, coub videosu yüklendi.`, false, 0);
                         return message.channel.send(coubVideo);

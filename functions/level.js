@@ -69,11 +69,11 @@ module.exports = {
         }
 
         if (level < 10) xp += 5;
-        else if (level > 10 && level < 20) xp += 4;            
-        else if (level > 25 && level < 30) xp += 2;
-        else if (level > 30 && level < 35) xp += 1.5;
-        else if (level > 40 && level < 50) xp += 0.8;
-        else if (level > 50) xp += 0.5;
+        else if (level >= 10 && level < 20) xp += 4;            
+        else if (level >= 20 && level < 30) xp += 2;
+        else if (level >= 30 && level < 40) xp += 1.5;
+        else if (level >= 40 && level < 50) xp += 0.8;
+        else if (level >= 50) xp += 0.5;
 
         await db.queryUpdate(`UPDATE discord_levels SET xp = '${xp}' WHERE guild = '${guild}' AND user = '${member}'`);
         await this.updateLevel(guild, member, xp, message);

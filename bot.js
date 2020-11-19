@@ -1,13 +1,11 @@
 const { Client, Collection } = require('discord.js');
-const { config } = require('dotenv');
 const fs = require('fs');
 const { querySelect, querySelectBool } = require('./functions/database');
 const { infoMsg } = require('./functions/message');
 const { writeLog } = require('./functions/logger')
 const { permCheck } = require('./functions/permission.js');
-const { serverJoin, serverLeave, createInvite, girisTeyit } = require('./functions/join-leave');
+const { serverJoin, serverLeave, createInvite } = require('./functions/join-leave');
 const { autoResponse } = require('./functions/autoresponse');
-const { otuzbir } = require('./functions/otuzbir');
 const levelSystem = require('./functions/level');
 
 const client = new Client();
@@ -58,7 +56,6 @@ client.on('message', async message => {
     */
     writeLog(message);
     autoResponse(message);
-    otuzbir(client, message);
     levelSystem.updateMessageXP(message);
     
     if (await querySelectBool(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'oneri'`)) {
