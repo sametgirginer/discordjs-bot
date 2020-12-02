@@ -11,7 +11,7 @@ module.exports = {
             let kanaladi = chname.replace('🎫', '');
 
             if (chname.startsWith('🎫')) {
-                let pathFile = `./logs/support/${gun}${ay}${yil}-${kanaladi}-${message.channel.id}.log`;
+                let pathFile = `./logs/${ay}.${gun}.${yil}-${message.channel.id}-${message.guild.id}.log`;
                 let msg  = `MsgID: ${message.id} Usr: ${message.author.id}-${message.author.username} Msg: ${message.content}\n`;
 
                 fs.open(pathFile, 'a', (err) => {

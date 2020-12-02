@@ -5,7 +5,6 @@ cevaplar = JSON.parse(cevaplar);
 
 module.exports = {
     autoResponse: async function(message) {
-        //if (message.guild.id != process.env.supportserver) return;
         let icerik = message.content.toLowerCase();
 
         cevaplar.forEach(c => {
