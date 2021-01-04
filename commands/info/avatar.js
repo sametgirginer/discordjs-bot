@@ -2,7 +2,8 @@ const { MessageEmbed } = require('discord.js');
 const { infoMsg } = require('../../functions/message.js');
 
 module.exports = {
-    name: 'avatar',
+	name: 'avatar',
+	aliases: ['av',],
     category: 'info',
     description: 'Avatar resmini ve bağlantısını iletir.',
 	prefix: true,

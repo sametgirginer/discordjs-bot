@@ -35,6 +35,7 @@ client.on('ready', () => {
     });
 
     client.guilds.cache.forEach(guild => {
+        guild.members.fetch();
         if (guild.member(client.user).hasPermission('MANAGE_GUILD'))
             guild.fetchInvites()
                 .then(invites => guildInvites.set(guild.id, invites))

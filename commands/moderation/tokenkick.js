@@ -2,10 +2,10 @@ const { infoMsg } = require('../../functions/message.js');
 const { querySelectAll, queryDelete } = require('../../functions/database.js');
 
 module.exports = {
-    name: 'tokenban',
-    aliases: ['tban'],
+    name: 'tokenkick',
+    aliases: ['tkick'],
     category: 'moderasyon',
-    description: 'Otomatik olarak bir davetten gelenleri banlar.',
+    description: 'Otomatik olarak bir davetten gelenleri kickler.',
     prefix: true,
     owner: false,
     supportserver: false,
@@ -17,8 +17,8 @@ module.exports = {
 
         tokens.forEach(token => {
             message.guild.members.fetch(`${token['user']}`).then(user => {
-                user.ban({ days: 7, reason: 'Token sebebiyle yasaklandı.' });
-                infoMsg(message, 'RANDOM', `<@${user.id}>, discord sunucusundan yasaklandı.\nSunucudan yasaklayan yetkili: <@${message.author.id}>`, false, 5000);
+                user.kick('Token sebebiyle atıldı.');
+                infoMsg(message, 'RANDOM', `<@${user.id}>, discord sunucusundan atıldı.\nSunucudan atan yetkili: <@${message.author.id}>`, false, 5000);
                 queryDelete(`DELETE FROM discord_guildusers WHERE guild = '${message.guild.id}' AND user = '${user.id}'`);
             }).catch(err => {
                 if (err.code === 10007) return;

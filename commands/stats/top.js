@@ -1,35 +1,54 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { querySelectAll } = require('../../functions/database');
+const { infoMsg } = require('../../functions/message');
 const nodeHtmlToImage = require('node-html-to-image');
 
 module.exports = {
     name: 'top',
     category: 'stats',
-    description: 'En yüksek levele ulaşan kullanıcılar.',
+    description: 'Discord sunucusunun level sıralaması.',
     prefix: true,
     owner: false,
     supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        let top = await querySelectAll(`SELECT * FROM discord_levels WHERE guild = '${message.guild.id}' ORDER BY level DESC`);
+        let top = await querySelectAll(`SELECT * FROM discord_levels WHERE guild = '${message.guild.id}' ORDER BY xp DESC`);
         let ttrow = "";
         let height = 60;
-        let sira = 1;
+        let i = 0;
+        let liste = 10;
 
-        top.forEach(data => {
+        if (args[0]) {
+            i = parseInt((args[0] + "0"));
+            liste = parseInt((args[0] + "0")) + 10;
+
+            if (i > top.length) {
+                return infoMsg(message, 'RANDOM', `Liste boş olduğu için işlem yapılamadı.`, true, 5000);
+            }
+        } 
+        
+        for (i; i < top.length; i++) {
+			let user = top[i].user;
+			if (message.guild.members.cache.find(m => m.id === top[i].user) != undefined) {
+				user = message.guild.members.cache.find(m => m.id === top[i].user).user.username;
+			}
+
+            sira = i + 1;
+
             ttrow += `
             <tr class="user">
                 <td class="id">#${sira}</td>
-                <td class="name">${message.guild.members.cache.find(m => m.id === data.user).user.username}</td>
-                <td class="level">Level ${data.level}</td>
-                <td class="xp">XP ${data.xp}</td>
+                <td class="name">${user}</td>
+                <td class="level">Level ${top[i].level}</td>
+                <td class="xp">XP ${top[i].xp}</td>
             </tr>`;
 
-            //ttrow += `${sira}. ${message.guild.members.cache.find(m => m.id === data.user).user.username} - Level: ${data.level} - XP: ${data.xp}\n`;
-            sira++;
             height += 20;
-            if (sira > 10) return;
-        });
+			if (i > liste) {
+				height = 380;
+				break;
+			}
+        }
 
         let html_topten = `
             <html>
@@ -86,7 +105,7 @@ module.exports = {
 				.attachFiles(image)
 				.setImage('attachment://top10.png')
 				.setTimestamp()
-				.setFooter(message.author.username + '#' + message.author.discriminator);
+				.setFooter(`Sonraki liste için ${process.env.prefix}${(args[0] === undefined) ? "top" : "top " + (parseInt(args[0])+1)} / ${message.author.username}#${message.author.discriminator}`);
 
 			return message.channel.send(toptenEmbed);
         }
