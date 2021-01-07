@@ -43,8 +43,8 @@ module.exports = {
                     .setAuthor(`Komut adı: ${client.commands.get(args[0]).name}`, client.user.avatarURL({ format: 'png', dynamic: true }))
                     .setDescription(client.commands.get(args[0]).description)
                     .addField('Kategori', client.commands.get(args[0]).category, false)
-                    .addField('Sadece Kurucu', client.commands.get(args[0]).owner, false)
-                    .addField('Sadece Keyubu', client.commands.get(args[0]).supportserver, false)
+                    .addField('Bot Sahibi', client.commands.get(args[0]).owner, false)
+                    .addField('Destek Sunucusu', client.commands.get(args[0]).supportserver, false)
 
                 message.channel.send(cmdEmbed);
                 message.delete({ timeout: 5000, reason: 'Otomatik bot işlemi.' });
