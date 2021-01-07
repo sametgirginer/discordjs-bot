@@ -1,57 +1,58 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
-const cmd = require('node-cmd');
-const fs = require('fs');
-const FFmkek = require('ffmkek');
-const Coub = require('coub-dl');
 const { infoMsg } = require('../../functions/message.js');
-
-const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
+const Coub = require('coub-dl');
+const FFmkek = require('ffmkek');
+const fs = require('fs');
 
 module.exports = {
     name: 'coub',
     category: 'data',
     description: 'coub.com sitesinden video çeker.',
 	prefix: true,
-    owner: true,
-    onlykeyubu: false,
+    owner: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, coub bağlantısı girmelisiniz.`, true, 10000);    
-
-        if (!String(args[0]).match(/(https?:\/\/(coub.com\/view\/[a-zA-Z0-9]{6}))+/g)) 
-            return infoMsg(message, 'FFE26A', `<@${message.author.id}>, sadece doğru girilen coub bağlantısına izin verilmektedir.`, true, 10000);
-
+        if (!args[0]) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, coub video bağlantısı girmelisiniz.`, true, 10000);    
         message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
 
         var cooldownEmbed = new MessageEmbed()
             .setColor('#d747ed')
-            .setDescription(`<@${message.author.id}>, **coub videosu** hazırlanıyor. **5 saniye** sonra yüklenecek.`)
-        
+            .setDescription(`<@${message.author.id}>, **coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.`)
+     
         message.channel.send(cooldownEmbed).then(async msg => {
-            let rn = Math.ceil(Math.random() * 5000);
-            const file = 'data/coub/output-'+ rn +'.mp4';
-            cmd.run('coub-dl -i '+ args[0] +' -o '+ file +' --loop 10 --time 10 --scale 600 -c');
-            
-            sleep(5000).then(() => {
-                fs.exists(file, function(err) {
-                    if (err) {
-                        let stats = fs.statSync(file);
-                        let fileSizeInBytes = stats['size'];
-                        if (fileSizeInBytes === 0) { return infoMsg(msg, 'B20000', `<@${message.author.id}>, coub videosunun tamamı indirilemediği için işlemede hata oluştu.`, true, 10000); }
-
-                        msg.delete({ timeout: 500, reason: 'Otomatik bot işlemi.' });
-                        const coubVideo = new MessageAttachment(file, 'amkanimecisi-coub-'+ rn +'.mp4');
-
-                        infoMsg(message, 'd747ed', `<@${message.author.id}>, coub videosu yüklendi.`, false, 0);
-                        return message.channel.send(coubVideo);
-                    } else {
-                        msg.delete({ timeout: 500, reason: 'Otomatik bot işlemi.' });
-                        return infoMsg(msg, 'B20000', `<@${message.author.id}>, coub videosu indirilirken bir hata oluştu.`, true, 10000);
+            try {
+                const file = `data/coub/output-${Math.ceil(Math.random() * 5000)}.mp4`;
+                const coub = await Coub.fetch(args[0], "HIGH");
+    
+                if (coub.metadata.not_safe_for_work === true) 
+                    if (message.channel.nsfw === false || message.channel.nsfw === undefined) {
+                        msg.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
+                        return infoMsg(message, 'FFE26A', `<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.`, false, 10000);
                     }
+    
+                await coub.loop(10);
+                await coub.attachAudio();
+                await coub.addOption('-t', 10);
+                await coub.write(file);
+    
+                const coubVideo = new MessageAttachment(file, 'amkanimecisi-coub-video.mp4');
+                return message.channel.send(coubVideo).then(() => {
+                    fs.unlinkSync(file);
+                    msg.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
+    
+                    var videoUploaded = new MessageEmbed()
+                        .setColor('RANDOM')
+                        .setDescription(`Coub videosu yüklendi.\nTarayıcıda görüntülemek için [buraya](https://coub.com/view/${coub.metadata.permalink}) tıklayın.`)
+                        .setAuthor(coub.metadata.title, coub.metadata.small_picture)
+                        .setTimestamp()
+                        .setFooter(message.author.username + '#' + message.author.discriminator);
+    
+                    message.channel.send(videoUploaded);
                 });
-            });
+            } catch (error) {
+                msg.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
+                return infoMsg(message, 'FFE26A', `<@${message.author.id}>, coub video bağlantısı geçersiz.`, false, 10000);   
+            }
         });
     }
 }
