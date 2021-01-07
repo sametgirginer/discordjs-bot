@@ -1,6 +1,7 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { querySelectAll } = require('../../functions/database');
 const { infoMsg } = require('../../functions/message');
+const search = require('../../functions/search');
 const nodeHtmlToImage = require('node-html-to-image');
 
 module.exports = {
@@ -13,41 +14,46 @@ module.exports = {
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
         let top = await querySelectAll(`SELECT * FROM discord_levels WHERE guild = '${message.guild.id}' ORDER BY xp DESC`);
-        let ttrow = "";
-        let height = 60;
-        let i = 0;
-        let liste = 10;
+        let ttrow = [];
 
-        if (args[0]) {
-            i = parseInt((args[0] + "0"));
-            liste = parseInt((args[0] + "0")) + 10;
-
-            if (i > top.length) {
-                return infoMsg(message, 'RANDOM', `Liste boş olduğu için işlem yapılamadı.`, true, 5000);
-            }
-        } 
+        if (!args[0]) listeLength = 1; else listeLength = args[0];
+        if (isNaN(listeLength) || listeLength < 1) return infoMsg(message, 'RANDOM', `Geçerli bir liste numarası girmediğiniz için liste getirilemedi.`, true, 5000);
         
-        for (i; i < top.length; i++) {
-			let user = top[i].user;
-			if (message.guild.members.cache.find(m => m.id === top[i].user) != undefined) {
-				user = message.guild.members.cache.find(m => m.id === top[i].user).user.username;
-			}
+        for (l = 0, i = 0; l < listeLength; l++) {
+            ttrow[l] = "";
+            for(icerik = 0; icerik < 10; i++) {
+                if (top[i] === undefined) break;
 
-            sira = i + 1;
+                sira = i+1;
+                user = top[i].user;
+                if (message.guild.members.cache.find(m => m.id === top[i].user) != undefined) {
+                    user = message.guild.members.cache.find(m => m.id === top[i].user).user.username;
+                } else {
+                    user = (await search.user(client, user)).username;
+                    if (user === undefined) user = top[i].user;
+                }
 
-            ttrow += `
-            <tr class="user">
-                <td class="id">#${sira}</td>
-                <td class="name">${user}</td>
-                <td class="level">Level ${top[i].level}</td>
-                <td class="xp">XP ${top[i].xp}</td>
-            </tr>`;
+                ttrow[l] += `
+                <tr class="user">
+                    <td class="id">#${sira}</td>
+                    <td class="name">${user}</td>
+                    <td class="level">Level ${top[i].level}</td>
+                    <td class="xp">XP ${top[i].xp}</td>
+                </tr>`;
 
-            height += 20;
-			if (i > liste) {
-				height = 380;
-				break;
-			}
+                icerik++;
+            }
+        }
+
+        if (ttrow[listeLength-1].length <= 0) {
+            const blankEmbed = new MessageEmbed()
+                .setColor('RANDOM')
+                .setTitle(`${message.guild.name} TOP 10`)
+                .setDescription(`Bu sayfa şu anlık boş.`)
+			    .setTimestamp()
+			    .setFooter(`İlk sayfa için ${process.env.prefix}top / ${message.author.username}#${message.author.discriminator}`);
+
+            return message.channel.send(blankEmbed);
         }
 
         let html_topten = `
@@ -56,7 +62,7 @@ module.exports = {
                     html, body {
                         background: transparent;
                         width: 500px;
-                        height: ${height}px;
+                        height: 380px;
                     }
                 
                     table {
@@ -87,7 +93,7 @@ module.exports = {
                         border-radius: 0 10px 10px 0;
                     }
                 </style>
-                <body><table><tbody>${ttrow}</tbody></table></body>
+                <body><table><tbody>${ttrow[listeLength-1]}</tbody></table></body>
             </html>`;
 
         await nodeHtmlToImage({
@@ -96,18 +102,15 @@ module.exports = {
             output: `./commands/stats/cache/${message.guild.id}_topten.png`
         });
 
-        if (ttrow) {	
-			const image = new MessageAttachment(`./commands/stats/cache/${message.guild.id}_topten.png`, 'top10.png');
+		const image = new MessageAttachment(`./commands/stats/cache/${message.guild.id}_topten.png`, 'top10.png');
+		const toptenEmbed = new MessageEmbed()
+            .setColor('RANDOM')
+            .setTitle(`${message.guild.name} TOP 10`)
+			.attachFiles(image)
+			.setImage('attachment://top10.png')
+			.setTimestamp()
+			.setFooter(`Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${message.author.username}#${message.author.discriminator}`);
 
-			const toptenEmbed = new MessageEmbed()
-                .setColor('RANDOM')
-                .setTitle(`${message.guild.name} TOP 10`)
-				.attachFiles(image)
-				.setImage('attachment://top10.png')
-				.setTimestamp()
-				.setFooter(`Sonraki liste için ${process.env.prefix}${(args[0] === undefined) ? "top" : "top " + (parseInt(args[0])+1)} / ${message.author.username}#${message.author.discriminator}`);
-
-			return message.channel.send(toptenEmbed);
-        }
+		return message.channel.send(toptenEmbed);
     }
 }
