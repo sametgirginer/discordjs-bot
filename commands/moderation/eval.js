@@ -1,4 +1,5 @@
 const { infoMsg } = require('../../functions/message.js');
+const hastebin = require("hastebin-gen");
 
 module.exports = {
     name: 'eval',
@@ -15,8 +16,13 @@ module.exports = {
            
             if (typeof evaled !== "string")
                 evaled = require("util").inspect(evaled);
-           
-            message.channel.send(clean(evaled), { code:"xl" });
+
+            if (evaled.length >= 2000) {
+                let haste = await hastebin(evaled);
+                message.channel.send(haste);
+            } else {
+                message.channel.send(clean(evaled), { code:"xl" });
+            }           
         } catch (error) {
             infoMsg(message, 'B20000', `**HATA**:\n${clean(error)}`);
         }

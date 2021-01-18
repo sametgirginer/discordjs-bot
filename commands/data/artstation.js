@@ -40,16 +40,16 @@ module.exports = {
 			args.forEach(arg => {
 				query += `${arg}${(args.length > 1) ? " " : ""}`;
 			});
-			apiUrl = `https://www.artstation.com/api/v2/search/projects.json?query=${query}&page=1&per_page=50`;
+			apiUrl = `https://www.artstation.com/api/v2/search/projects.json?query="${query}"&page=1&per_page=75`;
 		}
 
 		request({
 			url: apiUrl,
 			json: true,
 			jsonReplacer: true
-		}, function(err, response, body) {
+		}, async function(err, response, body) {
 			if (!err && response.statusCode === 200) {
-				let out = JSON.parse(JSON.stringify(body));
+				let out = JSON.parse(JSON.stringify(await body));
 
 				if (out.id != undefined) {
 					const artEmbed = new MessageEmbed()
@@ -66,22 +66,36 @@ module.exports = {
 					message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
 					return message.channel.send(artEmbed);
 				} else {
-					let rn = Math.ceil(Math.random() * 50);
-					//console.log(out.total_count);
-					/*out.data.forEach(q => {
-						console.log(q);
-					});*/
-					
-					const artEmbed = new MessageEmbed()
-						.setColor('RANDOM')
-						.setDescription(`**${query}** araması ile ilgili veri getirildi.\nTarayıcıda görüntülemek için [buraya](${out.data[rn].url}) tıklayın.\n\nArama fonksiyonu yapım aşamasındadır.`)
-						.setAuthor(out.data[rn].title, out.data[rn].smaller_square_cover_url)
-						.setImage(out.data[rn].smaller_square_cover_url)
-						.setTimestamp()
-						.setFooter(message.author.username + '#' + message.author.discriminator);
+					let page = Math.floor(Math.random() * (((out.total_count / 75) === 0) ? 1 : Math.floor(out.total_count / 75)) + 1);
+					apiUrl = `https://www.artstation.com/api/v2/search/projects.json?query="${query}"&page=${page}&per_page=75`;
 
-					message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
-					return message.channel.send(artEmbed);
+					request({
+						url: apiUrl,
+						json: true,
+						jsonReplacer: true
+					}, async function(err, response, body) {
+						if (!err && response.statusCode === 200) {
+							out = JSON.parse(JSON.stringify(await body));
+
+							let rn = Math.floor((Math.random() * 1) * Math.floor((out.total_count < 75) ? out.total_count-1 : 74));
+							if (out.total_count === 0) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, ${query} araması ile ilgili veri yok.`, true, 10000);
+		
+							if (out.data[rn].hide_as_adult === true)
+								if (message.channel.nsfw === false || message.channel.nsfw === undefined)
+									return infoMsg(message, 'FFE26A', `<@${message.author.id}>, bu resim sadece nsfw paylaşımına izin verilen kanala gönderilebilir.`, true, 10000);
+						
+							const artEmbed = new MessageEmbed()
+								.setColor('RANDOM')
+								.setDescription(`**${query}** araması ile ilgili **${(out.total_count-1 === 0) ? 1 : out.total_count-1}** sonuç bulundu.\nTarayıcıda görüntülemek için [buraya](${out.data[rn].url}) tıklayın.\n\nArama fonksiyonu yapım aşamasındadır.`)
+								.setAuthor(out.data[rn].title, out.data[rn].smaller_square_cover_url)
+								.setImage(out.data[rn].smaller_square_cover_url)
+								.setTimestamp()
+								.setFooter(message.author.username + '#' + message.author.discriminator);
+		
+							message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
+							return message.channel.send(artEmbed);
+						}
+					});
 				}
 			} else {
                 message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });

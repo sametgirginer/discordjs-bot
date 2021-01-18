@@ -9,16 +9,16 @@ module.exports = {
             .setDescription(returnMsg)
 
         if (cmdMsgDel === true)
-            message.delete();
+            deleteMsg(message, 0, 'Otomatik bot işlemi.');
             
         if (deleteCooldown > 0) {
             if (message.channel != undefined)
                 message.channel.send(embed).then(msg => {
-                    msg.delete({ timeout: deleteCooldown, reason: 'Otomatik bot işlemi.' });
+                    deleteMsg(msg, deleteCooldown, 'Otomatik bot işlemi.');
                 });
             else 
                 message.send(embed).then(msg => {
-                    msg.delete({ timeout: deleteCooldown, reason: 'Otomatik bot işlemi.' });
+                    deleteMsg(msg, deleteCooldown, 'Otomatik bot işlemi.');
                 });
         } else {
             if (message.channel != undefined)
@@ -27,4 +27,16 @@ module.exports = {
                 message.send(embed);
         }
     },
+
+    deleteMsg: function(message, timeout, reason) {
+        deleteMsg(message, timeout, reason);
+    },
+}
+
+function deleteMsg(message, timeout, reason) {
+    try {
+        message.delete({ timeout: timeout, reason: reason});
+    } catch (error) {
+        console.log(`Mesaj silme hatası: ${error}`);
+    }
 }

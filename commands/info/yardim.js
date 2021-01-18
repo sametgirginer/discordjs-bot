@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg, deleteMsg } = require('../../functions/message.js');
 
 module.exports = {
     name: 'yardim',
@@ -12,26 +12,30 @@ module.exports = {
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
         if (!args.length) {
-            var commands = '';
+            var commands = [];
             client.commands.forEach(cmd => {
-                commands += `:small_orange_diamond: ${cmd.name} :black_small_square: ${cmd.description}\n`;
+                if (commands[cmd.category] === undefined) commands[cmd.category] = "`" + cmd.name + "`";
+                else commands[cmd.category] += " `" + cmd.name + "`";
             });
+
+            console.log(commands);
     
             var yardimEmbed = new MessageEmbed()
                 .setColor('#65bff0')
                 .setAuthor('Bot Komutları', client.user.avatarURL({ format: 'png', dynamic: true }))
-                .setDescription(`Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__ \n\n` + commands)
-                
-            message.author.send(yardimEmbed).then(() => {
-                infoMsg(message, '65bff0', `<@${message.author.id}>, bilgilendirme özel mesajdan iletildi.\nKomut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__ `, true, 10000);
-            }).catch(() => infoMsg(message, '65bff0', `<@${message.author.id}>, özel mesajın kapalı olduğu için yardım komutları iletilemedi.`, true, 10000));
+                .setDescription(`Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__`)
+                .addField('Genel Komutlar', commands.info, false)
+                .addField('Rank Komutları', commands.stats, false)
+                .addField('Müzik Komutları', commands.music, false)
+                .addField('Moderasyon Komutları', commands.moderasyon, false)
+
+            message.channel.send(yardimEmbed);
         }
 
         if (args[0]) {
             var komutAdi;
 
             client.commands.forEach(cmd => {
-                //console.log(cmd.aliases.filter());
                 if (args[0] === cmd.name || args[0] === cmd.aliases) komutAdi = args[0];
             });
 
@@ -47,7 +51,7 @@ module.exports = {
                     .addField('Destek Sunucusu', client.commands.get(args[0]).supportserver, false)
 
                 message.channel.send(cmdEmbed);
-                message.delete({ timeout: 5000, reason: 'Otomatik bot işlemi.' });
+                deleteMsg(message, 5000, 'Otomatik bot işlemi.');
             }
         }
     }
