@@ -14,6 +14,7 @@ const guildInvites = new Map();
     
 client.commands = new Collection();
 client.aliases = new Collection();
+client.queue = new Map();
 
 ['command'].forEach(handler => {
     require(`./handler/${handler}`)(client);
