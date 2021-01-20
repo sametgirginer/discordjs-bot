@@ -54,7 +54,8 @@ module.exports = {
               timestamp: video.duration.timestamp,
               ago: video.ago,
               thumbnail: video.thumbnail,
-              views: video.views
+              views: video.views,
+              loop: false,
             };
       
             if (!serverQueue) {
@@ -64,7 +65,8 @@ module.exports = {
                     connection: null,
                     songs: [],
                     volume: 5,
-                    playing: true
+                    playing: true,
+                    loop: false,
                 };
       
                 queue.set(message.guild.id, queueContruct);
@@ -110,11 +112,8 @@ function play(message, song) {
 
     const videoEmbed = new MessageEmbed()
         .setColor('RANDOM')
-        .setDescription(`Tarayıcıda görüntülemek için [buraya](${song.url}) tıklayın.`)
-        .setAuthor(song.title, song.thumbnail)
-        .addField('Süre', song.timestamp, true)
-        .addField('Görüntülenme', song.views, true)
-        .addField('Yükleme Tarihi', song.ago, true)
+        .setDescription(`[${song.title}](${song.url})`)
+        .setAuthor(`${song.timestamp} - Şu anda oynatılıyor`, 'https://i.imgur.com/5ZbX7RV.png')
         .setTimestamp()
         .setFooter(message.author.username + '#' + message.author.discriminator);
 

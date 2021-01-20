@@ -10,10 +10,18 @@ module.exports = {
     supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		const serverQueue = message.client.queue.get(message.guild.id);
-		if (!message.member.voice.channel) return infoMsg(message, 'B5200', `Bu işlemi yapmak için ses kanalına bağlanmalısın.`, true);
-        if (serverQueue != undefined) serverQueue.songs = [];
-        else return infoMsg(message, 'B5200', `Şu anda oynatılan bir şarkı yok.`, true);
-		serverQueue.connection.dispatcher.end();
+        try {
+            const serverQueue = message.client.queue.get(message.guild.id);
+        
+            if (serverQueue.connection === undefined) return;
+            if (message.member.voice.channel.id != serverQueue.connection.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+            if (serverQueue != undefined) serverQueue.songs = [];
+            else return infoMsg(message, 'B5200', `Şu anda oynatılan bir şarkı yok.`, true);
+    
+            serverQueue.connection.dispatcher.end();
+            await message.react('👍');
+        } catch (error) {
+            client.log.sendError(error, message);
+        }
     }
 }

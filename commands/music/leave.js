@@ -10,11 +10,16 @@ module.exports = {
     supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        const vc = await client.voice.connections.find(vc => vc.channel.guild.id === message.guild.id);
+        try {
+            const vc = await client.voice.connections.find(vc => vc.channel.guild.id === message.guild.id);
 
-        if (!vc) return infoMsg(message, 'B5200', `Şu anda ses kanalına bağlı değilim.`, true);
-
-        await vc.disconnect();
-        return infoMsg(message, 'AA2300', `Ses kanalından ayrıldı.`);
+            if (!vc) return infoMsg(message, 'B5200', `Şu anda ses kanalına bağlı değilim.`, true, 5000);
+            if (message.member.voice.channel.id != vc.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+    
+            await vc.disconnect();
+            await message.react('👍');
+        } catch (error) {
+            client.log.sendError(error, message);
+        }
     }
 }
