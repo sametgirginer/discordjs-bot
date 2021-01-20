@@ -17,8 +17,6 @@ module.exports = {
                 if (commands[cmd.category] === undefined) commands[cmd.category] = "`" + cmd.name + "`";
                 else commands[cmd.category] += " `" + cmd.name + "`";
             });
-
-            console.log(commands);
     
             var yardimEmbed = new MessageEmbed()
                 .setColor('#65bff0')

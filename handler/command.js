@@ -1,7 +1,7 @@
 const { readdirSync } = require('fs');
 
 const ascii = require('ascii-table');
-const table = new ascii().setHeading('Komut', 'Dosya', 'Prefix', 'Owner', 'SupServer', 'Kategori', 'Durum');
+const table = new ascii().setHeading('Komut', 'Dosya', 'Kategori', 'Prefix', 'Owner', 'Durum');
 
 module.exports = (client) => {
     readdirSync('./commands/').forEach(dir => {
@@ -12,9 +12,9 @@ module.exports = (client) => {
 
             if (pull.name) {
                 client.commands.set(pull.name, pull);
-                table.addRow(pull.name, file, pull.prefix, pull.owner, pull.supportserver, pull.category, 'OK')
+                table.addRow(pull.name, file, pull.category, (pull.prefix) ? '✔' : '-', (pull.owner) ? '✔' : '-', '✔')
             } else {
-                table.addRow(pull.name, file, pull.prefix, pull.owner, pull.supportserver, pull.category, 'Hata')
+                table.addRow(pull.name, file, pull.category, (pull.prefix) ? '✔' : '-', (pull.owner) ? '✔' : '-', '-')
                 continue;
             }
 

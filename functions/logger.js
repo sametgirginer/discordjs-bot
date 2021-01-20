@@ -7,10 +7,8 @@ module.exports = {
             let gun = addZero(zaman.getDate());
             let ay = addZero(zaman.getUTCMonth() + 1);
             let yil = zaman.getFullYear();
-            let chname = message.channel.name;
-            let kanaladi = chname.replace('🎫', '');
 
-            if (chname.startsWith('🎫')) {
+            if (message.channel.name.startsWith('🎫')) {
                 let pathFile = `./logs/${ay}.${gun}.${yil}-${message.channel.id}-${message.guild.id}.log`;
                 let msg  = `MsgID: ${message.id} Usr: ${message.author.id}-${message.author.username} Msg: ${message.content}\n`;
 
@@ -19,6 +17,22 @@ module.exports = {
                     fs.appendFileSync(pathFile, msg, { encoding: "utf8"});
                 });
             }
+        }
+    },
+
+    errorLog: async function(message, error) {
+        if (message) {
+            let d = new Date(Date.now());
+            let date = `${addZero(d.getDate())}.${addZero(d.getUTCMonth() + 1)}.${d.getFullYear()}`;
+            date += ` - ${addZero(d.getHours())}:${addZero(d.getMinutes())}:${addZero(d.getSeconds())}`;
+
+            let pathFile = `./logs/errors/${message.guild.id}.log`;
+            let lineerror = `Date: ${date}\nMessage: ${message.id}\nUser: ${message.author.id}\nContent: ${message.content}\nError: ${error.name} - ${error.message}\n---------------------------------------------\n`;
+
+            fs.open(pathFile, 'a', (err) => {
+                if (err) throw err;
+                fs.appendFileSync(pathFile, lineerror, { encoding: "utf8"});
+            });
         }
     }
 }

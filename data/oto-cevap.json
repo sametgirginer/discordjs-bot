@@ -2,22 +2,8 @@
 	{
 		"ara" 	: false,
 		"mesaj" : [
-            "selamun aleyküm",
-            "sa"
+            "bubirtestmesajıdırdırdır"
         ],
-		"cevap" : "Aleyküm selam."
-	},
-	{
-		"ara"   : false,
-		"mesaj" : "nbr",
-		"cevap" : "<@user> iyi sen?"
-	},
-	{
-		"ara"   : false,
-		"mesaj" : [
-			"günaydın",
-			"gunaydın"
-		],
-		"cevap" : "günaydın <@user>"
+		"cevap" : "bubirtestmesajıdırdırdır"
 	}
 ]

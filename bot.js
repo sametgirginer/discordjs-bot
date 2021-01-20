@@ -16,6 +16,7 @@ client.commands = new Collection();
 client.aliases = new Collection();
 client.queue = new Map();
 
+client.log = require('./handler/log');
 ['command'].forEach(handler => {
     require(`./handler/${handler}`)(client);
 });
