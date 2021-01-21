@@ -1,7 +1,9 @@
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
 const { infoMsg } = require('../../functions/message');
+const { youtube_parser } = require('../../functions/helpers');
 const { MessageEmbed } = require('discord.js');
+const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 
 module.exports = {
     name: 'play',
@@ -18,7 +20,7 @@ module.exports = {
             const serverQueue = message.client.queue.get(message.guild.id);
       
             const vc = message.member.voice.channel;
-            if (!vc) return infoMsg(message, 'B5200', `Komutu kullanmak için ses kanalına giriş yapmalısın.`, true)
+            if (!vc) return infoMsg(message, 'B5200', `Komutu kullanmak için ses kanalına giriş yapmalısın.`, true);
 
             const permissions = vc.permissionsFor(message.client.user);
             if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return infoMsg(message, 'AA5320', `Konuşmak için yetkim yok.`);
@@ -36,8 +38,8 @@ module.exports = {
             const vf = async (query) => {
                 let vr = "";
                 if (ytRegex(args[0])) {          
-                    if (youtube_parser(args[0]) === false)  return;     
-                    return await ytSearch({ videoId: youtube_parser(args[0]) });
+                    if (await youtube_parser(args[0]) === false)  return;     
+                    return await ytSearch({ videoId: await youtube_parser(args[0]) });
                 } else {
                     vr = await ytSearch(query);
                     return (vr.videos.length > 1 ) ? vr.videos[0] : null;
@@ -51,10 +53,7 @@ module.exports = {
             const song = {
               title: video.title,
               url: video.url,
-              timestamp: video.duration.timestamp,
-              ago: video.ago,
-              thumbnail: video.thumbnail,
-              views: video.views,
+              timestamp: [video.duration.timestamp, (video.duration.seconds * 1000)],
               loop: false,
             };
       
@@ -77,31 +76,42 @@ module.exports = {
                     queueContruct.connection = connection;
                     play(message, queueContruct.songs[0]);
                 } catch (err) {
-                    console.log(err);
+                    client.log.sendError(client, err, message);
                     queue.delete(message.guild.id);
                 }
             } else {
+                if (message.member.voice.channel.id != serverQueue.connection.channel.id)
+                    return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+
                 serverQueue.songs.push(song);
-                return infoMsg(message, 'RANDOM', `**${song.title}** sıraya eklendi!`)
+
+                const queueEmbed = new MessageEmbed()
+                    .setColor('RANDOM')
+                    .setDescription(`[${song.title}](${song.url})`)
+                    .setAuthor(`Sıraya eklendi`, message.author.avatarURL({ format: 'png', dynamic: true }))
+                    .setTimestamp()
+                    .setFooter(message.author.username + '#' + message.author.discriminator);
+            
+                return serverQueue.textChannel.send(queueEmbed);
             }
         } catch (error) {
-            console.log(error);
+            client.log.sendError(client, error, message);
         }
     }
 }
 
-function play(message, song) {
+async function play(message, song) {
     const queue = message.client.queue;
     const guild = message.guild;
     const serverQueue = queue.get(message.guild.id);
   
     if (!song) {
-        serverQueue.vc.leave();
+        //serverQueue.vc.leave();
         queue.delete(guild.id);
         return;
     }
   
-    const dispatcher = serverQueue.connection
+    const dispatcher = await serverQueue.connection
         .play(ytdl(song.url))
         .on("finish", () => {
             serverQueue.songs.shift();
@@ -113,15 +123,9 @@ function play(message, song) {
     const videoEmbed = new MessageEmbed()
         .setColor('RANDOM')
         .setDescription(`[${song.title}](${song.url})`)
-        .setAuthor(`${song.timestamp} - Şu anda oynatılıyor`, 'https://i.imgur.com/5ZbX7RV.png')
+        .setAuthor(`${song.timestamp[0]} - Şu anda oynatılıyor`, 'https://i.imgur.com/5ZbX7RV.png')
         .setTimestamp()
         .setFooter(message.author.username + '#' + message.author.discriminator);
 
     serverQueue.textChannel.send(videoEmbed);
-}
-
-function youtube_parser(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
 }

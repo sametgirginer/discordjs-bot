@@ -19,7 +19,7 @@ module.exports = {
             await vc.disconnect();
             await message.react('👍');
         } catch (error) {
-            client.log.sendError(error, message);
+            client.log.sendError(client, error, message);
         }
     }
 }
