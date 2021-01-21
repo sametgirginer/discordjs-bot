@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { infoMsg } = require('./message');
 
 module.exports = {
     writeLog: async function(message) {
@@ -20,7 +21,7 @@ module.exports = {
         }
     },
 
-    errorLog: async function(message, error) {
+    errorLog: async function(client, message, error) {
         if (message) {
             let d = new Date(Date.now());
             let date = `${addZero(d.getDate())}.${addZero(d.getUTCMonth() + 1)}.${d.getFullYear()}`;
@@ -33,6 +34,14 @@ module.exports = {
                 if (err) throw err;
                 fs.appendFileSync(pathFile, lineerror, { encoding: "utf8"});
             });
+
+            if (process.env.supportserver && process.env.logchannel) {
+                let guild = await client.guilds.cache.find(g => g.id === process.env.supportserver);
+                if (guild) {
+                    let textChannel = await guild.channels.cache.find(c => c.id === process.env.logchannel);
+                    if (textChannel) infoMsg(textChannel, 'D52525', "Hata: `" + error.name + " - " + error.message + "`");
+                }
+            }
         }
     }
 }
