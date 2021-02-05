@@ -12,6 +12,9 @@ module.exports = {
             let msgChannel = guild.channels.cache.find(ch => ch.id === channel.value);
             let inviteCount = 0;
 
+            let role = guild.roles.cache.find(r => r.name == "Yeni");
+            if (role != undefined) await member.roles.add(role).catch(console.error);
+
             if (!msgChannel) return;
     
             const cachedInvites = guildInvites.get(member.guild.id);

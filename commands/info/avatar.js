@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { infoMsg } = require('../../functions/message.js');
+const search = require('../../functions/search');
 
 module.exports = {
 	name: 'avatar',
@@ -35,6 +36,21 @@ module.exports = {
 			});
 		} else if (message.mentions.users.size > 1) {
 			return infoMsg(message, 'B20000', `<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.`, true, 5000);
+		} else {
+			let user = await search.user(client, null, message, args[0]);
+
+			if (user) {
+				const avatarEmbed = new MessageEmbed()
+					.setColor('#adf542')
+					.setAuthor(user.username + '#' + user.discriminator, user.avatarURL({ format: 'png', dynamic: true }))
+					.setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+					.setTimestamp()
+					.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+
+				return message.channel.send(avatarEmbed);
+			} else {
+				return infoMsg(message, 'B20000', `<@${message.author.id}>, kullanıcı bulunamadı.`, true, 5000);
+			}
 		}
     }
 }

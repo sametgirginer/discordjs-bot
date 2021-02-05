@@ -62,7 +62,9 @@ module.exports = {
         let guild = message.guild.id;
         let member = message.author.id;
         let level = (await this.getLevel(guild, member));
-        let xp = (await this.getXP(guild, member));      
+        let xp = (await this.getXP(guild, member));
+
+        if (xp === undefined) xp = 0;
 
         if (await this.getStats(guild, member) === 0) {
             await this.addUser(guild, member);
