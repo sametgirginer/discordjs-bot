@@ -49,6 +49,7 @@ module.exports = {
             let video = "";
             if (ytRegex(args[0])) video = await vf(args[0]);
             else video = await vf(args.join(' '));
+            if (video ===  null) return infoMsg(message, 'AA5320', `Belirtilen şarkı oynatılamıyor.`);
 
             const song = {
               title: video.title,
