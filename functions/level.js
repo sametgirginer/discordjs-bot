@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const db = require('./database');
 const { infoMsg } = require('./message');
+const role = require('./private-server/role');
 
 module.exports = {
     getStats: async function(guild, member) {
@@ -50,7 +51,10 @@ module.exports = {
             await db.queryUpdate(`UPDATE discord_levels SET xplimit = '${xplimit}' WHERE guild = '${guild}' AND user = '${member}'`);
             await db.queryUpdate(`UPDATE discord_levels SET level = '${level}' WHERE guild = '${guild}' AND user = '${member}'`);
 
-            infoMsg(message, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);                
+            //Private Server
+            role.levelup(guild, member, level);
+
+            infoMsg(message, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);
         }
     },
 
@@ -59,6 +63,8 @@ module.exports = {
     },
 
     updateMessageXP: async function(message) {
+        if (message.guild.id === process.env.supportserver && message.channel.name === "bot-komut") return;
+
         let guild = message.guild.id;
         let member = message.author.id;
         let level = (await this.getLevel(guild, member));
@@ -70,11 +76,11 @@ module.exports = {
             await this.addUser(guild, member);
         }
 
-        if (level < 10) xp += 5;
-        else if (level >= 10 && level < 20) xp += 4;            
-        else if (level >= 20 && level < 30) xp += 2;
-        else if (level >= 30 && level < 40) xp += 1.5;
-        else if (level >= 40 && level < 50) xp += 0.8;
+        if (level < 10) xp += 7;
+        else if (level >= 10 && level < 20) xp += 5;            
+        else if (level >= 20 && level < 30) xp += 4;
+        else if (level >= 30 && level < 40) xp += 3;
+        else if (level >= 40 && level < 50) xp += 1;
         else if (level >= 50) xp += 0.5;
 
         await db.queryUpdate(`UPDATE discord_levels SET xp = '${xp}' WHERE guild = '${guild}' AND user = '${member}'`);

@@ -2,7 +2,7 @@ const { infoMsg } = require('../../functions/message');
 
 module.exports = {
     name: 'ayrıl',
-    aliases: ['leave'],
+    aliases: ['leave', 'dc', 'disconnect'],
     category: 'music',
     description: 'Müzik komutu.',
     prefix: true,

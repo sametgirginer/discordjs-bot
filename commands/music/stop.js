@@ -11,6 +11,7 @@ module.exports = {
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
         try {
+            const vc = await client.voice.connections.find(vc => vc.channel.guild.id === message.guild.id);
             const queue = message.client.queue;
             const serverQueue = message.client.queue.get(message.guild.id);
         
@@ -18,7 +19,9 @@ module.exports = {
             else return infoMsg(message, 'B5200', `Şu anda oynatılan bir şarkı yok.`, true);
             if (message.member.voice.channel.id != serverQueue.connection.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
     
-            serverQueue.connection.dispatcher.end();
+            if (serverQueue.connection != null) serverQueue.connection.dispatcher.end();
+            else if (vc) await vc.disconnect();
+            
             queue.delete(message.guild.id);
             await message.react('👍');
         } catch (error) {
