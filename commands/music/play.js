@@ -113,7 +113,7 @@ async function play(message, song) {
     }
   
     const dispatcher = await serverQueue.connection
-        .play(ytdl(song.url))
+        .play(ytdl(song.url), { quality: 'highestaudio' })
         .on("finish", () => {
             serverQueue.songs.shift();
             play(message, serverQueue.songs[0]);
