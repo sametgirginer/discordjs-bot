@@ -14,7 +14,7 @@ module.exports = {
             const vc = await client.voice.connections.find(vc => vc.channel.guild.id === message.guild.id);
 
             if (!vc) return infoMsg(message, 'B5200', `Şu anda ses kanalına bağlı değilim.`, true, 5000);
-            if (message.member.voice.channel.id != vc.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+            if (message.member.voice.channelID != vc.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
     
             await vc.disconnect();
             await message.react('👍');

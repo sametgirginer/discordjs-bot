@@ -81,7 +81,7 @@ module.exports = {
                     queue.delete(message.guild.id);
                 }
             } else {
-                if (message.member.voice.channel.id != serverQueue.connection.channel.id)
+                if (message.member.voice.channelID != serverQueue.connection.channel.id)
                     return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
 
                 serverQueue.songs.push(song);
@@ -107,7 +107,6 @@ async function play(message, song) {
     const serverQueue = queue.get(message.guild.id);
   
     if (!song) {
-        //serverQueue.vc.leave();
         queue.delete(guild.id);
         return;
     }
@@ -115,7 +114,7 @@ async function play(message, song) {
     const dispatcher = await serverQueue.connection
         .play(ytdl(song.url), { quality: 'highestaudio' })
         .on("finish", () => {
-            serverQueue.songs.shift();
+            if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.songs.shift();
             play(message, serverQueue.songs[0]);
         })
         .on("error", error => console.error(error));
@@ -128,5 +127,5 @@ async function play(message, song) {
         .setTimestamp()
         .setFooter(message.author.username + '#' + message.author.discriminator);
 
-    serverQueue.textChannel.send(videoEmbed);
+    if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send(videoEmbed);
 }

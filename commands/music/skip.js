@@ -18,7 +18,7 @@ module.exports = {
             if (serverQueue.songs.length <= 1) return infoMsg(message, 'B5200', `Sırada bekleyen şarkı yok. Oynatılan şarkıyı durdurmak için ${process.env.prefix}durdur`, true, 5000);
 
             if (serverQueue.connection.speaking.bitfield === 1) {
-                if (message.member.voice.channel.id != serverQueue.connection.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+                if (message.member.voice.channelID != serverQueue.connection.channel.id) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
 
                 if (serverQueue.connection != null) serverQueue.connection.dispatcher.end();
                 else if (vc) await vc.disconnect();
