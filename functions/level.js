@@ -35,24 +35,24 @@ module.exports = {
         return false;
     },
     
-    updateLevel: async function(guild, member, xp, message) {
+    updateLevel: async function(guild, member, xp, messageOrGuild) {
         let level = await this.getLevel(guild, member);
         let xplimit = await this.getXPLimit(guild, member);
 
         if (xp > xplimit) {
             if (level < 5) xplimit += 500;
             if (level >= 5 && level < 10) xplimit += 1000;
-            if (level >= 10 && level < 20) xplimit += 5000;
-            if (level >= 20 && level < 30) xplimit += 10000;
-            if (level >= 40 && level < 50) xplimit += 15000;
-            if (level >= 50) xplimit += 18000;
+            if (level >= 10 && level < 20) xplimit += 2000;
+            if (level >= 20 && level < 30) xplimit += 4000;
+            if (level >= 40 && level < 50) xplimit += 5000;
+            if (level >= 50) xplimit += 10000;
 
             level++;
             await db.queryUpdate(`UPDATE discord_levels SET xplimit = '${xplimit}' WHERE guild = '${guild}' AND user = '${member}'`);
             await db.queryUpdate(`UPDATE discord_levels SET level = '${level}' WHERE guild = '${guild}' AND user = '${member}'`);
 
             //Private Server
-            role.levelup(guild, member, level);
+            role.levelup(guild, member, level, messageOrGuild);
 
             if (message) infoMsg(message, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);
         }
@@ -106,7 +106,7 @@ module.exports = {
         else if (level >= 50) xp += 0.5;
 
         await db.queryUpdate(`UPDATE discord_levels SET xp = '${xp}' WHERE guild = '${guild.id}' AND user = '${member.id}'`);
-        await this.updateLevel(guild.id, member.id, xp);
+        await this.updateLevel(guild.id, member.id, xp, guild);
     }
     
 }
