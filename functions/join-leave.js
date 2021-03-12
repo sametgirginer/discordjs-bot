@@ -20,7 +20,9 @@ module.exports = {
             const cachedInvites = guildInvites.get(member.guild.id);
             const newInvites = await member.guild.fetchInvites();
             guildInvites.set(member.guild.id, newInvites);
-            const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
+            let cachedInvitesUses = cachedInvites.get(inv.code).uses;
+            let usedInvite = "";
+            if (cachedInvitesUses != undefined) usedInvite = newInvites.find(inv => cachedInvitesUses < inv.uses);
 
             levelSystem.dbCheck(guild, member);
     
@@ -48,7 +50,6 @@ module.exports = {
             }
             msgChannel.send(joinEmbed);
         } catch (error) {
-            console.log(`Joined Member: ${member}`);
             console.log(error);
         }
     },
@@ -82,7 +83,6 @@ module.exports = {
     
             msgChannel.send(leaveEmbed);
         } catch (error) {
-            console.log(`Left Member: ${member}`);
             console.log(error);
         }
     },
@@ -94,7 +94,6 @@ module.exports = {
             guildInvites.set(invite.guild.id, await invite.guild.fetchInvites());
             if (await getInvite(invite.guild.id, invite.inviter.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
         } catch (error) {
-            console.log(`Invite Created: ${invite}`);
             console.log(error);
         }
     }

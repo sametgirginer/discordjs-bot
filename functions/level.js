@@ -54,7 +54,7 @@ module.exports = {
             //Private Server
             role.levelup(guild, member, level, messageOrGuild);
 
-            if (message) infoMsg(message, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);
+            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);
         }
     },
 

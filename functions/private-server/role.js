@@ -3,18 +3,8 @@ module.exports = {
         if (guild != process.env.supportserver) return;
 
         let Blackmailer,Consigliere,Consort,Disguiser,Framer,Janitor,Arsonist,Mafioso,Hypnotist,Godfather,mu = "";
-        /*let Consigliere = "";
-        let Consort = "";
-        let Disguiser = "";
-        let Framer = "";
-        let Janitor = "";
-        let Arsonist = "";
-        let Mafioso = "";
-        let Hypnotist = "";
-        let Godfather = "";
-        let mu = "";*/
 
-        if (messageOrGuild.author.id) {
+        if (messageOrGuild.author != undefined) {
             Blackmailer = messageOrGuild.guild.roles.cache.find(r => r.name === "Blackmailer");
             Consigliere = messageOrGuild.guild.roles.cache.find(r => r.name === "Consigliere");
             Consort = messageOrGuild.guild.roles.cache.find(r => r.name === "Consort");
