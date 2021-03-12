@@ -20,9 +20,7 @@ module.exports = {
             const cachedInvites = guildInvites.get(member.guild.id);
             const newInvites = await member.guild.fetchInvites();
             guildInvites.set(member.guild.id, newInvites);
-            let cachedInvitesUses = cachedInvites.get(inv.code).uses;
-            let usedInvite = "";
-            if (cachedInvitesUses != undefined) usedInvite = newInvites.find(inv => cachedInvitesUses < inv.uses);
+            const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
 
             levelSystem.dbCheck(guild, member);
     
