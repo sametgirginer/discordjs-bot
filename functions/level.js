@@ -44,8 +44,9 @@ module.exports = {
             if (level >= 5 && level < 10) xplimit += 1000;
             if (level >= 10 && level < 20) xplimit += 2000;
             if (level >= 20 && level < 30) xplimit += 4000;
+            if (level >= 30 && level < 40) xplimit += 4500;
             if (level >= 40 && level < 50) xplimit += 5000;
-            if (level >= 50) xplimit += 10000;
+            if (level >= 50) xplimit += 6000;
 
             level++;
             await db.queryUpdate(`UPDATE discord_levels SET xplimit = '${xplimit}' WHERE guild = '${guild}' AND user = '${member}'`);
