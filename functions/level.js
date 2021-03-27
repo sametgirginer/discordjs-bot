@@ -64,7 +64,7 @@ module.exports = {
     },
 
     updateMessageXP: async function(message) {
-        if (message.guild.id === process.env.supportserver && message.channel.name === "bot-komut") return;
+        if (message.guild.id === process.env.supportserver && message.channel.name.search("bot") >= 0) return;
 
         let guild = message.guild.id;
         let member = message.author.id;
