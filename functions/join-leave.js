@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { queryInsert, querySelect, queryUpdate, queryDelete, getInvite } = require('./database.js');
 const levelSystem = require('./level');
+const pvrole = require('./private-server/role');
 
 module.exports = {
     serverJoin: async function(member, guildInvites) {
@@ -47,6 +48,10 @@ module.exports = {
                     .setDescription(`<@${member.id}>, **${guild.name}** discord sunucusuna hoş geldin.`)
             }
             msgChannel.send(joinEmbed);
+
+            //Private Server
+            let level = await levelSystem.getLevel(guild.id, member.id);
+            pvrole.levelup(guild.id, member.id, level, guild);
         } catch (error) {
             console.log(error);
         }
