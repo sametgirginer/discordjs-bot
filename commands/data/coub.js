@@ -30,9 +30,11 @@ module.exports = {
                         return infoMsg(message, 'FFE26A', `<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.`, false, 10000);
                     }
     
+                if (coub.duration < 5) coub.duration = 10;
+
                 await coub.loop(10);
                 await coub.attachAudio();
-                await coub.addOption('-t', 10);
+                await coub.addOption('-t', coub.duration);
                 await coub.write(file);
     
                 const coubVideo = new MessageAttachment(file, 'amkanimecisi-coub-video.mp4');
