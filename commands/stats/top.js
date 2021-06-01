@@ -65,7 +65,7 @@ module.exports = {
                     html, body {
                         background: transparent;
                         width: 500px;
-                        height: 380px;
+                        height: 400px;
                         font-family: 'Nunito', sans-serif;
                     }
                 
