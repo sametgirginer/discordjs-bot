@@ -18,5 +18,15 @@ module.exports = {
 
     sleep: async function(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
+    twitterRegex: async function(str, index) {
+        var regex = /(^|[^'"])(https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+))/;
+        if (!regex.test(str)) {
+            return false;
+        } else {
+            let matched = str.match(regex);
+            return matched[index];
+        }
     }
 }
