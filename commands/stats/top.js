@@ -58,11 +58,15 @@ module.exports = {
 
         let html_topten = `
             <html>
+                <link rel="preconnect" href="https://fonts.gstatic.com">
+                <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap" rel="stylesheet">
+
                 <style>
                     html, body {
                         background: transparent;
                         width: 500px;
                         height: 380px;
+                        font-family: 'Nunito', sans-serif;
                     }
                 
                     table {
@@ -85,7 +89,6 @@ module.exports = {
                         padding-top: 5px;
                         padding-bottom: 5px;
                         border-radius: 10px 0 0 10px;
-                        
                     }
                 
                     td:last-child {
