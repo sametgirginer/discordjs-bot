@@ -26,11 +26,12 @@ module.exports = {
                         bitrateOld = 0; // Compare bitrates
                         selVar = []; // Selected Variant
                         media.video_info.variants.forEach(variant => {
-                            if (bitrateOld < variant.bitrate) {
+                            if (bitrateOld <= variant.bitrate) {
                                 bitrateOld = variant.bitrate;
                                 selVar['id'] = tweet.id;
                                 selVar['title'] = tweet.text;
-                                selVar['videoURL'] = (variant.url).substring(0, (variant.url).length - 7);
+                                selVar['videoURL'] = variant.url;
+                                if (variant.bitrate != 0) selVar['videoURL'] = (variant.url).substring(0, (variant.url).length - 7);
                                 selVar['outputFile'] = `data/twitter/${tweet.id}.mp4`;
                             }
                         });
@@ -44,7 +45,9 @@ module.exports = {
                     .setTitle(`${selVar.title}`)
                     .attachFiles(video)
     
-                ffmpeg(selVar.videoURL)
+                let fileExists = fs.existsSync(selVar.outputFile);
+                if (!fileExists) {
+                    ffmpeg(selVar.videoURL)
                     .output(selVar.outputFile)
                     .on('end', function() {
                         message.channel.send(videoEmbed).then(() => {
@@ -52,6 +55,9 @@ module.exports = {
                         });
                     })
                     .run();
+                } else {
+                    return infoMsg(message, `RANDOM`, `Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.`, true, 10000);
+                }
             }
         } else {
             return infoMsg(message, `RANDOM`, `Geçerli bir bağlantı girmeniz gerekmektedir.`, true, 5000)
