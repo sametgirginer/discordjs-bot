@@ -1,7 +1,6 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { infoMsg } = require('../../functions/message.js');
 const Coub = require('coub-dl');
-const FFmkek = require('ffmkek');
 const fs = require('fs');
 
 module.exports = {
@@ -21,6 +20,8 @@ module.exports = {
      
         message.channel.send(cooldownEmbed).then(async msg => {
             try {
+                if (!fs.existsSync(`data/coub`)) fs.mkdirSync('data/coub');
+
                 const file = `data/coub/output-${Math.ceil(Math.random() * 5000)}.mp4`;
                 const coub = await Coub.fetch(args[0], "HIGH");
     

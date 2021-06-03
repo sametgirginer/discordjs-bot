@@ -40,6 +40,8 @@ module.exports = {
             });
 
             if (typeof selVar != 'undefined') {
+                if (!fs.existsSync(`data/twitter`)) fs.mkdirSync('data/twitter');
+
                 let video = new MessageAttachment(selVar.outputFile);
                 let videoEmbed = new MessageEmbed()
                     .setTitle(`${selVar.title}`)

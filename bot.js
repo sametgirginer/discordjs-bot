@@ -22,12 +22,6 @@ client.log = require('./handler/log');
     require(`./handler/${handler}`)(client);
 });
 
-const coubDataFiles = fs.readdirSync('./data/coub').filter(file => file.endsWith('.mp4'));
-for (const file of coubDataFiles) {
-	const dFile = './data/coub/' + file;
-	fs.unlinkSync(dFile);
-}
-
 client.on('ready', () => {
     console.log(` > Discord botu ${client.user.tag} kimliği ile başlatıldı.`);
     client.user.setPresence({
