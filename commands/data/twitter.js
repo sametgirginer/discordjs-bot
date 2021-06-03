@@ -10,7 +10,7 @@ const twitterClient = new TwitterApi(process.env.twitterAppToken);
 module.exports = {
     name: 'twitter',
     category: 'data',
-    description: 'Twitter sitesinden medya çeker.',
+    description: 'Twitter sitesinden medya getirir.',
     prefix: true,
     owner: false,
     permissions: ['VIEW_CHANNEL'],
@@ -36,7 +36,7 @@ module.exports = {
                             }
                         });
                     });
-                } else return infoMsg(message, `RANDOM`, `Bu bağlantıdaki medyaya erişilemedi.`, true, 5000);
+                } else return infoMsg(message, `B20000`, `Bu bağlantıdaki medyaya erişilemedi.`, true, 5000);
             });
 
             if (typeof selVar != 'undefined') {
@@ -50,17 +50,18 @@ module.exports = {
                     ffmpeg(selVar.videoURL)
                     .output(selVar.outputFile)
                     .on('end', function() {
+                        message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
                         message.channel.send(videoEmbed).then(() => {
                             return fs.unlinkSync(selVar.outputFile);
                         });
                     })
                     .run();
                 } else {
-                    return infoMsg(message, `RANDOM`, `Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.`, true, 10000);
+                    return infoMsg(message, `B20000`, `Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.`, true, 10000);
                 }
             }
         } else {
-            return infoMsg(message, `RANDOM`, `Geçerli bir bağlantı girmeniz gerekmektedir.`, true, 5000)
+            return infoMsg(message, `B20000`, `Geçerli bir bağlantı girmeniz gerekmektedir.`, true, 5000)
         }
     }
 }

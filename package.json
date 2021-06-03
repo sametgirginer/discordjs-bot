@@ -32,7 +32,7 @@
     "node-html-to-image": "^3.1.0",
     "request": "^2.88.0",
     "twitter-api-v2": "^1.1.0",
-    "yt-search": "^2.5.2",
+    "yt-search": "^2.8.0",
     "ytdl-core": "^4.5.0"
   }
 }

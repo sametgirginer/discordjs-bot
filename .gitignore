@@ -4,3 +4,5 @@
 /logs
 /start.bat
 /start.sh
+/data/coub/*
+/data/twitter/*

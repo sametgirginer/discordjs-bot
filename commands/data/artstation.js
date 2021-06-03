@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { infoMsg } = require('../../functions/message.js');
 const request = require("request");
-const { query } = require('express');
 const kategoriler = '`fantasy, archviz, comicart, konsept, mimari, karakter, yaratık, manzara, oyun, ill, mecha, scfi, sürreal, silah`';
 
 module.exports = {
@@ -98,7 +97,6 @@ module.exports = {
 					});
 				}
 			} else {
-                message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
 				return infoMsg(message, 'B20000', `<@${message.author.id}>, veri çekme işleminde bir hata oluştu.`, true, 10000)
 			}
 		});
