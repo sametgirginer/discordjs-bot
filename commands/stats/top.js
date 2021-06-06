@@ -3,6 +3,7 @@ const { querySelectAll } = require('../../functions/database');
 const { infoMsg } = require('../../functions/message');
 const search = require('../../functions/search');
 const nodeHtmlToImage = require('node-html-to-image');
+const { checkUsrName } = require('../../functions/helpers');
 
 module.exports = {
     name: 'top',
@@ -82,6 +83,8 @@ module.exports = {
                 
                     .user .name {
                         width: 200px;
+                        max-width: 200px;
+                        overflow: hidden;
                     }
                 
                     td:first-child {
@@ -112,7 +115,7 @@ module.exports = {
 			.attachFiles(image)
 			.setImage('attachment://top10.png')
 			.setTimestamp()
-			.setFooter(`Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${message.author.username}#${message.author.discriminator}`);
+			.setFooter(`Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${await checkUsrName(message.author.username, 30)}#${message.author.discriminator}`);
 
 		return message.channel.send(toptenEmbed);
     }

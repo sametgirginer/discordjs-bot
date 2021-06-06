@@ -28,5 +28,17 @@ module.exports = {
             let matched = str.match(regex);
             return matched[index];
         }
+    },
+
+    checkUsrName: async function(username, limit) {
+        let punctuationRegEx = /[﷽]/g;
+
+        if (punctuationRegEx.test(username)) {
+            return "**Geçersiz İsim**";
+        } else if (username.length > limit) {
+            return username.slice(0, limit);
+        } else {
+            return username;
+        }
     }
 }
