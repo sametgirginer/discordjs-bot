@@ -28,9 +28,27 @@ module.exports = {
         }
     },
 
+    inlineReply: function(client, message, returnMsg) {
+        client.api.channels[message.channel.id].messages.post({
+            data: {
+                content: returnMsg,
+                message_reference: {
+                    message_id: message.id,
+                    channel_id: message.channel.id,
+                    guild_id: message.guild.id
+                },
+                allowed_mentions: {
+                    replied_user: false
+                }
+            }
+        });
+    },
+
     deleteMsg: function(message, timeout, reason) {
         deleteMsg(message, timeout, reason);
     },
+
+    
 }
 
 function deleteMsg(message, timeout, reason) {
