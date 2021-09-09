@@ -5,5 +5,6 @@
 /start.bat
 /start.sh
 /data/coub/*
+/data/reddit/*
 /data/twitter/*
 /commands/stats/cache/*
