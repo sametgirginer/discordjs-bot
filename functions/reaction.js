@@ -1,18 +1,7 @@
 const { querySelect, querySelectBool } = require('./database');
 
 module.exports = {
-    react: async function(message) {
-        if (await querySelectBool(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'oneri'`)) {
-            valArray = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'oneri'`)));
-            valArray = valArray.value.split(",");
-            valArray.forEach(async ch => {
-                if (message.channel.id === ch) {
-                    await message.react('✅');
-                    await message.react('❌');
-                }
-            });
-        }
-    
+    react: async function(message) {    
         if (await querySelectBool(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'sunucutanitim'`)) {
             valArray = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${message.guild.id}' AND setting = 'sunucutanitim'`)));
             valArray = valArray.value.split(",");
