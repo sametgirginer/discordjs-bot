@@ -13,14 +13,13 @@ module.exports = {
             .setColor('#65bff0')
             .setDescription(`Ping değerleri alınıyor...`)
 
-        const msg = await message.channel.send(pingingEmbed);
+        const msg = await message.reply({ embeds: [pingingEmbed], allowedMentions: { RepliedUser: false } });
 
         const pingEmbed = new MessageEmbed()
             .setColor('#65bff0')
             .setDescription('Ping değerleri alındı!')
-            .addField('Gecikme', `${Math.floor(msg.createdAt - message.createdAt)}ms`, true)
             .addField('API Gecikmesi', `${Math.round(client.ws.ping)}ms`, true)
 
-        msg.edit(pingEmbed);
+        msg.edit({ embeds: [pingEmbed] });
     }
 }

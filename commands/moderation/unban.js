@@ -20,7 +20,7 @@ module.exports = {
         }
     
         try {
-            await message.guild.fetchBan(args[0]);
+            await message.guild.bans.fetch(args[0]);
         } catch(error) {
             return infoMsg(message, 'B20000', `Kullanıcı bulundu ancak yasaklı değil.`, true, 5000); 
         }

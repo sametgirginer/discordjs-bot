@@ -12,14 +12,14 @@ module.exports = {
                 c.mesaj.forEach(m => {
                     cevap = c.cevap.replace('@user', `@${message.author.id}`);
                     if (c.ara === true) { 
-                        if (icerik.search(m) >= 0) return message.channel.send(cevap);
-                    } else if (m === icerik) return message.channel.send(cevap);
+                        if (icerik.search(m) >= 0) return message.channel.send({ content: cevap });
+                    } else if (m === icerik) return message.channel.send({ content: cevap });
                 });
             } else {
                 cevap = c.cevap.replace('@user', `@${message.author.id}`);
                 if (c.ara === true) {
-                    if (icerik.search(c.mesaj) >= 0) return message.channel.send(cevap);
-                } else if (c.mesaj === icerik) return message.channel.send(cevap);
+                    if (icerik.search(c.mesaj) >= 0) return message.channel.send({ content: cevap });
+                } else if (c.mesaj === icerik) return message.channel.send({ content: cevap });
             }
         });
     }

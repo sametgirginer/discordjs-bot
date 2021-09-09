@@ -1,4 +1,4 @@
-const { infoMsg, inlineReply } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message.js');
 
 module.exports = {
 	name: 'd20',
@@ -25,6 +25,6 @@ module.exports = {
 			d20 = Math.ceil(Math.random() * 20);
 		}
 
-        return inlineReply(client, message, `d20 » **${d20}**`);
+        return message.reply({ content: `d20 » **${d20}**`, allowedMentions: { repliedUser: false } });
 	},
 };

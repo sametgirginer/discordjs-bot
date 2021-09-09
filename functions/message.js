@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    infoMsg: function(message, hexColor, returnMsg, cmdMsgDel, deleteCooldown) {
+    infoMsg: function(message, hexColor, returnMsg, cmdMsgDel, deleteCooldown, reply = [false, false]) {
         if (hexColor != "RANDOM") hexColor = `#${hexColor}`;
         
         var embed = new MessageEmbed()
@@ -9,52 +9,40 @@ module.exports = {
             .setDescription(returnMsg)
 
         if (cmdMsgDel === true)
-            deleteMsg(message, 0, 'Otomatik bot işlemi.');
+            deleteMsg(message, 0);
             
         if (deleteCooldown > 0) {
             if (message.channel != undefined)
-                message.channel.send(embed).then(msg => {
-                    deleteMsg(msg, deleteCooldown, 'Otomatik bot işlemi.');
+                message.channel.send({ embeds: [embed] }).then(msg => {
+                    deleteMsg(msg, deleteCooldown);
                 });
             else 
                 message.send(embed).then(msg => {
-                    deleteMsg(msg, deleteCooldown, 'Otomatik bot işlemi.');
+                    deleteMsg(msg, deleteCooldown);
                 });
         } else {
-            if (message.channel != undefined)
-                message.channel.send(embed);
-            else 
-                message.send(embed);
+            if (!reply[0]) {
+                if (message.channel != undefined)
+                    message.channel.send({ embeds: [embed] });
+                else 
+                    message.send({ embeds: [embed] });
+            } else { 
+                if (reply[1]) message.reply({ embeds: [embed], allowedMentions: { repliedUser: true } });
+                else message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+            }
         }
     },
 
-    inlineReply: function(client, message, returnMsg) {
-        client.api.channels[message.channel.id].messages.post({
-            data: {
-                content: returnMsg,
-                message_reference: {
-                    message_id: message.id,
-                    channel_id: message.channel.id,
-                    guild_id: message.guild.id
-                },
-                allowed_mentions: {
-                    replied_user: false
-                }
-            }
-        });
+    deleteMsg: function(message, timeout) {
+        deleteMsg(message, timeout);
     },
 
-    deleteMsg: function(message, timeout, reason) {
-        deleteMsg(message, timeout, reason);
-    },
-
-    
 }
 
-function deleteMsg(message, timeout, reason) {
+function deleteMsg(message, timeout) {
     try {
-        message.delete({ timeout: timeout, reason: reason});
+        setTimeout(() => message.delete(), timeout);
     } catch (error) {
-        console.log(`Mesaj silme hatası: ${error}`);
+        console.log(`functions/messages.js - deleteMsg: ${error}`);
     }
 }

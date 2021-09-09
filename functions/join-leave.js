@@ -8,6 +8,8 @@ module.exports = {
         if (member.id === null || member.id === undefined || member === undefined) return;
 
         try {
+            member = await member.guild.members.fetch(member.id);
+
             let channel = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${member.guild.id}' AND setting = 'giris'`)));
             let guild = member.guild;
             let msgChannel = guild.channels.cache.find(ch => ch.id === channel.value);
@@ -19,7 +21,7 @@ module.exports = {
             if (!msgChannel) return;
     
             const cachedInvites = guildInvites.get(member.guild.id);
-            const newInvites = await member.guild.fetchInvites();
+            const newInvites = await member.guild.invites.fetch({ cache: false });
             guildInvites.set(member.guild.id, newInvites);
             const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
 
@@ -47,7 +49,7 @@ module.exports = {
                     .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
                     .setDescription(`<@${member.id}>, **${guild.name}** discord sunucusuna hoş geldin.`)
             }
-            msgChannel.send(joinEmbed);
+            msgChannel.send({ embeds: [joinEmbed] });
 
             //Private Server
             let level = await levelSystem.getLevel(guild.id, member.id);
@@ -84,7 +86,7 @@ module.exports = {
                 .setAuthor(`Görüşürüz!`, guild.iconURL({ format: 'png', dynamic: true }))
                 .setDescription(`${member.user.username}#${member.user.discriminator}, discord sunucusundan ayrıldı.\nAramıza tekrar katılman dileğiyle.`)
     
-            msgChannel.send(leaveEmbed);
+            msgChannel.send({ embeds: [leaveEmbed] });
         } catch (error) {
             console.log(error);
         }
@@ -94,7 +96,7 @@ module.exports = {
         if (invite === undefined || invite.inviter.id === undefined) return;
 
         try {
-            guildInvites.set(invite.guild.id, await invite.guild.fetchInvites());
+            guildInvites.set(invite.guild.id, await invite.guild.invites.fetch());
             if (await getInvite(invite.guild.id, invite.inviter.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
         } catch (error) {
             console.log(error);

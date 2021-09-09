@@ -9,8 +9,8 @@ module.exports = {
 
                 client.guilds.cache.forEach(guild => {
                     guild.channels.cache.forEach(channel => {
-                        if (channel.type === "voice") {
-                            channel.members.forEach(member => {                               
+                        if (channel.type === "GUILD_VOICE") {
+                            channel.members.forEach(member => {                            
                                 if (!member.user.bot) {
                                     if (!member.voice.deaf) {
                                         level.updateVoiceXP(guild, channel, member);

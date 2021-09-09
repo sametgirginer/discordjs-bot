@@ -11,46 +11,51 @@ module.exports = {
     supportserver: false,
     permissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
     run: async (client, message, args) => {
-        if (!args.length) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, anket oluştur/bitir/sil komutlarından birini girmelisiniz.`, true, 10000);
+        if (!args.length) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, anket oluştur/bitir/sil komutlarından birini girmelisiniz.`);
 
         if (args[0] === 'oluştur' || args[0] === 'create') {
-            infoMsg(message, '65bff0', `Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**`, true, 60000);
+            infoMsg(message, '65bff0', `Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**`);
 
-            const filter = m => m.author.id === message.author.id;
-            const collector = new MessageCollector(message.channel, filter, { max: 10, time: 60000 })
+            const collectorFilter = m => m.author.id === message.author.id;
+            const collector = new MessageCollector(message.channel, { filter: collectorFilter, time: 60000, idle: 20000 })
             const numberEmojies = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣'];
             let surveyData = [];
 
             collector.on('collect', m => {
-                m.delete({ timeout: 5000, reason: 'Otomatik bot işlemi' });
+                m.delete();
                 if (m.content === process.env.prefix + 'anket tamamla') collector.stop();
             });
 
             collector.on('end', collected => {
                 collector.collected.forEach(c => {
-                    if (c.content === process.env.prefix + 'anket tamamla') return;
-                    surveyData.push(c.content);
+                    if (c.content === process.env.prefix + 'anket tamamla') {
+                        message.delete();
+                        return;
+                    }
+                    surveyData.push(c);
                 });
 
                 let i = 0;
                 let cleanData = {};
                 let embedData = "";
                 surveyData.forEach(survey => {
-                    cleanData[numberEmojies[i]] = survey;
-                    embedData += `${numberEmojies[i]} ${survey}\n`;
-
-                    cleanData.length = i;
-                    i++;
+                    if (i > 8) return;
+                    if (typeof survey.embeds[0] === "undefined") {
+                        cleanData[numberEmojies[i]] = survey.content;
+                        embedData += `${numberEmojies[i]}  ${survey.content}\n`;
+                        i++;
+                    }
                 });
 
                 var surveyEmbed = new MessageEmbed()
-                    .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
+                    .setColor('RANDOM')
                     .setAuthor('Anket', message.author.avatarURL({ format: 'png', dynamic: true }))
                     .setDescription(`${embedData}`)
                     .setTimestamp()
 
-                message.channel.send(surveyEmbed).then(async m => {
-                    for (let i = 0; i < cleanData.length + 1; i++) {
+                message.channel.send({ embeds: [surveyEmbed] }).then(async m => {
+                    if (surveyData.length > 8) surveyData.length = 9;
+                    for (let i = 0; i < surveyData.length; i++) {
                         await m.react(`${numberEmojies[i]}`);                        
                     }
                 });

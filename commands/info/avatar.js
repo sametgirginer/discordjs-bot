@@ -20,7 +20,7 @@ module.exports = {
 				.setTimestamp()
 				.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
 	
-			return message.channel.send(avatarEmbed);
+			return message.channel.send({ embeds: [avatarEmbed] });
 		} else if (message.mentions.users.size === 1) {
 			message.mentions.users.map(user => {
 				for (i = message.mentions.users.size; i >= 1; i--) {
@@ -31,7 +31,7 @@ module.exports = {
 						.setTimestamp()
 						.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
 
-					return message.channel.send(avatarEmbed);
+					return message.channel.send({ embeds: [avatarEmbed] });
 				}
 			});
 		} else if (message.mentions.users.size > 1) {
@@ -47,7 +47,7 @@ module.exports = {
 					.setTimestamp()
 					.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
 
-				return message.channel.send(avatarEmbed);
+				return message.channel.send({ embeds: [avatarEmbed] });
 			} else {
 				return infoMsg(message, 'B20000', `<@${message.author.id}>, kullanıcı bulunamadı.`, true, 5000);
 			}

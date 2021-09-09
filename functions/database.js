@@ -96,10 +96,10 @@ module.exports = {
 }
 
 var conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "discord_bot"
+    host: process.env.dbhost,
+    user: process.env.dbuser,
+    password: process.env.dbpassword,
+    database: process.env.dbname
 });
 
 conn.connect(function(err) {

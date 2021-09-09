@@ -1,5 +1,4 @@
-const { Client, Collection } = require('discord.js');
-const fs = require('fs');
+const { Client, Intents, Permissions, Collection } = require('discord.js');
 const { infoMsg } = require('./functions/message');
 const { writeLog } = require('./functions/logger')
 const { permCheck } = require('./functions/permission.js');
@@ -9,7 +8,23 @@ const levelSystem = require('./functions/level');
 const { reactionAdd, reactionRemove, react } = require('./functions/reaction');
 const voice = require('./functions/voice/index');
 
-const client = new Client();
+const client = new Client({ intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_BANS,
+        Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+        Intents.FLAGS.GUILD_WEBHOOKS,
+        Intents.FLAGS.GUILD_INVITES,
+        Intents.FLAGS.GUILD_VOICE_STATES,
+        Intents.FLAGS.GUILD_PRESENCES,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_MESSAGE_TYPING,
+        Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+        Intents.FLAGS.DIRECT_MESSAGE_TYPING
+    ]
+});
 const prefix = process.env.prefix;
 const guildInvites = new Map();
     
@@ -32,9 +47,12 @@ client.on('ready', () => {
     });
 
     client.guilds.cache.forEach(guild => {
+        voice.speaking(client, guild, true);
+
         guild.members.fetch();
-        if (guild.member(client.user).hasPermission('MANAGE_GUILD'))
-            guild.fetchInvites()
+
+        if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+            guild.invites.fetch()
                 .then(invites => guildInvites.set(guild.id, invites))
                 .catch(err => console.log(err));
     });
@@ -43,14 +61,12 @@ client.on('ready', () => {
         client.guilds.cache.get('735836120272601120').channels.cache.get('756692193682391111').messages.fetch('756692733665607700'); //bir
         client.guilds.cache.get('803703371936432219').channels.cache.get('803919202108178475').messages.fetch('803919359776784405'); //iki
     } catch (error) { }
-    
-    voice.speaking(client, true);
 });
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
     if (message.author.bot) return;
     if (!message.guild) return;
-    if (!message.member) message.member = await message.guild.fetchMember(message);
+    if (!message.member) message.member = await message.guild.members.fetch();
 
     writeLog(message);
     autoResponse(message);
@@ -102,7 +118,7 @@ client.on('message', async message => {
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => voice.state(client, oldMember, newMember));
 
-client.on('guildMemberAdd', member => serverJoin(member, guildInvites));
+client.on('guildMemberAdd', async (member) => serverJoin(member, guildInvites));
 client.on('guildMemberRemove', member => serverLeave(member, guildInvites));
 
 client.on('inviteCreate', invite => createInvite(invite, guildInvites));

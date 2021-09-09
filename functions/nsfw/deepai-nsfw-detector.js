@@ -28,8 +28,8 @@ module.exports = {
 
         for (let i = 0; i < data.length; i++) {
             if (data[i].name.includes("Exposed")) {
-                if (data[i].confidence > 0.50) {
-                    deleteMsg(message, 500, `${message.author.username}#${message.author.discriminator} - NSFW içerik paylaşımı.`);
+                if (data[i].confidence > 0.30) {
+                    deleteMsg(message, 500);
                     break;
                 }
             }

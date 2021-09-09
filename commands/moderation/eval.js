@@ -19,9 +19,9 @@ module.exports = {
 
             if (evaled.length >= 2000) {
                 let haste = await hastebin(evaled);
-                message.channel.send(haste);
+                message.channel.send({ content: haste });
             } else {
-                message.channel.send(clean(evaled), { code:"xl" });
+                message.channel.send({ content: clean(evaled)});
             }           
         } catch (error) {
             infoMsg(message, 'B20000', `**HATA**:\n${clean(error)}`);

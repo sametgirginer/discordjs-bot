@@ -1,13 +1,12 @@
 {
-  "name": "amkanimecisi-dcjs-bot",
-  "version": "0.0.1",
-  "description": "amkanimecisi Discord Bot",
+  "name": "re-dcjs-bot",
+  "version": "1.0.0",
+  "description": "Discord bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "amkanimecisi",
     "discord",
     "bot"
   ],
@@ -15,24 +14,27 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "@discordjs/voice": "^0.6.0",
     "ascii-table": "0.0.9",
+    "canvas": "^2.8.0",
     "common-tags": "^1.8.0",
     "coub-dl": "^1.6.0",
     "deepai": "^1.0.17",
-    "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0",
+    "discord.js": "^13.1.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "ffmkek": "0.0.8",
-    "ffmpeg-static": "^4.2.7",
+    "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
     "hastebin-gen": "^2.0.5",
-    "mysql": "^2.17.1",
+    "libsodium-wrappers": "^0.7.9",
+    "mysql": "^2.18.1",
     "node-cmd": "^3.0.0",
-    "node-html-to-image": "^3.1.0",
-    "request": "^2.88.0",
-    "twitter-api-v2": "^1.1.0",
-    "yt-search": "^2.8.0",
-    "ytdl-core": "^4.5.0"
+    "node-html-to-image": "^3.2.0",
+    "request": "^2.88.2",
+    "twitter-api-v2": "^1.4.1",
+    "yt-search": "^2.10.1",
+    "ytdl-core": "^4.9.1"
   }
 }

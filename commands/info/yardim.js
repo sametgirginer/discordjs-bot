@@ -27,7 +27,7 @@ module.exports = {
                 .addField('Müzik Komutları', commands.music, false)
                 .addField('Moderasyon Komutları', commands.moderasyon, false)
 
-            message.channel.send(yardimEmbed);
+            message.channel.send({ embeds: [yardimEmbed] });
         }
 
         if (args[0]) {
@@ -40,16 +40,21 @@ module.exports = {
             if (komutAdi === undefined) {
                 infoMsg(message, 'B20000', `<@${message.author.id}>, **${args[0]}** adında bir komut yok veya komut adı eksik girildi.`, true, 10000);
             } else {
+                let owner = (client.commands.get(args[0]).owner) ? "Evet" : "Hayır";
+                let support = (client.commands.get(args[0]).supportserver) ? "Evet" : "Hayır";
+
                 var cmdEmbed = new MessageEmbed()
 					.setColor('#65bff0')
                     .setAuthor(`Komut adı: ${client.commands.get(args[0]).name}`, client.user.avatarURL({ format: 'png', dynamic: true }))
                     .setDescription(client.commands.get(args[0]).description)
-                    .addField('Kategori', client.commands.get(args[0]).category, false)
-                    .addField('Bot Sahibi', client.commands.get(args[0]).owner, false)
-                    .addField('Destek Sunucusu', client.commands.get(args[0]).supportserver, false)
+                    .addFields([
+                        { name: 'Kategori', value: (client.commands.get(args[0]).category).toString(), inline: false },
+                        { name: 'Sadece bot sahibi kullanabilir:', value: owner, inline: false },
+                        { name: 'Sadece destek sunucusunda aktif:', value: support, inline: false }
+                    ])
 
-                message.channel.send(cmdEmbed);
-                deleteMsg(message, 5000, 'Otomatik bot işlemi.');
+                message.channel.send({ embeds: [cmdEmbed] });
+                deleteMsg(message, 5000);
             }
         }
     }

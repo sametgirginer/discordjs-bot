@@ -39,11 +39,11 @@ module.exports = {
             .addField('**Destek Ayarları**',
                        stripIndents`**${process.env.prefix}ayar destek rol** _@Destek Ekibi_`, true)
 
-            message.channel.send(ayarYardim).then(m => m.delete({ timeout: 60000, reason: 'Otomatik bot işlemi.' }));
-            return message.delete({ timeout: 500, reason: 'Otomatik bot işlemi.' });
+            message.channel.send({ embeds: [ayarYardim] });
+            message.delete();
         }
 
-        if (!args.length || !args[0] || !args[1]) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, komut için gereken argümanlar girilmedi.\nArgümanları öğrenmek için: **${process.env.prefix}ayar yardım**`, true, 10000)
+        if (!args.length) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, komut için gereken argümanlar girilmedi.\nArgümanları öğrenmek için: **${process.env.prefix}ayar yardım**`)
 
         /*
             CHANNEL SETTINGS - KANAL AYARLARI

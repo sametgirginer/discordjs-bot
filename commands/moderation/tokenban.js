@@ -11,7 +11,7 @@ module.exports = {
     supportserver: false,
     permissions: ['ADMINISTRATOR'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir id girmedin.`, true, 500);
+        if (!args[0]) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir id girmedin.`, true, 5000);
         
         let tokens = await querySelectAll(`SELECT user FROM discord_guildusers WHERE guild = '${message.guild.id}' AND inviter = '${args[0]}'`);
 

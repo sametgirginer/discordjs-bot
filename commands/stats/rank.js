@@ -17,13 +17,13 @@ module.exports = {
                 .setColor('RANDOM')
                 .setTitle(`Kullanıcı: ${await checkUsrName(message.author.username, 30)}`)
                 .setDescription(`**${message.guild.name}**`)
-                .addField('XP', await levelSystem.getXP(message.guild.id, message.author.id), true)
-                .addField('Level', await levelSystem.getLevel(message.guild.id, message.author.id), true)
+                .addField('XP', (await levelSystem.getXP(message.guild.id, message.author.id)).toString(), true)
+                .addField('Level', (await levelSystem.getLevel(message.guild.id, message.author.id)).toString(), true)
                 .setThumbnail(message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setTimestamp()
                 .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
 
-            return message.channel.send(rankEmbed);
+            return message.channel.send({ embeds: [rankEmbed] });
 		} else if (message.mentions.users.size === 1) {
 			message.mentions.users.map(async user => {
 				for (i = message.mentions.users.size; i >= 1; i--) {
@@ -31,13 +31,13 @@ module.exports = {
                         .setColor('RANDOM')
                         .setTitle(`Kullanıcı: ${await checkUsrName(user.username, 30)}`)
                         .setDescription(`**${message.guild.name}**`)
-                        .addField('XP', (await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0, true)
-                        .addField('Level', (await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0, true)
+                        .addField('XP', ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), true)
+                        .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
                         .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                         .setTimestamp()
                         .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
         
-                    return message.channel.send(rankEmbed);
+                    return message.channel.send({ embeds: [rankEmbed] });
 				}
 			});
 		} else if (message.mentions.users.size > 1) {
@@ -50,13 +50,13 @@ module.exports = {
                     .setColor('RANDOM')
                     .setTitle(`Kullanıcı: ${await checkUsrName(user.username, 30)}`)
                     .setDescription(`**${message.guild.name}**`)
-                    .addField('XP', (await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0, true)
-                    .addField('Level', (await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0, true)
+                    .addField('XP', ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), true)
+                    .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
                     .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                     .setTimestamp()
                     .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
         
-                return message.channel.send(rankEmbed);
+                return message.channel.send({ embeds: [rankEmbed] });
 			} else {
 				return infoMsg(message, 'B20000', `<@${message.author.id}>, kullanıcı bulunamadı.`, true, 5000);
 			}

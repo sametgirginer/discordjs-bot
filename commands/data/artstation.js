@@ -55,15 +55,17 @@ module.exports = {
 						.setColor('RANDOM')
 						.setDescription(`Tarayıcıda görüntülemek için [buraya](${out.permalink}) tıklayın.`)
 						.setAuthor(out.title, out.user.medium_avatar_url)
-						.addField('Görüntülenme', out.views_count, true)
-						.addField('Beğeni', out.likes_count, true)
-						.addField('Yorum', out.comments_count, true)
+						.addFields([
+							{ name: 'Görüntülenme', value: (out.views_count).toString(), inline: true },
+							{ name: 'Beğeni', value: (out.likes_count).toString(), inline: true },
+							{ name: 'Yorum', value: (out.comments_count).toString(), inline: true }
+						])
 						.setImage(out.cover.large_image_url)
 						.setTimestamp()
 						.setFooter(message.author.username + '#' + message.author.discriminator);
 
-					message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
-					return message.channel.send(artEmbed);
+					message.delete();
+					return message.channel.send({ embeds: [artEmbed] });
 				} else {
 					let page = Math.floor(Math.random() * (((out.total_count / 75) === 0) ? 1 : Math.floor(out.total_count / 75)) + 1);
 					apiUrl = `https://www.artstation.com/api/v2/search/projects.json?query="${query}"&page=${page}&per_page=75`;
@@ -91,8 +93,8 @@ module.exports = {
 								.setTimestamp()
 								.setFooter(message.author.username + '#' + message.author.discriminator);
 		
-							message.delete({ timeout: 0, reason: 'Otomatik bot işlemi.' });
-							return message.channel.send(artEmbed);
+							message.delete();
+							return message.channel.send({ embeds: [artEmbed] });
 						}
 					});
 				}

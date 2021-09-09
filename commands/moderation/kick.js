@@ -13,7 +13,7 @@ module.exports = {
         if (!message.mentions.members.size) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir kişiyi etiketlemedin.`, true, 5000);
 
         message.mentions.members.forEach(member => {
-            if (!member.kickable || member.hasPermission(['BAN_MEMBERS']) || member.hasPermission(['KICK_MEMBERS'])) return infoMsg(message, 'B20000', `<@${message.author.id}>, bu discord kullanıcısını atamazsın.`, true, 5000);
+            if (!member.kickable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) return infoMsg(message, 'B20000', `<@${message.author.id}>, bu discord kullanıcısını atamazsın.`, true, 5000);
 
             if (args[1]) {
                 let reason = '';

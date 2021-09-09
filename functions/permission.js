@@ -1,7 +1,7 @@
 module.exports = {
     permCheck: function(message, perms, userID) {
         if (userID === undefined) {
-            if(message.member.hasPermission(perms))
+            if(message.member.permissions.has(perms))
                 return true;
 
             return false;

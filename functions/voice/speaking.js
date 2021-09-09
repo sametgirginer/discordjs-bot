@@ -1,10 +1,12 @@
+const { getVoiceConnection } = require('@discordjs/voice');
 const { sleep } = require("../helpers");
 
 module.exports = {
-    check: async function(client, loop) {
+    check: async function(client, guild, loop) {
         if (loop) {
             while (true) {
-                let vc = await client.voice.connections;
+                let vc = await getVoiceConnection(guild.id);
+                console.log(vc);
                 let serverQueue = "";
 
                 vc.forEach(async v => {

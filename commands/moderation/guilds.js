@@ -10,11 +10,12 @@ module.exports = {
     supportserver: false,
     permissions: ['ADMINISTRATOR'],
     run: async (client, message, args) => {
+        let guilds = "";
+
         client.guilds.cache.forEach(guild => {
-            if (guild.member(client.user).hasPermission('CREATE_INSTANT_INVITE'))
-                guild.channels.cache.first().createInvite().then(inv => infoMsg(message, '65ed3b', `${guild.name} | ${inv.url}`));
-            else 
-                infoMsg(message, '65ed3b', `${guild.name}`);
+            guilds += guild.name + "\n";
         });
+        
+        infoMsg(message, 'RANDOM', `${guilds}`);
     }
 }

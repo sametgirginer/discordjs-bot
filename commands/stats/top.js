@@ -54,7 +54,7 @@ module.exports = {
 			    .setTimestamp()
 			    .setFooter(`İlk sayfa için ${process.env.prefix}top / ${message.author.username}#${message.author.discriminator}`);
 
-            return message.channel.send(blankEmbed);
+            return message.channel.send({ embeds: [blankEmbed] });
         }
 
         let html_topten = `
@@ -112,11 +112,10 @@ module.exports = {
 		const toptenEmbed = new MessageEmbed()
             .setColor('RANDOM')
             .setTitle(`${message.guild.name} TOP 10`)
-			.attachFiles(image)
 			.setImage('attachment://top10.png')
 			.setTimestamp()
 			.setFooter(`Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${await checkUsrName(message.author.username, 30)}#${message.author.discriminator}`);
 
-		return message.channel.send(toptenEmbed);
+		return message.channel.send({ embeds: [toptenEmbed], files: [image] });
     }
 }

@@ -3,7 +3,7 @@ const ytSearch = require('yt-search');
 const { infoMsg } = require('../../functions/message');
 const { youtube_parser } = require('../../functions/helpers');
 const { MessageEmbed } = require('discord.js');
-const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 
 module.exports = {
     name: 'play',
@@ -63,6 +63,8 @@ module.exports = {
                     textChannel: message.channel,
                     vc: vc,
                     connection: null,
+                    player: null,
+                    subscription: null,
                     songs: [],
                     volume: 5,
                     playing: true,
@@ -73,15 +75,24 @@ module.exports = {
                 queueContruct.songs.push(song);
                 
                 try {
-                    var connection = await vc.join();
+                    const connection = joinVoiceChannel({
+                        channelId: message.member.voice.channelId,
+                        guildId: message.guild.id,
+                        adapterCreator: message.guild.voiceAdapterCreator,
+                    });
+                    const player = createAudioPlayer();
+                    const subscription = connection.subscribe(player);
+
                     queueContruct.connection = connection;
+                    queueContruct.player = player;
+                    queueContruct.subscription = subscription;
                     play(message, queueContruct.songs[0]);
                 } catch (err) {
                     client.log.sendError(client, err, message);
                     queue.delete(message.guild.id);
                 }
             } else {
-                if (message.member.voice.channelID != serverQueue.connection.channel.id)
+                if (message.member.voice.channelId != serverQueue.connection.joinConfig.channelId)
                     return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
 
                 serverQueue.songs.push(song);
@@ -93,7 +104,7 @@ module.exports = {
                     .setTimestamp()
                     .setFooter(message.author.username + '#' + message.author.discriminator);
             
-                return serverQueue.textChannel.send(queueEmbed);
+                return serverQueue.textChannel.send({ embeds: [queueEmbed] });
             }
         } catch (error) {
             client.log.sendError(client, error, message);
@@ -105,20 +116,25 @@ async function play(message, song) {
     const queue = message.client.queue;
     const guild = message.guild;
     const serverQueue = queue.get(message.guild.id);
-  
+
     if (!song) {
         queue.delete(guild.id);
         return;
     }
-  
-    const dispatcher = await serverQueue.connection
-        .play(ytdl(song.url), { quality: 'highestaudio' })
-        .on("finish", () => {
-            if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.songs.shift();
-            play(message, serverQueue.songs[0]);
-        })
-        .on("error", error => console.error(error));
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+
+    const resource = createAudioResource(ytdl(song.url), {
+        metadata: {
+            title: song.title,
+        }
+    })
+    await serverQueue.player.play(resource);
+    await serverQueue.player.on(AudioPlayerStatus.Idle, () => {
+        if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.songs.shift();
+        play(message, serverQueue.songs[0]);
+    });
+    await serverQueue.player.on('error', error => {
+        console.log(error);
+    });
 
     const videoEmbed = new MessageEmbed()
         .setColor('RANDOM')
@@ -127,5 +143,5 @@ async function play(message, song) {
         .setTimestamp()
         .setFooter(message.author.username + '#' + message.author.discriminator);
 
-    if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send(videoEmbed);
+    if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send({ embeds: [videoEmbed] });
 }
