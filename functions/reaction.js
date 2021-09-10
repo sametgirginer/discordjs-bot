@@ -20,8 +20,8 @@ module.exports = {
                 if (reaction.emoji.name == "✅") {
                     let r = reaction.message.guild.roles.cache.find(r => r.name == "🍁");
                     let r2 = reaction.message.guild.roles.cache.find(r => r.name == "Yeni");
-                    await reaction.message.guild.member(user).roles.add(r).catch(console.error);
-                    await reaction.message.guild.member(user).roles.remove(r2).catch(console.error);
+                    await reaction.message.guild.members.cache.find(u=> u.id == user.id).roles.add(r).catch(console.error);
+                    await reaction.message.guild.members.cache.find(u=> u.id == user.id).roles.remove(r2).catch(console.error);
                 }
             }
         }
