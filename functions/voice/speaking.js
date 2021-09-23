@@ -6,7 +6,6 @@ module.exports = {
         if (loop) {
             while (true) {
                 let vc = await getVoiceConnection(guild.id);
-                console.log(vc);
                 let serverQueue = "";
 
                 vc.forEach(async v => {

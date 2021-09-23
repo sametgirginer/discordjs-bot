@@ -26,7 +26,7 @@ module.exports = {
             const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
 
             levelSystem.dbCheck(guild, member);
-    
+
             if (usedInvite != undefined) {
                 if (await getInvite(guild.id, member.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${member.guild.id}', '${member.id}', '0', '${usedInvite.inviter.id}')`);
                 if (await getInvite(guild.id, usedInvite.inviter.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${member.guild.id}', '${usedInvite.inviter.id}', '1', '0')`);
@@ -41,13 +41,13 @@ module.exports = {
                     .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                     .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
-                    .setDescription(`<@${member.id}>, **${guild.name}** discord sunucusuna hoş geldin.\nDavet eden: **${usedInvite.inviter.tag}** (**${inviteCount}** davet)`)
+                    .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.\nDavet eden: **${usedInvite.inviter.tag}** (**${inviteCount}** davet)`)
             } else {
                 var joinEmbed = new MessageEmbed()
                     .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                     .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
-                    .setDescription(`<@${member.id}>, **${guild.name}** discord sunucusuna hoş geldin.`)
+                    .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.`)
             }
             msgChannel.send({ embeds: [joinEmbed] });
 
@@ -84,7 +84,7 @@ module.exports = {
                 .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
                 .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                 .setAuthor(`Görüşürüz!`, guild.iconURL({ format: 'png', dynamic: true }))
-                .setDescription(`${member.user.username}#${member.user.discriminator}, discord sunucusundan ayrıldı.\nAramıza tekrar katılman dileğiyle.`)
+                .setDescription(`${member.user.tag}, discord sunucusundan ayrıldı.\nAramıza tekrar katılman dileğiyle.`)
     
             msgChannel.send({ embeds: [leaveEmbed] });
         } catch (error) {
@@ -98,6 +98,16 @@ module.exports = {
         try {
             guildInvites.set(invite.guild.id, await invite.guild.invites.fetch());
             if (await getInvite(invite.guild.id, invite.inviter.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    deleteInvite: async function(invite, guildInvites) {
+        if (invite === undefined) return;
+
+        try {
+            guildInvites.delete(invite.guild.id, invite);
         } catch (error) {
             console.log(error);
         }

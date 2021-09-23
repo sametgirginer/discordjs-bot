@@ -2,7 +2,7 @@ const { Client, Intents, Permissions, Collection } = require('discord.js');
 const { infoMsg } = require('./functions/message');
 const { writeLog } = require('./functions/logger')
 const { permCheck } = require('./functions/permission.js');
-const { serverJoin, serverLeave, createInvite } = require('./functions/join-leave');
+const { serverJoin, serverLeave, createInvite, deleteInvite } = require('./functions/join-leave');
 const { autoResponse } = require('./functions/autoresponse');
 const levelSystem = require('./functions/level');
 const { reactionAdd, reactionRemove, react } = require('./functions/reaction');
@@ -37,23 +37,26 @@ client.log = require('./handler/log');
     require(`./handler/${handler}`)(client);
 });
 
-client.on('ready', () => {
+const wait = require('util').promisify(setTimeout);
+client.on('ready', async () => {
     console.log(` > Discord botu ${client.user.tag} kimliği ile başlatıldı.`);
+    await wait(1000);
+
     client.user.setPresence({
-        activity: {
-            name: `📌 ${process.env.prefix}yardım`,
-        },
+        activities: [
+            {
+                name: `📌 ${process.env.prefix}yardım`,
+            }
+        ],
         status: 'online',
     });
 
-    client.guilds.cache.forEach(guild => {
+    client.guilds.cache.forEach(async guild => {
         voice.speaking(client, guild, true);
 
-        guild.members.fetch();
-
         if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(Permissions.FLAGS.MANAGE_GUILD))
-            guild.invites.fetch()
-                .then(invites => guildInvites.set(guild.id, invites))
+            await guild.invites.fetch()
+                .then(async invites => await guildInvites.set(guild.id, invites))
                 .catch(err => console.log(err));
     });
 
@@ -122,6 +125,7 @@ client.on('guildMemberAdd', async (member) => serverJoin(member, guildInvites));
 client.on('guildMemberRemove', member => serverLeave(member, guildInvites));
 
 client.on('inviteCreate', invite => createInvite(invite, guildInvites));
+client.on('inviteDelete', invite => deleteInvite(invite, guildInvites));
 
 client.on("messageReactionAdd", async (reaction, user) => reactionAdd(reaction, user));
 client.on("messageReactionRemove", async (reaction, user) => reactionRemove(reaction, user));
