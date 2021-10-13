@@ -56,7 +56,11 @@ client.on('ready', async () => {
 
         if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(Permissions.FLAGS.MANAGE_GUILD))
             await guild.invites.fetch()
-                .then(async invites => await guildInvites.set(guild.id, invites))
+                .then(async invites => {
+                    const codeUses = new Map();
+                    invites.each(inv => codeUses.set(inv.code, inv.uses));
+                    await guildInvites.set(guild.id, codeUses);
+                })
                 .catch(err => console.log(err));
     });
 
@@ -121,11 +125,11 @@ client.on('messageCreate', async message => {
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => voice.state(client, oldMember, newMember));
 
-client.on('guildMemberAdd', async (member) => serverJoin(member, guildInvites));
-client.on('guildMemberRemove', member => serverLeave(member, guildInvites));
+client.on('guildMemberAdd', async member => serverJoin(member, guildInvites));
+client.on('guildMemberRemove', async member => serverLeave(member, guildInvites));
 
-client.on('inviteCreate', invite => createInvite(invite, guildInvites));
-client.on('inviteDelete', invite => deleteInvite(invite, guildInvites));
+client.on('inviteCreate', async invite => createInvite(invite, guildInvites));
+client.on('inviteDelete', async invite => deleteInvite(invite, guildInvites));
 
 client.on("messageReactionAdd", async (reaction, user) => reactionAdd(reaction, user));
 client.on("messageReactionRemove", async (reaction, user) => reactionRemove(reaction, user));

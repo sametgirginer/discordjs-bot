@@ -5,8 +5,6 @@ const pvrole = require('./private-server/role');
 
 module.exports = {
     serverJoin: async function(member, guildInvites) {
-        if (member.id === null || member.id === undefined || member === undefined) return;
-
         try {
             member = await member.guild.members.fetch(member.id);
 
@@ -20,10 +18,13 @@ module.exports = {
 
             if (!msgChannel) return;
     
+            /* INVITE TRACKER */
             const cachedInvites = guildInvites.get(member.guild.id);
-            const newInvites = await member.guild.invites.fetch({ cache: false });
-            guildInvites.set(member.guild.id, newInvites);
-            const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
+            const newInvites = await member.guild.invites.fetch();
+            const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code) < inv.uses);
+            newInvites.each(inv => cachedInvites.set(inv.code, inv.uses));
+            guildInvites.set(member.guild.id, cachedInvites);
+            /* INVITE TRACKER */
 
             levelSystem.dbCheck(guild, member);
 
@@ -41,7 +42,7 @@ module.exports = {
                     .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                     .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
-                    .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.\nDavet eden: **${usedInvite.inviter.tag}** (**${inviteCount}** davet)`)
+                    .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.\nDavet eden: <@${usedInvite.inviter.id}> (**${inviteCount}** davet)`)
             } else {
                 var joinEmbed = new MessageEmbed()
                     .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
@@ -60,8 +61,6 @@ module.exports = {
     },
 
     serverLeave: async function(member, guildInvites) {
-        if (member.id === null || member.id === undefined || member === undefined) return;
-
         try {
             let channel = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${member.guild.id}' AND setting = 'cikis'`)));
             let guild = member.guild;
@@ -93,10 +92,13 @@ module.exports = {
     },
 
     createInvite: async function(invite, guildInvites) {
-        if (invite === undefined || invite.inviter.id === undefined) return;
-
         try {
-            guildInvites.set(invite.guild.id, await invite.guild.invites.fetch());
+            const invites = await invite.guild.invites.fetch();
+            const codeUses = new Map();
+            
+            invites.each(inv => codeUses.set(inv.code, inv.uses));
+            guildInvites.set(invite.guild.id, codeUses);
+
             if (await getInvite(invite.guild.id, invite.inviter.id) === 0) queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
         } catch (error) {
             console.log(error);
@@ -104,8 +106,6 @@ module.exports = {
     },
 
     deleteInvite: async function(invite, guildInvites) {
-        if (invite === undefined) return;
-
         try {
             guildInvites.delete(invite.guild.id, invite);
         } catch (error) {
