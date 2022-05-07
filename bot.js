@@ -90,7 +90,7 @@ client.on('messageCreate', async message => {
         if (command && !command.prefix && command.supportserver === true && message.guild.id != process.env.supportserver)
             return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 5000);
         
-        if ((command && !command.owner && !command.prefix) || (command && command.owner && message.author.id === process.env.ownerid)) {
+        if ((command && !command.owner && !command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && !command.prefix)) {
             try {
                 if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
                 command.run(client, message, args);
@@ -111,7 +111,7 @@ client.on('messageCreate', async message => {
         if (command && command.supportserver === true && message.guild.id != process.env.supportserver)
             return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 8000);
 
-        if ((command && !command.owner && command.prefix) || (command && command.owner && message.author.id === process.env.ownerid)) {
+        if ((command && !command.owner && command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && command.prefix)) {
             try {
                 if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
                 command.run(client, message, args);
