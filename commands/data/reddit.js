@@ -47,7 +47,7 @@ module.exports = {
                                 new MessageButton()
                                     .setStyle('LINK')
                                     .setLabel(`Reddit`)
-                                    .setURL(`https://reddit.com/${data['permalink']}`),
+                                    .setURL(`https://reddit.com${data['permalink']}`),
                                 
                                 new MessageButton()
                                     .setStyle('LINK')
