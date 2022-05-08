@@ -15,10 +15,10 @@ module.exports = {
 		if (!message.mentions.users.size && !args.length) {
 			const avatarEmbed = new MessageEmbed()
 				.setColor('#adf542')
-				.setAuthor('Avatar: ' + message.author.username + '#' + message.author.discriminator, message.author.avatarURL({ format: 'png', dynamic: true }))
+				.setAuthor({ name: 'Avatar: ' + message.author.username + '#' + message.author.discriminator, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
 				.setImage(message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
 				.setTimestamp()
-				.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+				.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 	
 			return message.channel.send({ embeds: [avatarEmbed] });
 		} else if (message.mentions.users.size === 1) {
@@ -26,10 +26,10 @@ module.exports = {
 				for (i = message.mentions.users.size; i >= 1; i--) {
 					const avatarEmbed = new MessageEmbed()
 						.setColor('#adf542')
-						.setAuthor('Avatar: ' + user.username + '#' + user.discriminator, user.avatarURL({ format: 'png', dynamic: true }))
+						.setAuthor({ name: 'Avatar: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 						.setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
 						.setTimestamp()
-						.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+						.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 
 					return message.channel.send({ embeds: [avatarEmbed] });
 				}
@@ -42,10 +42,10 @@ module.exports = {
 			if (user) {
 				const avatarEmbed = new MessageEmbed()
 					.setColor('#adf542')
-					.setAuthor('Avatar: ' + user.username + '#' + user.discriminator, user.avatarURL({ format: 'png', dynamic: true }))
+					.setAuthor({ name: 'Avatar: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 					.setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
 					.setTimestamp()
-					.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+					.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 
 				return message.channel.send({ embeds: [avatarEmbed] });
 			} else {

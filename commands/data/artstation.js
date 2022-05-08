@@ -54,7 +54,7 @@ module.exports = {
 					const artEmbed = new MessageEmbed()
 						.setColor('RANDOM')
 						.setDescription(`Tarayıcıda görüntülemek için [buraya](${out.permalink}) tıklayın.`)
-						.setAuthor(out.title, out.user.medium_avatar_url)
+						.setAuthor({ name: out.title, url: out.user.medium_avatar_url })
 						.addFields([
 							{ name: 'Görüntülenme', value: (out.views_count).toString(), inline: true },
 							{ name: 'Beğeni', value: (out.likes_count).toString(), inline: true },
@@ -62,7 +62,7 @@ module.exports = {
 						])
 						.setImage(out.cover.large_image_url)
 						.setTimestamp()
-						.setFooter(message.author.username + '#' + message.author.discriminator);
+						.setFooter({ text: message.author.username + '#' + message.author.discriminator });
 
 					message.delete();
 					return message.channel.send({ embeds: [artEmbed] });
@@ -88,10 +88,10 @@ module.exports = {
 							const artEmbed = new MessageEmbed()
 								.setColor('RANDOM')
 								.setDescription(`**${query}** araması ile ilgili **${(out.total_count-1 === 0) ? 1 : out.total_count-1}** sonuç bulundu.\nTarayıcıda görüntülemek için [buraya](${out.data[rn].url}) tıklayın.\n\nArama fonksiyonu yapım aşamasındadır.`)
-								.setAuthor(out.data[rn].title, out.data[rn].smaller_square_cover_url)
+								.setAuthor({ name: out.data[rn].title, url: out.data[rn].smaller_square_cover_url })
 								.setImage(out.data[rn].smaller_square_cover_url)
 								.setTimestamp()
-								.setFooter(message.author.username + '#' + message.author.discriminator);
+								.setFooter({ text: message.author.username + '#' + message.author.discriminator });
 		
 							message.delete();
 							return message.channel.send({ embeds: [artEmbed] });

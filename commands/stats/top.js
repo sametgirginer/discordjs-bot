@@ -52,7 +52,7 @@ module.exports = {
                 .setTitle(`${message.guild.name} TOP 10`)
                 .setDescription(`Bu sayfa şu anlık boş.`)
 			    .setTimestamp()
-			    .setFooter(`İlk sayfa için ${process.env.prefix}top / ${message.author.username}#${message.author.discriminator}`);
+			    .setFooter({ text: `İlk sayfa için ${process.env.prefix}top / ${message.author.username}#${message.author.discriminator}` });
 
             return message.channel.send({ embeds: [blankEmbed] });
         }
@@ -114,7 +114,7 @@ module.exports = {
             .setTitle(`${message.guild.name} TOP 10`)
 			.setImage('attachment://top10.png')
 			.setTimestamp()
-			.setFooter(`Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${await checkUsrName(message.author.username, 30)}#${message.author.discriminator}`);
+			.setFooter({ text: `Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${await checkUsrName(message.author.username, 30)}#${message.author.discriminator}` });
 
 		return message.channel.send({ embeds: [toptenEmbed], files: [image] });
     }

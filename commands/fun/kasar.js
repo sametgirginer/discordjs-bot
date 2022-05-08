@@ -54,7 +54,7 @@ module.exports = {
 			.setColor('#65c936')
 			.setImage('attachment://kasar.png')
 			.setTimestamp()
-			.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+			.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 
 		message.reply({ embeds: [embed], files: [attachment], allowedMentions: { repliedUser: false } });
 	},

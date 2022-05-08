@@ -20,7 +20,7 @@ module.exports = {
     
             var yardimEmbed = new MessageEmbed()
                 .setColor('#65bff0')
-                .setAuthor('Bot Komutları', client.user.avatarURL({ format: 'png', dynamic: true }))
+                .setAuthor({ name: 'Bot Komutları', iconURL: client.user.avatarURL({ format: 'png', dynamic: true }) })
                 .setDescription(`Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__`)
                 .addField('Genel Komutlar', commands.info, false)
                 .addField('Rank Komutları', commands.stats, false)
@@ -45,7 +45,7 @@ module.exports = {
 
                 var cmdEmbed = new MessageEmbed()
 					.setColor('#65bff0')
-                    .setAuthor(`Komut adı: ${client.commands.get(args[0]).name}`, client.user.avatarURL({ format: 'png', dynamic: true }))
+                    .setAuthor({ name: `Komut adı: ${client.commands.get(args[0]).name}`, iconURL: client.user.avatarURL({ format: 'png', dynamic: true }) })
                     .setDescription(client.commands.get(args[0]).description)
                     .addFields([
                         { name: 'Kategori', value: (client.commands.get(args[0]).category).toString(), inline: false },

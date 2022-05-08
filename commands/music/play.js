@@ -100,9 +100,9 @@ module.exports = {
                 const queueEmbed = new MessageEmbed()
                     .setColor('RANDOM')
                     .setDescription(`[${song.title}](${song.url})`)
-                    .setAuthor(`Sıraya eklendi`, message.author.avatarURL({ format: 'png', dynamic: true }))
+                    .setAuthor({ name: `Sıraya eklendi`, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setTimestamp()
-                    .setFooter(message.author.username + '#' + message.author.discriminator);
+                    .setFooter({ text: message.author.username + '#' + message.author.discriminator });
             
                 return serverQueue.textChannel.send({ embeds: [queueEmbed] });
             }
@@ -139,9 +139,9 @@ async function play(message, song) {
     const videoEmbed = new MessageEmbed()
         .setColor('RANDOM')
         .setDescription(`[${song.title}](${song.url})`)
-        .setAuthor(`${song.timestamp[0]} - Şu anda oynatılıyor`, 'https://i.imgur.com/5ZbX7RV.png')
+        .setAuthor({ name: `${song.timestamp[0]} - Şu anda oynatılıyor`, iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
         .setTimestamp()
-        .setFooter(message.author.username + '#' + message.author.discriminator);
+        .setFooter({ text: message.author.username + '#' + message.author.discriminator });
 
     if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send({ embeds: [videoEmbed] });
 }

@@ -18,6 +18,6 @@ module.exports = {
                 .setURL(inviteLink)
         );
 
-        message.channel.send({ content: '** **', components: [inviteButton], allowedMentions: { RepliedUser: false } });
+        message.channel.send({ components: [inviteButton], allowedMentions: { RepliedUser: false } });
     }
 }

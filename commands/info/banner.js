@@ -18,10 +18,10 @@ module.exports = {
 
 			const avatarEmbed = new MessageEmbed()
 				.setColor('#adf542')
-				.setAuthor('Banner: ' + message.author.username + '#' + message.author.discriminator, message.author.avatarURL({ format: 'png', dynamic: true }))
+				.setAuthor({ name: 'Banner: ' + message.author.username + '#' + message.author.discriminator, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
 				.setImage(bannerUrl)
 				.setTimestamp()
-				.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+				.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 	
 			return message.channel.send({ embeds: [avatarEmbed] });
 		} else if (message.mentions.users.size === 1) {
@@ -32,10 +32,10 @@ module.exports = {
 
 					const avatarEmbed = new MessageEmbed()
 						.setColor('#adf542')
-						.setAuthor('Banner: ' + user.username + '#' + user.discriminator, user.avatarURL({ format: 'png', dynamic: true }))
+						.setAuthor({ name: 'Banner: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 						.setImage(bannerUrl)
 						.setTimestamp()
-						.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+						.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 
 					return message.channel.send({ embeds: [avatarEmbed] });
 				}
@@ -51,10 +51,10 @@ module.exports = {
 
 				const avatarEmbed = new MessageEmbed()
 					.setColor('#adf542')
-					.setAuthor('Banner: ' + user.username + '#' + user.discriminator, user.avatarURL({ format: 'png', dynamic: true }))
+					.setAuthor({ name: 'Banner: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 					.setImage(bannerUrl)
 					.setTimestamp()
-					.setFooter(message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.');
+					.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
 
 				return message.channel.send({ embeds: [avatarEmbed] });
 			} else {

@@ -21,7 +21,7 @@ module.exports = {
                 .addField('Level', (await levelSystem.getLevel(message.guild.id, message.author.id)).toString(), true)
                 .setThumbnail(message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setTimestamp()
-                .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
+                .setFooter({ text: await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator })
 
             return message.channel.send({ embeds: [rankEmbed] });
 		} else if (message.mentions.users.size === 1) {
@@ -35,7 +35,7 @@ module.exports = {
                         .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
                         .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                         .setTimestamp()
-                        .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
+                        .setFooter({ text: await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator })
         
                     return message.channel.send({ embeds: [rankEmbed] });
 				}
@@ -54,7 +54,7 @@ module.exports = {
                     .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
                     .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                     .setTimestamp()
-                    .setFooter(await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator)
+                    .setFooter({ text: await checkUsrName(message.author.username, 30) + '#' + message.author.discriminator })
         
                 return message.channel.send({ embeds: [rankEmbed] });
 			} else {

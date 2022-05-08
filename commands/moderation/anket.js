@@ -14,7 +14,7 @@ module.exports = {
         if (!args.length) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, anket oluştur/bitir/sil komutlarından birini girmelisiniz.`);
 
         if (args[0] === 'oluştur' || args[0] === 'create') {
-            infoMsg(message, '65bff0', `Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**`);
+            infoMsg(message, '65bff0', `Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**\nAnketi tamamlamak için **${process.env.prefix}anket tamamla**`, false, 15000);
 
             const collectorFilter = m => m.author.id === message.author.id;
             const collector = new MessageCollector(message.channel, { filter: collectorFilter, time: 60000, idle: 20000 })
@@ -49,7 +49,7 @@ module.exports = {
 
                 var surveyEmbed = new MessageEmbed()
                     .setColor('RANDOM')
-                    .setAuthor('Anket', message.author.avatarURL({ format: 'png', dynamic: true }))
+                    .setAuthor({ name: 'Anket', iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setDescription(`${embedData}`)
                     .setTimestamp()
 
