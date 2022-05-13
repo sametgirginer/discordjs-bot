@@ -4,6 +4,7 @@ const { infoMsg } = require('../../functions/message');
 const search = require('../../functions/search');
 const nodeHtmlToImage = require('node-html-to-image');
 const { checkUsrName } = require('../../functions/helpers');
+const fs = require('fs');
 
 module.exports = {
     name: 'top',
@@ -102,9 +103,12 @@ module.exports = {
                 <body><table><tbody>${ttrow[listeLength-1]}</tbody></table></body>
             </html>`;
 
+        if (!fs.existsSync('./commands/stats/cache/')) await fs.mkdirSync('./commands/stats/cache/');
+
         await nodeHtmlToImage({
             html: html_topten,
             transparent: true,
+            puppeteerArgs: { args: ['--no-sandbox'] },
             output: `./commands/stats/cache/${message.guild.id}_topten.png`
         });
 

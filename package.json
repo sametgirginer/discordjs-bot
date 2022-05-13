@@ -33,7 +33,7 @@
     "libsodium-wrappers": "^0.7.9",
     "mysql2": "^2.3.3",
     "node-cmd": "^3.0.0",
-    "node-html-to-image": "^3.2.0",
+    "node-html-to-image": "^3.2.4",
     "request": "^2.88.2",
     "twitter-api-v2": "^1.4.1",
     "yt-search": "^2.10.1",
