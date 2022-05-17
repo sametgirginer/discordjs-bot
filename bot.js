@@ -33,9 +33,7 @@ client.aliases = new Collection();
 client.queue = new Map();
 
 client.log = require('./handler/log');
-['command'].forEach(handler => {
-    require(`./handler/${handler}`)(client);
-});
+require(`./handler/command`)(client);
 
 const wait = require('util').promisify(setTimeout);
 client.on('ready', async () => {
