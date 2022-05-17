@@ -104,5 +104,5 @@ var conn = mysql.createConnection({
 
 conn.connect(function(err) {
     if (err) throw err;
-    console.log(' > Local MySQL bağlantısı başarıyla sonuçlandı.')
+    console.log(' > MySQL bağlantısı başarıyla sonuçlandı.')
 })

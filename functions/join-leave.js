@@ -19,9 +19,9 @@ module.exports = {
             if (!msgChannel) return;
     
             /* INVITE TRACKER */
-            const cachedInvites = guildInvites.get(member.guild.id);
+            const cachedInvites = await guildInvites.get(member.guild.id);
             const newInvites = await member.guild.invites.fetch();
-            const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code) < inv.uses);
+            const usedInvite = newInvites.find(async inv => await cachedInvites.get(inv.code) < inv.uses);
             newInvites.each(inv => cachedInvites.set(inv.code, inv.uses));
             guildInvites.set(member.guild.id, cachedInvites);
             /* INVITE TRACKER */
@@ -39,15 +39,15 @@ module.exports = {
                 
                 if (inviteCount === 0) inviteCount = 1;
                 var joinEmbed = new MessageEmbed()
-                    .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
+                    .setColor('RANDOM')
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
-                    .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
+                    .setAuthor({ name: `Hoş geldin!`, iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                     .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.\nDavet eden: <@${usedInvite.inviter.id}> (**${inviteCount}** davet)`)
             } else {
                 var joinEmbed = new MessageEmbed()
-                    .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
+                    .setColor('RANDOM')
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
-                    .setAuthor(`Hoş geldin!`, guild.iconURL({ format: 'png', dynamic: true }))
+                    .setAuthor({ name: `Hoş geldin!`, iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                     .setDescription(`<@${member.user.id}>, **${guild.name}** discord sunucusuna hoş geldin.`)
             }
             msgChannel.send({ embeds: [joinEmbed] });
@@ -80,9 +80,9 @@ module.exports = {
             }
             
             var leaveEmbed = new MessageEmbed()
-                .setColor('#' + (Math.random()*0xFFFFFF<<0).toString(16))
+                .setColor('RANDOM')
                 .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
-                .setAuthor(`Görüşürüz!`, guild.iconURL({ format: 'png', dynamic: true }))
+                .setAuthor({ name: `Görüşürüz!`, iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                 .setDescription(`${member.user.tag}, discord sunucusundan ayrıldı.\nAramıza tekrar katılman dileğiyle.`)
     
             msgChannel.send({ embeds: [leaveEmbed] });
