@@ -66,7 +66,7 @@ module.exports = {
 
             const filter = i => i.user.id === message.author.id;
 
-            const collector = message.channel.createMessageComponentCollector({ filter, time: 10000 });
+            const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
             
             collector.on('collect', async i => {
                 lastEmoji = i.customId - 1;
