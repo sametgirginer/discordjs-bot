@@ -21,8 +21,11 @@ module.exports = {
             /* INVITE TRACKER */
             const cachedInvites = await guildInvites.get(member.guild.id);
             const newInvites = await member.guild.invites.fetch();
-            const usedInvite = newInvites.find(async inv => await cachedInvites.get(inv.code) < inv.uses);
-            newInvites.each(inv => cachedInvites.set(inv.code, inv.uses));
+            var usedInvite = undefined;
+            if (cachedInvites) {
+                usedInvite = await newInvites.find(inv => cachedInvites.get(inv.code) < inv.uses);
+                await newInvites.each(inv => cachedInvites.set(inv.code, inv.uses));
+            }
             guildInvites.set(member.guild.id, cachedInvites);
             /* INVITE TRACKER */
 
