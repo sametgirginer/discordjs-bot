@@ -12,7 +12,7 @@ module.exports = {
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		if (!message.mentions.users.size && !args.length) {
+		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
             const bannerUrl = await getUserBannerUrl(client, message.author.id, { size: 4096 });
             if (!bannerUrl) return infoMsg(message, 'B20000', `<@${message.author.id}>, bannerın yok.`, true, 5000);
 

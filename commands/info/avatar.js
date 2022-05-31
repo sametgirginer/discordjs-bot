@@ -12,7 +12,7 @@ module.exports = {
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		if (!message.mentions.users.size && !args.length) {
+		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
 			const avatarEmbed = new MessageEmbed()
 				.setColor('#adf542')
 				.setAuthor({ name: 'Avatar: ' + message.author.username + '#' + message.author.discriminator, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })

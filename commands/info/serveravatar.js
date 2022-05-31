@@ -12,7 +12,7 @@ module.exports = {
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		if (!message.mentions.users.size && !args.length) {
+		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
 			let member = await search.member(message);
 			if (!member.avatar) return infoMsg(message, 'B20000', `<@${message.author.id}>, sunucuya özel avatarınız bulunamadı.`, true, 5000);
 
