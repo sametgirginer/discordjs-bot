@@ -23,7 +23,7 @@ module.exports = {
 
             tweets.forEach(async tweet => {
                 if (tweet.extended_entities != undefined) {
-                    tweet.extended_entities.media.forEach(media => {
+                    tweet.extended_entities.media.forEach(async media => {
                         bitrateOld = 0; // Compare bitrates
                         selVar = []; // Selected Variant
                         if (media.type === "video" || media.type === "animated_gif") {
