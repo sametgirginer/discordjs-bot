@@ -1,0 +1,34 @@
+{
+    "long_name" : "Türkçe",
+    "short_name" : "tr",
+
+    "langfiles_imported" : " > Dil dosyaları başarıyla içeri aktarıldı.",
+    "bot_started" : " > Discord botu ${client.user.tag} kimliği ile başlatıldı.",
+
+    "yes" : "Evet",
+    "no" : "Hayır",
+
+    "data" : "Veri",
+    "fun" : "Eğlence",
+    "game" : "Oyun",
+    "info" : "Bilgilendirme",
+    "moderation" : "Moderasyon",
+    "music" : "Müzik",
+    "stats" : "İstatistik",
+
+    "help_desc" : "Bot komutlarını iletir.",
+    "help_bot_commands" : "Bot Komutları",
+    "help_desc_detailed" : "Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__",
+    "help_general_commands" : "Genel Komutlar",
+    "help_rank_commands" : "Rank Komutları",
+    "help_music_commands" : "Müzik Komutları",
+    "help_mod_commands" : "Moderasyon Komutları",
+    "help_invaild_command" : "<@${message.author.id}>, **%0** adında bir komut yok veya komut adı eksik girildi.",
+    "help_command_name" : "Komut adı: ${client.commands.get('%0').name}",
+    "help_category" : "Kategori:",
+    "help_only_owner" : "Herkes kullanabilir mi?",
+    "help_only_support" : "Sadece destek sunucusunda mı aktif?",
+
+    "d20_desc" : "20 yüzlü bir zar. şansın iyidir umarım",
+    "d20_maxdice" : "<@${message.author.id}>, aynı anda en fazla 3 zar atabilirsin."
+}

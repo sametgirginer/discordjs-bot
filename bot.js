@@ -1,11 +1,7 @@
-const { Client, Intents, Permissions, Collection } = require('discord.js');
-const { infoMsg } = require('./functions/message');
-const { writeLog } = require('./functions/logger')
-const { permCheck } = require('./functions/permission.js');
+const { Client, Intents, Collection } = require('discord.js');
+const { ready } = require('./handler/ready');
 const { serverJoin, serverLeave, createInvite, deleteInvite } = require('./functions/join-leave');
-const { autoResponse } = require('./functions/autoresponse');
-const levelSystem = require('./functions/level');
-const { reactionAdd, reactionRemove, react } = require('./functions/reaction');
+const msg = require('./handler/message');
 const voice = require('./functions/voice/index');
 
 const client = new Client({ intents: [
@@ -25,101 +21,24 @@ const client = new Client({ intents: [
         Intents.FLAGS.DIRECT_MESSAGE_TYPING
     ]
 });
-const prefix = process.env.prefix;
-const guildInvites = new Map();
-    
+
+const guildInvites = new Map();    
+const guildLangs = new Map();    
+
 client.commands = new Collection();
+client.langs = new Collection();
 client.aliases = new Collection();
 client.queue = new Map();
 
 client.log = require('./handler/log');
 require(`./handler/command`)(client);
+require('./handler/language')(client);
 
-const wait = require('util').promisify(setTimeout);
-client.on('ready', async () => {
-    console.log(` > Discord botu ${client.user.tag} kimliği ile başlatıldı.`);
-    await wait(1000);
+client.on('ready', async () => ready(client, { guildInvites: guildInvites, guildLangs: guildLangs }));
 
-    client.user.setPresence({
-        activities: [
-            {
-                name: `📌 ${process.env.prefix}yardım`,
-            }
-        ],
-        status: 'online',
-    });
-
-    client.guilds.cache.forEach(async guild => {
-        voice.speaking(client, guild, true);
-
-        if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(Permissions.FLAGS.MANAGE_GUILD))
-            await guild.invites.fetch()
-                .then(async invites => {
-                    const codeUses = new Map();
-                    invites.each(inv => codeUses.set(inv.code, inv.uses));
-                    await guildInvites.set(guild.id, codeUses);
-                })
-                .catch(err => console.log(err));
-    });
-
-    try {
-        client.guilds.cache.get('735836120272601120').channels.cache.get('756692193682391111').messages.fetch('756692733665607700'); //bir
-        client.guilds.cache.get('803703371936432219').channels.cache.get('803919202108178475').messages.fetch('803919359776784405'); //iki
-    } catch (error) { }
-});
-
-client.on('messageCreate', async message => {
-    if (message.author.bot) return;
-    if (!message.guild) return;
-    if (!message.member) message.member = await message.guild.members.fetch();
-
-    writeLog(message);
-    autoResponse(message);
-    react(message);
-    levelSystem.updateMessageXP(message);
-
-    if (!message.content.startsWith(prefix)) {
-        const args = message.content.trim().split(/ +/g);
-        const cmd = args.shift().toLowerCase();
-
-        let command = client.commands.get(cmd);    
-        if (!command) command = client.commands.find(c => c.aliases && c.aliases.includes(cmd));
-
-        if (command && !command.prefix && command.supportserver === true && message.guild.id != process.env.supportserver)
-            return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 5000);
-        
-        if ((command && !command.owner && !command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && !command.prefix)) {
-            try {
-                if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
-                command.run(client, message, args);
-            } catch (error) {
-                console.log(` > HATA: ${error}`);
-                infoMsg(message, '000', `Komut çalıştırılırken bir hata oluştu.`, true, 10000);
-            }
-        } else return;
-    } else {
-        const args = message.content.slice(prefix.length).trim().split(/ +/g);
-        const cmd = args.shift().toLowerCase();
-
-        if (cmd.length === 0) return;
-
-        let command = client.commands.get(cmd);
-        if (!command) command = client.commands.find(c => c.aliases && c.aliases.includes(cmd));
-
-        if (command && command.supportserver === true && message.guild.id != process.env.supportserver)
-            return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 8000);
-
-        if ((command && !command.owner && command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && command.prefix)) {
-            try {
-                if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
-                command.run(client, message, args);
-            } catch (error) {
-                console.log(` > HATA: ${error}`);
-                infoMsg(message, '000', `Komut çalıştırılırken bir hata oluştu.`, true, 10000);
-            }
-        } else return;
-    }
-});
+client.on('messageCreate', async message => msg.create(client, message));
+client.on("messageReactionAdd", async (reaction, user) => msg.reactionAdd(reaction, user));
+client.on("messageReactionRemove", async (reaction, user) => msg.reactionRemove(reaction, user));
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => voice.state(client, oldMember, newMember));
 
@@ -128,8 +47,5 @@ client.on('guildMemberRemove', async member => serverLeave(member, guildInvites)
 
 client.on('inviteCreate', async invite => createInvite(invite, guildInvites));
 client.on('inviteDelete', async invite => deleteInvite(invite, guildInvites));
-
-client.on("messageReactionAdd", async (reaction, user) => reactionAdd(reaction, user));
-client.on("messageReactionRemove", async (reaction, user) => reactionRemove(reaction, user));
 
 client.login(process.env.token);

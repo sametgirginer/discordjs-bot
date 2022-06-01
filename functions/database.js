@@ -3,14 +3,14 @@ const mysql = require('mysql2');
 module.exports = {
     queryInsert: function(cmd) {
         conn.query(cmd, err => {
-            if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+            if (err) { return console.log(` > MySQL error occurred: ${err}`); }
         });
     },
 
     querySelectBool: async function(cmd) {
         return new Promise((resolve) => {
             conn.query(cmd, (err, results) => {
-                if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+                if (err) { return console.log(` > MySQL error occurred: ${err}`); }
     
                 if (results.length != 0)
                     resolve(results.length);
@@ -23,7 +23,7 @@ module.exports = {
     querySelect: async function(cmd) {
         return new Promise((resolve) => {
             conn.query(cmd, (err, results) => {
-                if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+                if (err) { return console.log(` > MySQL error occurred: ${err}`); }
     
                 if (results.length != 0)
                     resolve(JSON.parse(JSON.stringify(results[0])));
@@ -36,7 +36,7 @@ module.exports = {
     querySelectAll: async function(cmd) {
         return new Promise((resolve) => {
             conn.query(cmd, (err, results) => {
-                if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+                if (err) { return console.log(` > MySQL error occurred: ${err}`); }
     
                 if (results.length != 0)
                     resolve(JSON.parse(JSON.stringify(results)));
@@ -48,22 +48,22 @@ module.exports = {
 
     queryUpdate: function(cmd) {
         conn.query(cmd, err => {
-            if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+            if (err) { return console.log(` > MySQL error occurred: ${err}`); }
         });
     },
 
     queryDelete: function(cmd) {
         conn.query(cmd, err => {
-            if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+            if (err) { return console.log(` > MySQL error occurred: ${err}`); }
         });
     },
 
     /* Database Setting Check */
-    getSetting: async function(guildID, settingName) {
+    getSetting: async function(guild) {
         return new Promise((resolve) => {
-            if (guildID && settingName) {
-                conn.query(`SELECT * FROM discord_settings WHERE guild = '${guildID}' AND setting = '${settingName}'`, (err, results) => {
-                    if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+            if (guild) {
+                conn.query(`SELECT * FROM discord_settings WHERE guild = '${guild}'`, (err, results) => {
+                    if (err) { return console.log(` > MySQL error occurred: ${err}`); }
         
                     if (results.length != 0)
                         resolve(results.length);
@@ -81,7 +81,7 @@ module.exports = {
         return new Promise((resolve) => {
             if (guildID && userID) {
                 conn.query(`SELECT * FROM discord_guildusers WHERE guild = '${guildID}' AND user = '${userID}'`, (err, results) => {
-                    if (err) { return console.log(` > MySQL hatası oluştu: ${err}`); }
+                    if (err) { return console.log(` > MySQL error occurred: ${err}`); }
         
                     if (results.length != 0)
                         resolve(results.length);
@@ -104,5 +104,5 @@ var conn = mysql.createConnection({
 
 conn.connect(function(err) {
     if (err) throw err;
-    console.log(' > MySQL bağlantısı başarıyla sonuçlandı.')
+    console.log(' > MySQL connection successfully completed.');
 })

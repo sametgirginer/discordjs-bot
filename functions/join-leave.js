@@ -8,9 +8,9 @@ module.exports = {
         try {
             member = await member.guild.members.fetch(member.id);
 
-            let channel = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${member.guild.id}' AND setting = 'giris'`)));
+            let channel = JSON.parse((await querySelect(`SELECT data FROM discord_settings WHERE guild = '${member.guild.id}'`)).data).joinchannel;
             let guild = member.guild;
-            let msgChannel = guild.channels.cache.find(ch => ch.id === channel.value);
+            let msgChannel = guild.channels.cache.find(ch => ch.id === channel);
             let inviteCount = 0;
 
             let role = guild.roles.cache.find(r => r.name == "Yeni");
@@ -65,9 +65,9 @@ module.exports = {
 
     serverLeave: async function(member, guildInvites) {
         try {
-            let channel = JSON.parse(JSON.stringify(await querySelect(`SELECT value FROM discord_settings WHERE guild = '${member.guild.id}' AND setting = 'cikis'`)));
+            let channel = JSON.parse((await querySelect(`SELECT data FROM discord_settings WHERE guild = '${member.guild.id}'`)).data).leavechannel;
             let guild = member.guild;
-            let msgChannel = guild.channels.cache.find(ch => ch.id === channel.value);
+            let msgChannel = guild.channels.cache.find(ch => ch.id === channel);
             let inviteCount = 0;
         
             if (!msgChannel) return;

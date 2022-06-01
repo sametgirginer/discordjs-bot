@@ -1,10 +1,11 @@
+const { buildText } = require('../../functions/language.js');
 const { infoMsg } = require('../../functions/message.js');
 
 module.exports = {
 	name: 'd20',
 	aliases: ['d!20',],
     category: 'info',
-    description: '20 yüzlü bir zar. şansın iyidir umarım',
+    description: 'd20_desc',
 	prefix: false,
 	owner: false,
 	supportserver: false,
@@ -12,7 +13,7 @@ module.exports = {
     run: async (client, message, args) => {
 		let d20 = 0;
 		
-		if (args[0] > 3) return infoMsg(message, `RANDOM`, `<@${message.author.id}>, aynı anda en fazla 3 zar atabilirsin.`, true, 3000);
+		if (args[0] > 3) return infoMsg(message, `RANDOM`, await buildText("d20_maxdice", client, { guild: message.guild.id, message: message }), true, 3000);
 		
 		if (args[0] == '2') {
 			d20 = Math.ceil(Math.random() * 20);
