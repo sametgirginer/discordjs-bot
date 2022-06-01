@@ -22,8 +22,7 @@ const client = new Client({ intents: [
     ]
 });
 
-const guildInvites = new Map();    
-const guildLangs = new Map();    
+const guildInvites = new Map();  
 
 client.commands = new Collection();
 client.langs = new Collection();
@@ -34,7 +33,7 @@ client.log = require('./handler/log');
 require(`./handler/command`)(client);
 require('./handler/language')(client);
 
-client.on('ready', async () => ready(client, { guildInvites: guildInvites, guildLangs: guildLangs }));
+client.on('ready', async () => ready(client, guildInvites));
 
 client.on('messageCreate', async message => msg.create(client, message));
 client.on("messageReactionAdd", async (reaction, user) => msg.reactionAdd(reaction, user));

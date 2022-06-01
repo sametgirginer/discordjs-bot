@@ -5,7 +5,7 @@ const voice = require('../functions/voice/index');
 const wait = require('util').promisify(setTimeout);
 
 module.exports = {
-    ready: async function(client, { guildInvites: guildInvites, guildLangs: guildLangs } = {}) {
+    ready: async function(client, guildInvites) {
         console.log(await buildText("bot_started", client));
         await wait(1000);
     
