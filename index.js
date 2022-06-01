@@ -10,4 +10,4 @@ const manager = new ShardingManager('bot.js', {
 });
 
 manager.spawn();
-manager.on('shardCreate', shard => console.log(` > Shard ${shard.id} başlatıldı.`));
+//manager.on('shardCreate', shard => console.log(` > Launched shard ${shard.id}`));

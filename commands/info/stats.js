@@ -1,7 +1,8 @@
 const { infoMsg } = require('../../functions/message.js');
 
 module.exports = {
-    name: 'durum',
+    name: 'stats',
+	aliases: ['durum'],
     category: 'info',
     description: 'Bot durum bilgisini gösterir.',
     prefix: true,
