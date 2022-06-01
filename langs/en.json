@@ -23,12 +23,44 @@
     "help_rank_commands" : "Rank Commands",
     "help_music_commands" : "Music Commands",
     "help_mod_commands" : "Moderation Commands",
-    "help_invaild_command" : "<@${message.author.id}>, **%0** adında bir komut yok veya komut adı eksik girildi.",
+    "help_invaild_command" : "<@${message.author.id}>, there is no command named **%0** or the command name is missing.",
     "help_command_name" : "Command name: ${client.commands.get('%0').name}",
     "help_category" : "Category:",
     "help_only_owner" : "Can anyone use?",
     "help_only_support" : "Is it only active on the support server?",
 
-    "d20_desc" : "20 yüzlü bir zar. şansın iyidir umarım",
-    "d20_maxdice" : "<@${message.author.id}>, aynı anda en fazla 3 zar atabilirsin."
+    "artstation_desc" : "For random data ${process.env.prefix}art\n\nFor random data from category: ${process.env.prefix}art category <category name>\n\nTo search:: ${process.env.prefix}art <search term>",
+    "artstation_select_category" : "<@${message.author.id}>, you must enter a valid category name.\n\nCategories: `fantasy, archviz, comic_art, concept_art, architecture, character, creatures, environments, game_art, illustration, mecha, science_fiction, surreal, weapons`",
+    "artstation_click_here" : "Click [here](%0) to view in browser.",
+    "artstation_views" : "Views",
+    "artstation_likes" : "Likes",
+    "artstation_comments" : "Comments",
+    "artstation_not_found" : "<@${message.author.id}>, there is no data on the %0 search.",
+    "artstation_nsfw_content" : "<@${message.author.id}>, this image can only be sent to the channel that is allowed to share nsfw.",
+    "artstation_search_found" : "**%1** results found for **%0** search.\nClick [here](%2) to view in browser.\n\nSearch function is under construction.",
+    "artstation_data_error" : "<@${message.author.id}>, an error occurred while extracting data.",
+
+    "coub_desc" : "Creates video from coub.com.",
+    "coub_required_url" : "<@${message.author.id}>, you must enter coub video link.",
+    "coub_processing_video" : "<@${message.author.id}>, preparing **coub video**. Will upload when ready.",
+    "coub_nsfw_video" : "<@${message.author.id}>, this video can only be uploaded to a channel that allows nsfw sharing.",
+    "coub_view_onsite" : "View on Site",
+    "coub_unvaild_url" : "<@${message.author.id}>, the coub video link is invalid.",
+
+    "reddit_desc" : "Downloads videos from Reddit.",
+    "reddit_required_url" : "You must write a reddit link.",
+    "reddit_processing_video" : "<@${message.author.id}>, preparing **reddit video**. Will upload when ready.",
+    "reddit_cannot_upload" : "The Reddit video could not be downloaded or uploaded because the file size is high.",
+    "reddit_notfound_video" : "No video found in reddit link.",
+    "reddit_data_error" : "<@${message.author.id}>, an error occurred while extracting data.",
+
+    "twitter_desc" : "Retrieves media from Twitter.",
+    "twitter_notfound_media" : "The media on this link could not be accessed.",
+    "twitter_notfound_video_or_gif" : "Could not access gif or video media from this link.",
+    "twitter_processing_media" : "<@${message.author.id}>, preparing **twitter media**. Will upload when ready.",
+    "twitter_already_processing" : "The link you specified is currently being processed. Please do not process it again.",
+    "twitter_unvaild_url" : "You must enter a valid link.",
+
+    "d20_desc" : "A 20-sided dice. I hope you have good luck.",
+    "d20_maxdice" : "<@${message.author.id}>, you can roll up to 3 dice at the same time."
 }

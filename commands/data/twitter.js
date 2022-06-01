@@ -2,6 +2,7 @@ const { TwitterApi } = require('twitter-api-v2');
 const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { twitterRegex, stringShort } = require('../../functions/helpers');
+const { buildText } = require('../../functions/language');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
@@ -10,7 +11,7 @@ const twitterClient = new TwitterApi(process.env.twitterAppToken);
 module.exports = {
     name: 'twitter',
     category: 'data',
-    description: 'Twitter sitesinden medya getirir.',
+    description: 'twitter_desc',
     prefix: true,
     owner: false,
     permissions: ['VIEW_CHANNEL'],
@@ -20,7 +21,7 @@ module.exports = {
         if (id) {
             let tweets = (await twitterClient.v1.get(`statuses/lookup.json`, { id: id }));
 
-            tweets.forEach(tweet => {
+            tweets.forEach(async tweet => {
                 if (tweet.extended_entities != undefined) {
                     tweet.extended_entities.media.forEach(media => {
                         bitrateOld = 0; // Compare bitrates
@@ -37,18 +38,18 @@ module.exports = {
                                 }
                             });
                         } else {
-                            return infoMsg(message, `B20000`, `Bu bağlantıdaki gif veya video medyasına erişilemedi.`, true, 5000);
+                            return infoMsg(message, `B20000`, await buildText("twitter_notfound_video_or_gif", client, { guild: message.guild.id }), true, 5000);
                         }
                     });
                 } else {
-                    return infoMsg(message, `B20000`, `Bu bağlantıdaki medyaya erişilemedi.`, true, 5000);
+                    return infoMsg(message, `B20000`, await buildText("twitter_notfound_media", client, { guild: message.guild.id }), true, 5000);
                 }
             });
 
             if (selVar['id']) {
                 var cooldownEmbed = new MessageEmbed()
                     .setColor('#d747ed')
-                    .setDescription(`<@${message.author.id}>, **twitter medyası** hazırlanıyor. Hazır olduğunda yüklenecek.`)
+                    .setDescription(await buildText("twitter_processing_media", client, { guild: message.guild.id, message: message }))
 
                 message.channel.send({ embeds: [cooldownEmbed] }).then(async msg => {
                     message.delete();
@@ -75,12 +76,12 @@ module.exports = {
                         .run();
                     } else {
                         msg.delete();
-                        return infoMsg(message, `B20000`, `Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.`, true, 10000);
+                        return infoMsg(message, `B20000`, await buildText("twitter_already_processing", client, { guild: message.guild.id }), true, 10000);
                     }
                 })
             }
         } else {
-            return infoMsg(message, `B20000`, `Geçerli bir bağlantı girmeniz gerekmektedir.`, true, 5000)
+            return infoMsg(message, `B20000`, await buildText("twitter_unvaild_url", client, { guild: message.guild.id }), true, 5000)
         }
     }
 }

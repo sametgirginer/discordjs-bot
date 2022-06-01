@@ -1,6 +1,6 @@
 const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
 const { infoMsg } = require("../../functions/message");
-const { stringShort } = require('../../functions/helpers');
+const { buildText } = require('../../functions/language');
 const { download } = require('../../functions/download');
 const request = require("request");
 const fs = require('fs');
@@ -9,23 +9,26 @@ const fs = require('fs');
 module.exports = {
     name: 'reddit',
     category: 'data',
-    description: 'Reddit sitesinden video indirir.',
+    description: 'reddit_desc',
     prefix: true,
     owner: false,
     permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        let regex = /http(s)?:\/\/(\w.*\.)?reddit\.com\/r\/([a-zA-Z0-9]*?)\/comments\/([a-zA-Z0-9]*?)\/([A-Za-z_0-9]*?)\//;
-        if (!regex.test(args[0])) return infoMsg(message, `B20000`, `Reddit bağlantısı yazmanız gereklidir.`);
+        let regex = /http(s)?:\/\/(\w.*\.)?reddit\.com\/r\/([a-zA-Z0-9]*?)\/comments\/([a-zA-Z0-9]*[/]?)/;
+        if (!regex.test(args[0])) return infoMsg(message, `B20000`, await buildText("reddit_required_url", client, { guild: message.guild.id }), true, 5000);
 
         url = args[0];
         url = (url.match(regex))[0];
         url = url.substring(0, url.length - 1) + ".json";
 
         var cooldownEmbed = new MessageEmbed()
-            .setColor('#d747ed')
-            .setDescription(`<@${message.author.id}>, **reddit videosu** hazırlanıyor. Hazır olduğunda yüklenecek.`)
+            .setColor('RANDOM')
+            .setDescription(await buildText("reddit_processing_video", client, { guild: message.guild.id, message: message }))
 
         message.channel.send({ embeds: [cooldownEmbed] }).then(async msg => {
+            message.delete();
+            message = msg;
+
             request({
                 uri: url,
                 json: true,
@@ -42,7 +45,7 @@ module.exports = {
                         let file = `data/reddit/output-${Math.ceil(Math.random() * 5000)}.mp4`;
     
                         await download(video, file).then(async () => {
-                            const redditVideo = new MessageAttachment(file, 'amkanimecisi-reddit-video.mp4');
+                            const redditVideo = new MessageAttachment(file, 'reddit-video.mp4');
                             const redditButtons = new MessageActionRow().addComponents(
                                 new MessageButton()
                                     .setStyle('LINK')
@@ -59,19 +62,19 @@ module.exports = {
                                 msg.delete();
                                 fs.unlinkSync(file);
                             });
-                        }).catch(e => {
+                        }).catch(async e => {
                             msg.delete();
                             fs.unlinkSync(file);
-                            infoMsg(message, 'RANDOM', `Reddit videosu indirilemedi veya dosya boyutu yüksek olduğu için yüklenemedi.`, true, 10000)
+                            infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), true, 5000)
                         });
                     
                     } else {
                         msg.delete();
-                        infoMsg(message, 'RANDOM', `Reddit bağlantısında video bulunamadı.`, true, 10000);
+                        infoMsg(message, 'RANDOM', await buildText("reddit_notfound_video", client, { guild: message.guild.id }), true, 5000);
                     }
                 } else {
                     msg.delete();
-                    return infoMsg(message, 'B20000', `<@${message.author.id}>, veri çekme işleminde bir hata oluştu.`, true, 10000)
+                    return infoMsg(message, 'B20000', await buildText("reddit_data_error", client, { guild: message.guild.id, message: message }), true, 5000)
                 }
             });
         })

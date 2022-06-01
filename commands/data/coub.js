@@ -1,23 +1,24 @@
 const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
-const { infoMsg } = require('../../functions/message.js');
-const { stringShort } = require('../../functions/helpers.js');
+const { infoMsg } = require('../../functions/message');
+const { stringShort } = require('../../functions/helpers');
+const { buildText } = require('../../functions/language');
 const Coub = require('coub-dl');
 const fs = require('fs');
 
 module.exports = {
     name: 'coub',
     category: 'data',
-    description: 'coub.com sitesinden video çeker.',
+    description: 'coub_desc',
 	prefix: true,
     owner: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, coub video bağlantısı girmelisiniz.`, true, 10000);    
+        if (!args[0]) return infoMsg(message, 'FFE26A', await buildText("coub_required_url", client, { guild: message.guild.id, message: message }), true, 10000);    
         message.delete();
 
         var cooldownEmbed = new MessageEmbed()
             .setColor('#d747ed')
-            .setDescription(`<@${message.author.id}>, **coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.`)
+            .setDescription(await buildText("coub_processing_video", client, { guild: message.guild.id, message: message }))
      
         message.channel.send({ embeds: [cooldownEmbed] }).then(async msg => {
             try {
@@ -29,7 +30,7 @@ module.exports = {
                 if (coub.metadata.not_safe_for_work === true) 
                     if (message.channel.nsfw === false || message.channel.nsfw === undefined) {
                         msg.delete();
-                        return infoMsg(message, 'FFE26A', `<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.`, false, 10000);
+                        return infoMsg(message, 'FFE26A', await buildText("coub_nsfw_video", client, { guild: message.guild.id, message: message }), false, 10000);
                     }
     
                 if (coub.duration < 5) coub.duration = 10;
@@ -39,11 +40,11 @@ module.exports = {
                 await coub.addOption('-t', coub.duration);
                 await coub.write(file);
     
-                const coubVideo = new MessageAttachment(file, 'amkanimecisi-coub-video.mp4');
+                const coubVideo = new MessageAttachment(file, 'coub-video.mp4');
                 const coubButton = new MessageActionRow().addComponents(
                     new MessageButton()
                         .setStyle('LINK')
-                        .setLabel(await stringShort(coub.metadata.title, 30))
+                        .setLabel(await buildText("coub_view_onsite", client, { guild: message.guild.id }))
                         .setURL(`https://coub.com/view/${coub.metadata.permalink}`)
                 );
 
@@ -53,7 +54,7 @@ module.exports = {
                 });
             } catch (error) {
                 msg.delete();
-                return infoMsg(message, 'FFE26A', `<@${message.author.id}>, coub video bağlantısı geçersiz.`, false, 10000);   
+                return infoMsg(message, 'FFE26A', await buildText("coub_unvaild_url", client, { guild: message.guild.id, message: message }), false, 10000);   
             }
         });
     }

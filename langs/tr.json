@@ -29,6 +29,38 @@
     "help_only_owner" : "Herkes kullanabilir mi?",
     "help_only_support" : "Sadece destek sunucusunda mı aktif?",
 
-    "d20_desc" : "20 yüzlü bir zar. şansın iyidir umarım",
+    "artstation_desc" : "Random veri için ${process.env.prefix}art\n\nKategoriden random veri için: ${process.env.prefix}art kategori <kategori adı>\n\nArama yapmak için: ${process.env.prefix}art <kategori>",
+    "artstation_select_category" : "<@${message.author.id}>, geçerli bir kategori ismi girmelisin.\n\nKategoriler: `fantasy, archviz, comic_art, concept_art, architecture, character, creatures, environments, game_art, illustration, mecha, science_fiction, surreal, weapons`",
+    "artstation_click_here" : "Tarayıcıda görüntülemek için [buraya](%0) tıklayın.",
+    "artstation_views" : "Görüntülenme",
+    "artstation_likes" : "Beğeni",
+    "artstation_comments" : "Yorum",
+    "artstation_not_found" : "<@${message.author.id}>, %0 araması ile ilgili veri yok.",
+    "artstation_nsfw_content" : "<@${message.author.id}>, bu resim sadece nsfw paylaşımına izin verilen kanala gönderilebilir.",
+    "artstation_search_found" : "**%0** araması ile ilgili **%1** sonuç bulundu.\nTarayıcıda görüntülemek için [buraya](%2) tıklayın.\n\nArama fonksiyonu yapım aşamasındadır.",
+    "artstation_data_error" : "<@${message.author.id}>, veri çekme işleminde bir hata oluştu.",
+
+    "coub_desc" : "coub.com sitesinden video çeker.",
+    "coub_required_url" : "<@${message.author.id}>, coub video bağlantısı girmelisiniz.",
+    "coub_processing_video" : "<@${message.author.id}>, **coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "coub_nsfw_video" : "<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
+    "coub_view_onsite" : "Sitede Görüntüle",
+    "coub_unvaild_url" : "<@${message.author.id}>, coub video bağlantısı geçersiz.",
+
+    "reddit_desc" : "Reddit sitesinden video indirir.",
+    "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",
+    "reddit_processing_video" : "<@${message.author.id}>, **reddit videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "reddit_cannot_upload" : "Reddit videosu indirilemedi veya dosya boyutu yüksek olduğu için yüklenemedi.",
+    "reddit_notfound_video" : "Reddit bağlantısında video bulunamadı.",
+    "reddit_data_error" : "<@${message.author.id}>, veri çekme işleminde bir hata oluştu.",
+
+    "twitter_desc" : "Twitter sitesinden medya getirir.",
+    "twitter_notfound_media" : "Bu bağlantıdaki medyaya erişilemedi.",
+    "twitter_notfound_video_or_gif" : "Bu bağlantıdaki gif veya video medyasına erişilemedi.",
+    "twitter_processing_media" : "<@${message.author.id}>, **twitter medyası** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "twitter_already_processing" : "Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.",
+    "twitter_unvaild_url" : "Geçerli bir bağlantı girmeniz gerekmektedir.",
+
+    "d20_desc" : "20 yüzlü bir zar. Şansın iyidir umarım.",
     "d20_maxdice" : "<@${message.author.id}>, aynı anda en fazla 3 zar atabilirsin."
 }
