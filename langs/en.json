@@ -61,6 +61,7 @@
     "twitter_already_processing" : "The link you specified is currently being processed. Please do not process it again.",
     "twitter_unvaild_url" : "You must enter a valid link.",
 
-    "d20_desc" : "A 20-sided dice. I hope you have good luck.",
-    "d20_maxdice" : "<@${message.author.id}>, you can roll up to 3 dice at the same time."
+    "dice_desc" : "A 20-sided dice. I hope you have good luck.",
+    "dice_max" : "<@${message.author.id}>, you can roll up to %0 dice at the same time.",
+    "dice_result" : "Dice of 20 rolled **%0** times for <@${message.author.id}>.\n%1"
 }

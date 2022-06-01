@@ -11,21 +11,20 @@ module.exports = {
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		let d20 = 0;
-		
-		if (args[0] > 3) return infoMsg(message, `RANDOM`, await buildText("d20_maxdice", client, { guild: message.guild.id, message: message }), true, 3000);
-		
-		if (args[0] == '2') {
-			d20 = Math.ceil(Math.random() * 20);
-			d20 += ' | ' + Math.ceil(Math.random() * 20);
-		} else if (args[0] == '3') {
-			d20 = Math.ceil(Math.random() * 20);
-			d20 += ' | ' + Math.ceil(Math.random() * 20);
-			d20 += ' | ' + Math.ceil(Math.random() * 20);
-		} else {
-			d20 = Math.ceil(Math.random() * 20);
-		}
+		let maxdice = 5;
+		let argdice = (args[0]) ? args[0] : 1;
+		let dice = "";
 
-        return message.reply({ content: `d20 » **${d20}**`, allowedMentions: { repliedUser: false } });
+		if (argdice > maxdice) return infoMsg(message, `RANDOM`, await buildText("dice_max", client, { guild: message.guild.id, message: message, variables: [maxdice] }), true, 3000);
+		
+		if (argdice > 1) {
+			for (let i = 0; i < argdice; i++) {
+				dice += `:game_die: [**20**]\t\t→\t\t**${Math.ceil(Math.random() * 20)}**\n`;
+			}
+		} else {
+			dice = `:game_die: [**20**]\t\t→\t\t**${Math.ceil(Math.random() * 20)}**`;
+		}
+		
+        return message.reply({ content: await buildText("dice_result", client, { guild: message.guild.id, message: message, variables: [argdice, dice] }), allowedMentions: { repliedUser: false } });
 	},
 };

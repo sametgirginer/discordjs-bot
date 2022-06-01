@@ -61,6 +61,7 @@
     "twitter_already_processing" : "Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.",
     "twitter_unvaild_url" : "Geçerli bir bağlantı girmeniz gerekmektedir.",
 
-    "d20_desc" : "20 yüzlü bir zar. Şansın iyidir umarım.",
-    "d20_maxdice" : "<@${message.author.id}>, aynı anda en fazla 3 zar atabilirsin."
+    "dice_desc" : "20 yüzlü bir zar. Şansın iyidir umarım.",
+    "dice_max" : "<@${message.author.id}>, aynı anda en fazla %0 zar atabilirsin.",
+    "dice_result" : "<@${message.author.id}> için **%0** defa 20'lik zar atıldı.\n%1"
 }
