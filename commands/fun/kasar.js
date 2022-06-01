@@ -1,6 +1,7 @@
 const Canvas = require('canvas');
 const { MessageAttachment, MessageEmbed } = require('discord.js');
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
 	name: 'kasar',
@@ -12,22 +13,20 @@ module.exports = {
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-		if (!args.length) return infoMsg(message, 'RANDOM', `kaşar komutunun kullanımı: **${process.env.prefix}kasar** __mokokoya__`, true, 10000);
+		if (!args.length) return infoMsg(message, 'RANDOM', `**${process.env.prefix}kaşar** <kim kaşar>`, true, 5000);
 
-		yazi = '';
-		if (args.length >= 2) {
+		let yazi = "";
+		
+		if (args.length > 1) {
 			for	(i = 0; i < args.length; i++) {
 				yazi += args[i] + ' ';
 			}
-
-			if (yazi.length < 4) return infoMsg(message, 'RANDOM', '**kaşar** komutunu kullanabilmek için __en az 4__ harf girmelisin.', true, 10000);
-			if (yazi.length > 16) return infoMsg(message, 'RANDOM', '**kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girebilirsin.', true, 10000);
 		} else if (args.length == 1) {
-			yazi = args;
-
-			if (args[0].length < 4) return infoMsg(message, 'RANDOM', '**kaşar** komutunu kullanabilmek  için __en az 4__ harf girmelisin.', true, 10000);
-			if (args[0].length > 16) return infoMsg(message, 'RANDOM', '**kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girebilirsin.', true, 10000);
+			yazi = args[0];
 		}
+
+		if (yazi.length < 3) return infoMsg(message, 'RANDOM', await buildText("kasar_min", client, { guild: message.guild.id }), true, 5000);
+		if (yazi.length > 16) return infoMsg(message, 'RANDOM', await buildText("kasar_max", client, { guild: message.guild.id }), true, 5000);
 
 		const canvas = Canvas.createCanvas(590, 440);
 		const ctx = canvas.getContext('2d');
@@ -54,7 +53,7 @@ module.exports = {
 			.setColor('#65c936')
 			.setImage('attachment://kasar.png')
 			.setTimestamp()
-			.setFooter({ text: message.author.username + '#' + message.author.discriminator + ' tarafından kullanıldı.' });
+			.setFooter({ text: `${message.author.username}#${message.author.discriminator}` });
 
 		message.reply({ embeds: [embed], files: [attachment], allowedMentions: { repliedUser: false } });
 	},

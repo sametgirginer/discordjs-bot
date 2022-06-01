@@ -63,5 +63,8 @@
 
     "dice_desc" : "20 yüzlü bir zar. Şansın iyidir umarım.",
     "dice_max" : "<@${message.author.id}>, aynı anda en fazla %0 zar atabilirsin.",
-    "dice_result" : "<@${message.author.id}> için **%0** defa 20'lik zar atıldı.\n%1"
+    "dice_result" : "<@${message.author.id}> için **%0** defa 20'lik zar atıldı.\n%1",
+
+    "kasar_min" : "**${process.env.prefix}kaşar** komutunu kullanabilmek için __en az 3__ harf girmelisin.",
+    "kasar_max" : "**${process.env.prefix}kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girmelisin."
 }

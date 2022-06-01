@@ -63,5 +63,8 @@
 
     "dice_desc" : "A 20-sided dice. I hope you have good luck.",
     "dice_max" : "<@${message.author.id}>, you can roll up to %0 dice at the same time.",
-    "dice_result" : "Dice of 20 rolled **%0** times for <@${message.author.id}>.\n%1"
+    "dice_result" : "Dice of 20 rolled **%0** times for <@${message.author.id}>.\n%1",
+
+    "kasar_min" : "You must enter **at least 3 letters** to use the **${process.env.prefix}kasar** command.",
+    "kasar_max" : "You must enter **16 letters maximum** to use the **${process.env.prefix}kasar** command."
 }
