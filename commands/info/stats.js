@@ -1,10 +1,11 @@
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'stats',
 	aliases: ['durum'],
     category: 'info',
-    description: 'Bot durum bilgisini gösterir.',
+    description: 'stats_desc',
     prefix: true,
 	owner: false,
 	supportserver: false,
@@ -15,11 +16,11 @@ module.exports = {
 			await client.shard.broadcastEval(client => client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
 		];
 
-		return Promise.all(promises).then(results => {
+		return Promise.all(promises).then(async results => {
 			const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
 			const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 
-			return infoMsg(message, '65bff0', `Sunucu Sayısı: **${totalGuilds}**\nKullanıcı Sayısı: **${totalMembers}**`, false, 0, [true, false])
+			return infoMsg(message, '65bff0', await buildText("stats_results", client, { guild: message.guild.id, variables: [totalGuilds, totalMembers] }), false, 0, [true, false])
 		}).catch(console.error);
     }
 }

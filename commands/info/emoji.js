@@ -1,16 +1,17 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { infoMsg } = require("../../functions/message");
+const { buildText } = require("../../functions/language");
 
 module.exports = {
     name: 'emoji',
     category: 'info',
-    description: 'Belirtilen emojiyi getirir.',
+    description: 'emoji_desc',
     prefix: true,
 	owner: false,
 	supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'RANDOM', `<@${message.author.id}>, bir emoji girilmedi.`, true, 5000);
+        if (!args[0]) return infoMsg(message, 'RANDOM', await buildText("emoji_required_arg", client, { guild: message.guild.id, message: message }), true, 5000);
 
         let regex = /<([a]?):([a-z-A-Z0-9_]*):([0-9]*)>/;
         let cdnEmojiURL = "https://cdn.discordapp.com/emojis/";
@@ -30,7 +31,7 @@ module.exports = {
             }
         });
 
-        if (!emojis[0]) return infoMsg(message, 'RANDOM', `<@${message.author.id}>, emoji(ler) bulunamadı.`, true, 5000);
+        if (!emojis[0]) return infoMsg(message, 'RANDOM', await buildText("emoji_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
         emojis.forEach(emoji => {
             emoji.embed = new MessageEmbed()
@@ -55,7 +56,7 @@ module.exports = {
 
                         new MessageButton()
                             .setStyle('LINK')
-                            .setLabel('\t')
+                            .setLabel('Link')
                             .setURL(emoji.url)
                 );
         });
@@ -74,7 +75,7 @@ module.exports = {
             });
 
             collector.on('end', async collected => {
-                sm.edit({ content: "İşlem süresi geçti.", embeds: [emojis[lastEmoji].embed], components: [] });
+                sm.edit({ content: await buildText("emoji_buttontime_over", client, { guild: message.guild.id, message: message }), embeds: [emojis[lastEmoji].embed], components: [] });
             });
         } else {
             const row = new MessageActionRow()

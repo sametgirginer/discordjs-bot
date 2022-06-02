@@ -82,6 +82,22 @@
 
     "banner_desc" : "Banner resmini ve bağlantısını gönderir.",
     "banner_notfound" : "<@${message.author.id}>, bannerın yok.",
-    "banner_userbanner_notfound" : "<@${message.author.id}>, kullanıcının bannerı yok."
+    "banner_userbanner_notfound" : "<@${message.author.id}>, kullanıcının bannerı yok.",
+
+    "emoji_desc" : "Belirtilen emojiyi getirir.",
+    "emoji_required_arg" : "<@${message.author.id}>, bir emoji girilmedi.",
+    "emoji_not_found" : "<@${message.author.id}>, emoji(ler) bulunamadı.",
+    "emoji_buttontime_over" : "Butona tıklama süresi geçti.",
+
+    "invite_desc" : "Botu sunucunuza eklemek için davet bağlantısını gönderir.",
+    "invite_label" : "Davet Et",
+
+    "ping_desc" : "Gecikme pingini gösterir.",
+    "ping_getting_value" : "Ping değerleri alınıyor...",
+    "ping_value_received" : "Ping değerleri alındı!",
+    "ping_api_delay" : "API Gecikmesi",
+
+    "stats_desc" : "Bot durum bilgisini gösterir.",
+    "stats_results" : "Sunucu Sayısı: **%0**\nKullanıcı Sayısı: **%1**"
     
 }

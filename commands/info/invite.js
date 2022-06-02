@@ -1,11 +1,12 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
+const { buildText } = require('../../functions/language');
 const inviteLink = "https://discord.com/api/oauth2/authorize?client_id=608698125363707905&permissions=8&scope=bot";
 
 module.exports = {
     name: 'invite',
-    aliases: ['davet',],
+    aliases: ['davet'],
     category: 'info',
-    description: 'Botu sunucunuza eklemek için gereken davet bağlantısını iletir.',
+    description: 'invite_desc',
     prefix: true,
     owner: false,
     supportserver: false,
@@ -14,10 +15,10 @@ module.exports = {
         const inviteButton = new MessageActionRow().addComponents(
             new MessageButton()
                 .setStyle('LINK')
-                .setLabel('Davet Et')
+                .setLabel(await buildText("invite_label", client, { guild: message.guild.id }))
                 .setURL(inviteLink)
         );
 
-        message.channel.send({ components: [inviteButton], allowedMentions: { RepliedUser: false } });
+        message.reply({ components: [inviteButton], allowedMentions: { RepliedUser: false } });
     }
 }

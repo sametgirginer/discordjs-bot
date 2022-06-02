@@ -82,6 +82,22 @@
 
     "banner_desc" : "Sends banner image and link.",
     "banner_notfound" : "<@${message.author.id}>, you don't have a banner.",
-    "banner_userbanner_notfound" : "<@${message.author.id}>, user has no banner."
+    "banner_userbanner_notfound" : "<@${message.author.id}>, user has no banner.",
+
+    "emoji_desc" : "Returns the specified emoji.",
+    "emoji_required_arg" : "<@${message.author.id}>, no emoji was entered.",
+    "emoji_not_found" : "<@${message.author.id}>, emoji(s) not found.",
+    "emoji_buttontime_over" : "The button click time has passed.",
+
+    "invite_desc" : "Send the invite link to add the bot to your server.",
+    "invite_label" : "Invite",
+
+    "ping desc" : "Indicates ping delay.",
+    "ping_getting_value" : "Getting ping values...",
+    "ping_value_received" : "Ping values received!",
+    "ping_api_delay" : "API Delay",
+
+    "stats_desc" : "Shows bot status information.",
+    "stats_results" : "Number of Servers: **%0**\nNumber of Users: **%1**"
 
 }
