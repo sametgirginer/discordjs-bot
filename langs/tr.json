@@ -8,6 +8,9 @@
     "yes" : "Evet",
     "no" : "Hayır",
 
+    "error" : "Hata",
+    "warning" : "Uyarı",
+
     "data" : "Veri",
     "fun" : "Eğlence",
     "game" : "Oyun",
@@ -98,6 +101,11 @@
     "ping_api_delay" : "API Gecikmesi",
 
     "stats_desc" : "Bot durum bilgisini gösterir.",
-    "stats_results" : "Sunucu Sayısı: **%0**\nKullanıcı Sayısı: **%1**"
+    "stats_results" : "Sunucu Sayısı: **%0**\nKullanıcı Sayısı: **%1**",
+
+    "restart_desc" : "Botu yeniden başlatır.",
+    "restart_restarting_bot" : "Bot yeniden başlatılıyor...",
+
+    "eval_desc" : "eval command"
     
 }

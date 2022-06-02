@@ -1,10 +1,11 @@
-const { infoMsg } = require('../../functions/message.js');
 const hastebin = require("hastebin-gen");
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'eval',
-    category: 'moderasyon',
-    description: 'eval command',
+    category: 'moderation',
+    description: 'eval_desc',
     prefix: false,
     owner: true,
     supportserver: false,
@@ -19,12 +20,12 @@ module.exports = {
 
             if (evaled.length >= 2000) {
                 let haste = await hastebin(evaled);
-                message.channel.send({ content: haste });
+                message.reply({ content: haste, allowedMentions: { repliedUser: false } });
             } else {
-                message.channel.send({ content: clean(evaled)});
+                message.reply({ content: clean(evaled), allowedMentions: { repliedUser: false } });
             }           
         } catch (error) {
-            infoMsg(message, 'B20000', `**HATA**:\n${clean(error)}`);
+            infoMsg(message, 'B20000', `**${(await buildText("error", client, { guild: message.guild.id })).toUpperCase()}**:\n${clean(error)}`);
         }
     }
 }

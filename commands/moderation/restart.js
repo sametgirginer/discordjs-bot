@@ -1,16 +1,18 @@
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'restart',
-    aliases: ['yb', 'yenidenbaslat'],
-    category: 'moderasyon',
-    description: 'Botu yeniden başlatır.',
+    aliases: ['res'],
+    category: 'moderation',
+    description: 'restart_desc',
     prefix: true,
     owner: true,
     supportserver: false,
     permissions: ['ADMINISTRATOR'],
     run: async (client, message, args) => {
-        infoMsg(message, '65ed3b', `<@${message.author.id}>, bot yeniden başlatılıyor...`);
+        message.reply({ content: await buildText("restart_restarting_bot", client, { guild: message.guild.id }), allowedMentions: { repliedUser: false } })
+
         setInterval(() => {
             process.exit(1);
         }, 2000);
