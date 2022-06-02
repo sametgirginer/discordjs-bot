@@ -16,6 +16,10 @@
     "music" : "Müzik",
     "stats" : "İstatistik",
 
+    "user_notfound" : "<@${message.author.id}>, kullanıcı bulunamadı.",
+    "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
+    "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
+
     "help_desc" : "Bot komutlarını iletir.",
     "help_bot_commands" : "Bot Komutları",
     "help_desc_detailed" : "Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__",
@@ -68,8 +72,16 @@
     "kasar_min" : "**${process.env.prefix}kaşar** komutunu kullanabilmek için __en az 3__ harf girmelisin.",
     "kasar_max" : "**${process.env.prefix}kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girmelisin.",
 
-    "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
     "chess_desc" : "Satranç oyunu başlatır.",
     "poker_desc" : "Poker oyunu başlatır.",
-    "youtube_desc" : "Birlikte youtube videosu izle."
+    "youtube_desc" : "Birlikte youtube videosu izle.",
+
+    "avatar_desc" : "Avatar resmini ve bağlantısını gönderir.",
+    "serveravatar_desc" : "Sunucudaki özel avatar resmini ve bağlantısını gönderir.",
+    "serveravatar_notfound" : "<@${message.author.id}>, sunucuya özel avatar bulunamadı.",
+
+    "banner_desc" : "Banner resmini ve bağlantısını gönderir.",
+    "banner_notfound" : "<@${message.author.id}>, bannerın yok.",
+    "banner_userbanner_notfound" : "<@${message.author.id}>, kullanıcının bannerı yok."
+    
 }

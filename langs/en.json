@@ -16,6 +16,10 @@
     "music" : "Music",
     "stats" : "Statistic",
 
+    "user_notfound" : "<@${message.author.id}>, user not found.",
+    "must_login_voice" : "To use the command, you must log in to the voice channel.",
+    "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
+
     "help_desc" : "Shows bot commands.",
     "help_bot_commands" : "Bot Commands",
     "help_desc_detailed" : "For detailed information about the command: **${process.env.prefix}help** <command name>",
@@ -68,8 +72,16 @@
     "kasar_min" : "You must enter **at least 3 letters** to use the **${process.env.prefix}kasar** command.",
     "kasar_max" : "You must enter **16 letters maximum** to use the **${process.env.prefix}kasar** command.",
 
-    "must_login_voice" : "To use the command, you must log in to the voice channel.",
     "chess_desc" : "Starts chess game.",
     "poker_desc" : "Starts poker game.",
-    "youtube_desc" : "Watch youtube video together."
+    "youtube_desc" : "Watch youtube video together.",
+
+    "avatar_desc" : "Sends avatar image and link.",
+    "serveravatar_desc" : "Send server avatar image and link.",
+    "serveravatar_notfound" : "<@${message.author.id}>, server specific avatar not found.",
+
+    "banner_desc" : "Sends banner image and link.",
+    "banner_notfound" : "<@${message.author.id}>, you don't have a banner.",
+    "banner_userbanner_notfound" : "<@${message.author.id}>, user has no banner."
+
 }
