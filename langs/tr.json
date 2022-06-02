@@ -106,6 +106,12 @@
     "restart_desc" : "Botu yeniden başlatır.",
     "restart_restarting_bot" : "Bot yeniden başlatılıyor...",
 
-    "eval_desc" : "eval command"
+    "eval_desc" : "eval command",
+
+    "survey_desc" : "Otomatik olarak bir anket hazırlar.",
+    "survey_title" : "Anket",
+    "survey_required_args" : "<@${message.author.id}>, anket oluşturmak için **${process.env.prefix}anket oluştur**",
+    "survey_max_item" : "Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**\nAnketi tamamlamak için **${process.env.prefix}anket tamamla**"
+    
     
 }

@@ -1,37 +1,40 @@
 const { MessageCollector, MessageEmbed } = require('discord.js');
-const { infoMsg } = require('../../functions/message.js');
-const db = require('../../functions/database');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
-    name: 'anket',
-    category: 'moderasyon',
-    description: 'Otomatik olarak bir anket hazırlar.',
+    name: 'survey',
+    aliases: ['anket'],
+    category: 'moderation',
+    description: 'survey_desc',
     prefix: true,
     owner: false,
     supportserver: false,
     permissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
     run: async (client, message, args) => {
-        if (!args.length) return infoMsg(message, 'FFE26A', `<@${message.author.id}>, anket oluştur/bitir/sil komutlarından birini girmelisiniz.`);
+        if (!args.length) return infoMsg(message, 'FFE26A', await buildText("survey_required_args", client, { guild: message.guild.id, message: message }), true, 10000);
 
         if (args[0] === 'oluştur' || args[0] === 'create') {
-            infoMsg(message, '65bff0', `Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**\nAnketi tamamlamak için **${process.env.prefix}anket tamamla**`, false, 15000);
+            infoMsg(message, '65bff0', await buildText("survey_max_item", client, { guild: message.guild.id }), false, 15000);
 
             const collectorFilter = m => m.author.id === message.author.id;
             const collector = new MessageCollector(message.channel, { filter: collectorFilter, time: 60000, idle: 20000 })
             const numberEmojies = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣'];
-            let surveyData = [];
 
-            collector.on('collect', m => {
+            let surveyData = [];
+            let collectLength = 0;
+
+            collector.on('collect', async m => {
+                if (m.content === process.env.prefix + 'survey complete' || m.content === process.env.prefix + 'anket tamamla') collector.stop();
+                if (collectLength > 8) return collector.stop();
+
+                collectLength++;
                 m.delete();
-                if (m.content === process.env.prefix + 'anket tamamla') collector.stop();
             });
 
-            collector.on('end', collected => {
-                collector.collected.forEach(c => {
-                    if (c.content === process.env.prefix + 'anket tamamla') {
-                        message.delete();
-                        return;
-                    }
+            collector.on('end', async collected => {
+                collector.collected.forEach(async c => {
+                    if (c.content === process.env.prefix + 'survey complete' || c.content === process.env.prefix + 'anket tamamla') return message.delete();
                     surveyData.push(c);
                 });
 
@@ -42,14 +45,14 @@ module.exports = {
                     if (i > 8) return;
                     if (typeof survey.embeds[0] === "undefined") {
                         cleanData[numberEmojies[i]] = survey.content;
-                        embedData += `${numberEmojies[i]}  ${survey.content}\n`;
+                        embedData += `${numberEmojies[i]}\t${survey.content}\n`;
                         i++;
                     }
                 });
 
                 var surveyEmbed = new MessageEmbed()
                     .setColor('RANDOM')
-                    .setAuthor({ name: 'Anket', iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
+                    .setAuthor({ name: await buildText("survey_title", client, { guild: message.guild.id }), iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setDescription(`${embedData}`)
                     .setTimestamp()
 
