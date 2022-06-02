@@ -66,5 +66,10 @@
     "dice_result" : "<@${message.author.id}> için **%0** defa 20'lik zar atıldı.\n%1",
 
     "kasar_min" : "**${process.env.prefix}kaşar** komutunu kullanabilmek için __en az 3__ harf girmelisin.",
-    "kasar_max" : "**${process.env.prefix}kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girmelisin."
+    "kasar_max" : "**${process.env.prefix}kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girmelisin.",
+
+    "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
+    "chess_desc" : "Satranç oyunu başlatır.",
+    "poker_desc" : "Poker oyunu başlatır.",
+    "youtube_desc" : "Birlikte youtube videosu izle."
 }
