@@ -1,19 +1,20 @@
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'ban',
-    aliases: ['yasakla'],
-    category: 'moderasyon',
-    description: 'Bir kullanıcıyı sunucudan yasaklar.',
+    category: 'moderation',
+    description: 'ban_desc',
     prefix: true,
     owner: false,
     supportserver: false,
     permissions: ['BAN_MEMBERS'],
     run: async (client, message, args) => {
-        if (!message.mentions.members.size) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir kişiyi etiketlemedin.`, true, 5000);
+        if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("ban_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 
-        message.mentions.members.forEach(member => {
-            if (!member.bannable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) return infoMsg(message, 'B20000', `<@${message.author.id}>, bu discord kullanıcısını yasaklayamazsın.`, true, 5000);
+        message.mentions.members.forEach(async member => {
+            if (!member.bannable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) 
+                return infoMsg(message, 'B20000', await buildText("ban_hierarchy", client, { guild: message.guild.id, message: message }), true, 5000);
 
             if(args[1]) {
                 let reason = '';
@@ -21,11 +22,11 @@ module.exports = {
                     if (`<@!${member.id}>` != arg) reason += `${arg} `;
                 });
 
-                member.ban({ days: 7, reason: `Sebep: ${reason}` });
-                return infoMsg(message, '83eb34', `<@${member.id}>, discord sunucusundan yasaklandı.\nSunucudan yasaklanma sebebi: **${reason}**\nSunucudan yasaklayan yetkili: <@${message.author.id}>`);
+                member.ban({ days: 7, reason: `${reason}` });
+                return infoMsg(message, '83eb34', await buildText("ban_banned_user_with_reason", client, { guild: message.guild.id, message: message, member: member, variables: [reason] }));
             } else {
-                member.ban({ days: 7, reason: 'Sebep girilmedi.' });
-                return infoMsg(message, '83eb34', `<@${member.id}>, discord sunucusundan yasaklandı.\nSunucudan yasaklayan yetkili: <@${message.author.id}>`);
+                member.ban({ days: 7, reason: await buildText("no_reason", client, { guild: message.guild.id }) });
+                return infoMsg(message, '83eb34', await buildText("ban_banned_user", client, { guild: message.guild.id, message: message, member: member }));
             }
         });
     }

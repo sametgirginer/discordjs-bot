@@ -19,6 +19,7 @@
     "music" : "Music",
     "stats" : "Statistic",
 
+    "no_reason" : "No reason entered.",
     "user_notfound" : "<@${message.author.id}>, user not found.",
     "must_login_voice" : "To use the command, you must log in to the voice channel.",
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
@@ -107,10 +108,23 @@
     "restart_restarting_bot" : "Restarting the bot...",
 
     "eval_desc" : "eval command",
+    "guilds_desc" : "Shows which servers the bot is on.",
 
     "survey_desc" : "Automatically prepares a survey.",
     "survey_title" : "Survey",
     "survey_required_args" : "<@${message.author.id}>, **${process.env.prefix}survey create** to create survey",
-    "survey_max_item" : "Enter survey options to be voted on.\nMaximum number of options that can be entered: **9**\nTo complete the survey **${process.env.prefix}survey complete**"
+    "survey_max_item" : "Enter survey options to be voted on.\nMaximum number of options that can be entered: **9**\nTo complete the survey **${process.env.prefix}survey complete**",
+
+    "ban_desc" : "Bans a user from the server.",
+    "ban_user_required" : "<@${message.author.id}>, you haven't tagged anyone.",
+    "ban_hierarchy" : "<@${message.author.id}>, you cannot ban this user.",
+    "ban_banned_user" : "<@${member.id}> has been banned from Discord server. Banned by: <@${message.author.id}>",
+    "ban_banned_user_with_reason" : "<@${member.id}> has been banned from Discord server. Banned by: <@${message.author.id}>\nBan reason: **%0**",
+
+    "unban_desc" : "Unbans a banned user from the server.",
+    "unban_id_required" : "You must enter a **user id**.",
+    "unban_id_incorrect" : "The **user id** you entered is incorrect.",
+    "unban_user_not_banned" : "User found but not banned.",
+    "unban_user_unbanned" : "Discord user <@%0> has been unbanned by <@${message.author.id}>."
 
 }

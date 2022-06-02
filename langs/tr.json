@@ -19,6 +19,7 @@
     "music" : "Müzik",
     "stats" : "İstatistik",
 
+    "no_reason" : "Sebep girilmedi.",
     "user_notfound" : "<@${message.author.id}>, kullanıcı bulunamadı.",
     "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
@@ -107,11 +108,23 @@
     "restart_restarting_bot" : "Bot yeniden başlatılıyor...",
 
     "eval_desc" : "eval command",
+    "guilds_desc" : "Botun hangi sunucularda olduğunu gösterir.",
 
     "survey_desc" : "Otomatik olarak bir anket hazırlar.",
     "survey_title" : "Anket",
     "survey_required_args" : "<@${message.author.id}>, anket oluşturmak için **${process.env.prefix}anket oluştur**",
-    "survey_max_item" : "Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**\nAnketi tamamlamak için **${process.env.prefix}anket tamamla**"
+    "survey_max_item" : "Oylanacak anket seçeneklerini giriniz.\nMaksimum girilebilecek seçenek sayısı: **9**\nAnketi tamamlamak için **${process.env.prefix}anket tamamla**",
     
-    
+    "ban_desc" : "Bir kullanıcıyı sunucudan yasaklar.",
+    "ban_user_required" : "<@${message.author.id}>, herhangi bir kişiyi etiketlemedin.",
+    "ban_hierarchy" : "<@${message.author.id}>, bu kullanıcıyı yasaklayamazsın.",
+    "ban_banned_user" : "<@${member.id}>, Discord sunucusundan yasaklandı. Yasaklayan: <@${message.author.id}>",
+    "ban_banned_user_with_reason" : "<@${member.id}>, Discord sunucusundan yasaklandı. Yasaklayan: <@${message.author.id}>\nYasaklanma sebebi: **%0**",
+
+    "unban_desc" : "Sunucudan yasaklanmış bir kullanıcının yasağını kaldırır.",
+    "unban_id_required" : "Bir **kullanıcı id** girmelisiniz.",
+    "unban_id_incorrect" : "Girdiğiniz **kullanıcı id** yanlış.",
+    "unban_user_not_banned" : "Kullanıcı bulundu ancak yasaklı değil.",
+    "unban_user_unbanned" : "<@%0> discord kullanıcısının yasağını <@${message.author.id}> kaldırıldı."
+
 }

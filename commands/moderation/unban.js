@@ -1,31 +1,31 @@
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'unban',
-    aliases: ['yasakkaldir', 'yskaldir'],
-    category: 'moderasyon',
-    description: 'Sunucudan yasaklanmış bir kullanıcının yasağını kaldırır.',
+    category: 'moderation',
+    description: 'unban_desc',
     prefix: true,
     owner: false,
     supportserver: false,
     permissions: ['BAN_MEMBERS'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'B20000', `Bir **kullanıcı id** girmelisiniz.`, true, 5000); 
+        if (!args[0]) return infoMsg(message, 'B20000', await buildText("unban_id_required", client, { guild: message.guild.id }), true, 5000); 
 
         let bannedMember;
         try {
             bannedMember = await client.users.fetch(args[0]);
         } catch (error) {
-            if(!bannedMember) return infoMsg(message, 'B20000', `Girdiğiniz **kullanıcı id** yanlış.`, true, 5000); 
+            if(!bannedMember) return infoMsg(message, 'B20000', await buildText("unban_id_incorrect", client, { guild: message.guild.id }), true, 5000); 
         }
     
         try {
             await message.guild.bans.fetch(args[0]);
         } catch(error) {
-            return infoMsg(message, 'B20000', `Kullanıcı bulundu ancak yasaklı değil.`, true, 5000); 
+            return infoMsg(message, 'B20000', await buildText("unban_user_not_banned", client, { guild: message.guild.id }), true, 5000); 
         }
         
-        message.guild.members.unban(bannedMember, {reason: `Sebep girilmedi.`})
-        return infoMsg(message, '83eb34', `<@${bannedMember.id}> discord kullanıcısının yasağını <@${message.author.id}> kaldırıldı.`); 
+        message.guild.members.unban(bannedMember, { reason: await buildText("no_reason", client, { guild: message.guild.id }) })
+        return infoMsg(message, '83eb34', await buildText("unban_user_unbanned", client, { guild: message.guild.id, message: message, variables: [bannedMember.id] })); 
     }
 }
