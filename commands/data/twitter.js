@@ -20,12 +20,13 @@ module.exports = {
 
         if (id) {
             let tweets = (await twitterClient.v1.get(`statuses/lookup.json`, { id: id }));
+            let selVar = []; // Selected Variant
 
             tweets.forEach(async tweet => {
                 if (tweet.extended_entities != undefined) {
                     tweet.extended_entities.media.forEach(async media => {
                         bitrateOld = 0; // Compare bitrates
-                        selVar = []; // Selected Variant
+
                         if (media.type === "video" || media.type === "animated_gif") {
                             media.video_info.variants.forEach(variant => {
                                 if (bitrateOld <= variant.bitrate) {
@@ -59,7 +60,7 @@ module.exports = {
                     let twitterButtons = new MessageActionRow().addComponents(
                         new MessageButton()
                             .setStyle('LINK')
-                            .setLabel(await stringShort(selVar.title, 30))
+                            .setLabel('Twitter')
                             .setURL(args[0])
                     );
         
