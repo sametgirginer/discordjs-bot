@@ -38,7 +38,7 @@ module.exports = {
                 if (channelCheck(message, args[1])) {
                     args[1] = args[1].replace(/[#<>]/g, "");
 
-                    if (await getSetting(message.guild.id) === 0) {
+                    if (await db.getSetting(message.guild.id) === 0) {
                         let data = `{"${args[0]}":"${args[1]}"}`;
 
                         db.queryInsert(`INSERT INTO discord_settings (guild, data) VALUES ('${message.guild.id}', '${data}')`);
@@ -77,7 +77,7 @@ module.exports = {
         */
         if (args[0] === 'lang') {
             if (args[1] == "en" || args[1] == "tr") {
-                if (await getSetting(message.guild.id) === 0) {
+                if (await db.getSetting(message.guild.id) === 0) {
                     let data = `{"${args[0]}":"${args[1]}"}`;
 
                     db.queryInsert(`INSERT INTO discord_settings (guild, data) VALUES ('${message.guild.id}', '${data}')`);
@@ -101,7 +101,7 @@ module.exports = {
         */
         if (args[0] === 'delete') {
             if(args[1]) {
-                if (await getSetting(message.guild.id)) {
+                if (await db.getSetting(message.guild.id)) {
                     let data = JSON.parse((await db.querySelect(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}'`)).data);
 
                     if (data[args[1]] == undefined) return infoMsg(message, 'FFE26A', await buildText("options_delete_notfound", client, { guild: message.guild.id, variables: [args[1]] }));
