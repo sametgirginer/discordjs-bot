@@ -41,8 +41,8 @@ client.on("messageReactionRemove", async (reaction, user) => msg.reactionRemove(
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => voice.state(client, oldMember, newMember));
 
-client.on('guildMemberAdd', async member => serverJoin(member, guildInvites));
-client.on('guildMemberRemove', async member => serverLeave(member, guildInvites));
+client.on('guildMemberAdd', async member => serverJoin(client, member, guildInvites));
+client.on('guildMemberRemove', async member => serverLeave(client, member, guildInvites));
 
 client.on('inviteCreate', async invite => createInvite(invite, guildInvites));
 client.on('inviteDelete', async invite => deleteInvite(invite, guildInvites));

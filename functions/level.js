@@ -1,7 +1,7 @@
-const { MessageEmbed } = require('discord.js');
 const db = require('./database');
-const { infoMsg } = require('./message');
 const role = require('./private-server/role');
+const { infoMsg } = require('./message');
+const { buildText } = require('./language');
 
 module.exports = {
     getStats: async function(guild, member) {
@@ -55,7 +55,7 @@ module.exports = {
             //Private Server
             role.levelup(guild, member, level, messageOrGuild);
 
-            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'RANDOM', `<@${member}> level atladı! **Şu anki leveli: ${level}**`);
+            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'RANDOM', await buildText("level_up", messageOrGuild.client, { guild: guild, variables: [member, level] }));
         }
     },
 

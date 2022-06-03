@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { buildText } = require('./language');
 const { infoMsg } = require('./message');
 
 module.exports = {
@@ -39,7 +40,7 @@ module.exports = {
                 let guild = await client.guilds.cache.find(g => g.id === process.env.supportserver);
                 if (guild) {
                     let textChannel = await guild.channels.cache.find(c => c.id === process.env.logchannel);
-                    if (textChannel) infoMsg(textChannel, 'D52525', "Hata: `" + error.name + " - " + error.message + "`");
+                    if (textChannel) infoMsg(textChannel, 'D52525', await buildText("error", client, { guild: message.guild.id }) + ": `" + error.name + " - " + error.message + "`");
                 }
             }
         }

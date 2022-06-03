@@ -29,6 +29,14 @@
     "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
     "command_error" : "An error occurred while executing the command.",
 
+    "join_message_title" : "Welcome!",
+    "join_message_desc_invite_tracker" : "<@${member.user.id}>, Welcome to **%0** Discord server.\nInvited by <@%1> (**%2** invite)",
+    "join_message_desc_no_tracker" : "<@${member.user.id}>, welcome to **%0** Discord server.",
+    "leave_message_title" : "See you soon!",
+    "leave_message_desc" : "${member.user.tag} has left the Discord server.\nWe would like to see you again.",
+
+    "level_up" : "<@%0> has leveled up! **Current level: %1**",
+
     "help_desc" : "Shows bot commands.",
     "help_bot_commands" : "Bot Commands",
     "help_desc_detailed" : "For detailed information about the command: **${process.env.prefix}help** <command name>",

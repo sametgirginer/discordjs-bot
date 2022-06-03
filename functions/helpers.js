@@ -34,7 +34,7 @@ module.exports = {
         let punctuationRegEx = /[﷽]/g;
 
         if (punctuationRegEx.test(username)) {
-            return "**Geçersiz İsim**";
+            return "🔥";
         } else if (username.length > limit) {
             return username.slice(0, limit);
         } else {

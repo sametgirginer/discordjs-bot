@@ -1,6 +1,5 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { querySelectAll } = require('../../functions/database');
-const { checkUsrName } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
 const { infoMsg } = require('../../functions/message');
 const nodeHtmlToImage = require('node-html-to-image');
