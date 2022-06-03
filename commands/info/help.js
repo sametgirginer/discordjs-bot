@@ -19,16 +19,16 @@ module.exports = {
                 else commands[cmd.category] += " `" + cmd.name + "`";
             });
     
-            var yardimEmbed = new MessageEmbed()
+            var helpEmbed = new MessageEmbed()
                 .setColor('#65bff0')
                 .setAuthor({ name: await buildText("help_bot_commands", client, { guild: message.guild.id }), iconURL: client.user.avatarURL({ format: 'png', dynamic: true }) })
                 .setDescription(await buildText("help_desc_detailed", client, { guild: message.guild.id }))
                 .addField(await buildText("help_general_commands", client, { guild: message.guild.id }), commands.info, false)
                 .addField(await buildText("help_rank_commands", client, { guild: message.guild.id }), commands.stats, false)
                 .addField(await buildText("help_music_commands", client, { guild: message.guild.id }), commands.music, false)
-                .addField(await buildText("help_mod_commands", client, { guild: message.guild.id }), commands.moderasyon, false)
+                .addField(await buildText("help_mod_commands", client, { guild: message.guild.id }), commands.moderation, false)
 
-            message.channel.send({ embeds: [yardimEmbed] });
+            message.channel.send({ embeds: [helpEmbed] });
         }
 
         if (args[0]) {
