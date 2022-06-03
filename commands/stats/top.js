@@ -1,15 +1,16 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const { querySelectAll } = require('../../functions/database');
-const { infoMsg } = require('../../functions/message');
-const search = require('../../functions/search');
-const nodeHtmlToImage = require('node-html-to-image');
 const { checkUsrName } = require('../../functions/helpers');
+const { buildText } = require('../../functions/language');
+const { infoMsg } = require('../../functions/message');
+const nodeHtmlToImage = require('node-html-to-image');
+const search = require('../../functions/search');
 const fs = require('fs');
 
 module.exports = {
     name: 'top',
     category: 'stats',
-    description: 'Discord sunucusunun level sıralaması.',
+    description: 'top_desc',
     prefix: true,
     owner: false,
     supportserver: false,
@@ -19,14 +20,14 @@ module.exports = {
         let ttrow = [];
 
         if (!args[0]) listeLength = 1; else listeLength = args[0];
-        if (isNaN(listeLength) || listeLength < 1) return infoMsg(message, 'RANDOM', `Geçerli bir liste numarası girmediğiniz için liste getirilemedi.`, true, 5000);
+        if (isNaN(listeLength) || listeLength < 1) return infoMsg(message, 'RANDOM', await buildText("top_list_number", client, { guild: message.guild.id }), true, 5000);
         
         for (l = 0, i = 0; l < listeLength; l++) {
             ttrow[l] = "";
-            for(icerik = 0; icerik < 10; i++) {
+            for(row = 0; row < 10; i++) {
                 if (top[i] === undefined) break;
 
-                sira = i+1;
+                line = i+1;
                 user = top[i].user;
                 if (message.guild.members.cache.find(m => m.id === top[i].user) != undefined) {
                     user = message.guild.members.cache.find(m => m.id === top[i].user).user.username;
@@ -37,23 +38,23 @@ module.exports = {
 
                 ttrow[l] += `
                 <tr class="user">
-                    <td class="id">#${sira}</td>
+                    <td class="id">#${line}</td>
                     <td class="name">${user}</td>
                     <td class="level">Level ${top[i].level}</td>
                     <td class="xp">XP ${top[i].xp}</td>
                 </tr>`;
 
-                icerik++;
+                row++;
             }
         }
 
         if (ttrow[listeLength-1].length <= 0) {
             const blankEmbed = new MessageEmbed()
                 .setColor('RANDOM')
-                .setTitle(`${message.guild.name} TOP 10`)
-                .setDescription(`Bu sayfa şu anlık boş.`)
+                .setTitle(await buildText("top_title", client, { guild: message.guild.id, message: message }))
+                .setDescription(await buildText("top_empty_list", client, { guild: message.guild.id }))
 			    .setTimestamp()
-			    .setFooter({ text: `İlk sayfa için ${process.env.prefix}top / ${message.author.username}#${message.author.discriminator}` });
+			    .setFooter({ text: `${message.author.username}#${message.author.discriminator}` });
 
             return message.channel.send({ embeds: [blankEmbed] });
         }
@@ -113,12 +114,13 @@ module.exports = {
         });
 
 		const image = new MessageAttachment(`./commands/stats/cache/${message.guild.id}_topten.png`, 'top10.png');
+        const footer = (args[0] === undefined) ? "2" : (parseInt(args[0]) + 1);
 		const toptenEmbed = new MessageEmbed()
             .setColor('RANDOM')
-            .setTitle(`${message.guild.name} TOP 10`)
+            .setTitle(await buildText("top_title", client, { guild: message.guild.id, message: message }))
 			.setImage('attachment://top10.png')
 			.setTimestamp()
-			.setFooter({ text: `Sonraki liste için ${process.env.prefix}top${(args[0] === undefined) ? " 2" : " " + (parseInt(args[0])+1)} / ${await checkUsrName(message.author.username, 30)}#${message.author.discriminator}` });
+			.setFooter({ text: await buildText("top_footer", client, { guild: message.guild.id, message: message, variables: [footer] }) });
 
 		return message.channel.send({ embeds: [toptenEmbed], files: [image] });
     }

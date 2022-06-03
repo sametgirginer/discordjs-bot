@@ -162,7 +162,15 @@
     "options_lang_required" : "Herhangi bir dil belirtmediniz. Örnek **en,tr**",
     "options_delete_notfound" : "**%0** ayarı için bir veri bulunamadı.",
     "options_delete_successful" : "**%0** ayarı başarıyla silindi.",
-    "options_guild_opts_not_set" : "Sunucu ile ilgili herhangi bir ayar bulunamadı."
-    
+    "options_guild_opts_not_set" : "Sunucu ile ilgili herhangi bir ayar bulunamadı.",
+
+    "rank_desc" : "Sunucudaki güncel rankı gösterir.",
+    "rank_user_title" : "Kullanıcı: %0",
+
+    "top_desc" : "Discord sunucusunun level sıralaması.",
+    "top_list_number" : "Geçerli bir liste numarası girmediğiniz için liste getirilemedi.",
+    "top_title" : "${message.guild.name} TOP 10",
+    "top_empty_list" : "Bu sayfa şu anlık boş.",
+    "top_footer" : "Sonraki liste için ${process.env.prefix}top %0 / ${message.author.username}#${message.author.discriminator}"
 
 }
