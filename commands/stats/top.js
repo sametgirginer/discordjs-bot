@@ -122,6 +122,8 @@ module.exports = {
 			.setTimestamp()
 			.setFooter({ text: await buildText("top_footer", client, { guild: message.guild.id, message: message, variables: [footer] }) });
 
-		return message.channel.send({ embeds: [toptenEmbed], files: [image] });
+		message.channel.send({ embeds: [toptenEmbed], files: [image] }).then(msg => {
+            fs.unlinkSync(`./commands/stats/cache/${message.guild.id}_topten.png`);
+        });
     }
 }
