@@ -1,5 +1,6 @@
 const { infoMsg } = require('../functions/message');
-const { writeLog } = require('../functions/logger')
+const { buildText } = require('../functions/language');
+const { writeLog } = require('../functions/logger');
 const { permCheck } = require('../functions/permission');
 const { autoResponse } = require('../functions/autoresponse');
 const levelSystem = require('../functions/level');
@@ -19,19 +20,19 @@ module.exports = {
             const args = message.content.trim().split(/ +/g);
             const cmd = args.shift().toLowerCase();
     
-            let command = client.commands.get(cmd);    
+            let command = client.commands.get(cmd);
             if (!command) command = client.commands.find(c => c.aliases && c.aliases.includes(cmd));
     
             if (command && !command.prefix && command.supportserver === true && message.guild.id != process.env.supportserver)
-                return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 5000);
+                return infoMsg(message, '65bff0', await buildText("command_only_support_server", client, { guild: message.guild.id, message: message }), true, 5000);
             
             if ((command && !command.owner && !command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && !command.prefix)) {
                 try {
-                    if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
+                    if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', await buildText("command_no_permission", client, { guild: message.guild.id, message: message }));
                     command.run(client, message, args);
                 } catch (error) {
-                    console.log(` > HATA: ${error}`);
-                    infoMsg(message, '000', `Komut çalıştırılırken bir hata oluştu.`, true, 10000);
+                    console.log(` > ${await buildText("error", client, { guild: message.guild.id })}: ${error}`);
+                    infoMsg(message, '000', await buildText("command_error", client, { guild: message.guild.id }), true, 10000);
                 }
             } else return;
         } else {
@@ -44,26 +45,24 @@ module.exports = {
             if (!command) command = client.commands.find(c => c.aliases && c.aliases.includes(cmd));
     
             if (command && command.supportserver === true && message.guild.id != process.env.supportserver)
-                return infoMsg(message, '65bff0', `<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.`, true, 8000);
+                return infoMsg(message, '65bff0', await buildText("command_only_support_server", client, { guild: message.guild.id, message: message }), true, 8000);
     
             if ((command && !command.owner && command.prefix) || (command && command.owner && message.author.id === process.env.ownerid && command.prefix)) {
                 try {
-                    if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', `<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.`);
+                    if (!permCheck(message, command.permissions)) return infoMsg(message, 'EF3A3A', await buildText("command_no_permission", client, { guild: message.guild.id, message: message }));
                     command.run(client, message, args);
                 } catch (error) {
-                    console.log(` > HATA: ${error}`);
-                    infoMsg(message, '000', `Komut çalıştırılırken bir hata oluştu.`, true, 10000);
+                    console.log(` > ${await buildText("error", client, { guild: message.guild.id })}: ${error}`);
+                    infoMsg(message, '000', await buildText("command_error", client, { guild: message.guild.id }), true, 10000);
                 }
             } else return;
         }
     },
 
-    reactionAdd: async function(reaction, user) {
+    reactionAdd: async function(reaction, user) { // This function currently only works for private server. You can edit it according to you.
         if (user && !user.bot && reaction.message.channel.guild) {
             if (reaction.message.channel.name === "kayıt") {
                 if (reaction.emoji.name == "✅") {
-                    console.log(reaction);
-                    console.log(user);
                     let r = reaction.message.guild.roles.cache.find(r => r.name == "🍁");
                     let r2 = reaction.message.guild.roles.cache.find(r => r.name == "Yeni");
                     await reaction.message.guild.members.cache.find(u=> u.id == user.id).roles.add(r).catch(console.error);

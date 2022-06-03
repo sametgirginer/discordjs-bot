@@ -12,7 +12,7 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: `📌 ${process.env.prefix}yardım`,
+                    name: `📌 ${process.env.prefix}help`,
                 }
             ],
             status: 'online',
@@ -32,8 +32,8 @@ module.exports = {
         });
     
         try {
-            client.guilds.cache.get('735836120272601120').channels.cache.get('756692193682391111').messages.fetch('756692733665607700'); //bir
-            client.guilds.cache.get('803703371936432219').channels.cache.get('803919202108178475').messages.fetch('803919359776784405'); //iki
+            client.guilds.cache.get('735836120272601120').channels.cache.get('756692193682391111').messages.fetch('756692733665607700'); // Private Server 1
+            client.guilds.cache.get('803703371936432219').channels.cache.get('803919202108178475').messages.fetch('803919359776784405'); // Private Server 2
         } catch (error) { }
     }
 }

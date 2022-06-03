@@ -25,6 +25,10 @@
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
     "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
 
+    "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",
+    "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
+    "command_error" : "An error occurred while executing the command.",
+
     "help_desc" : "Shows bot commands.",
     "help_bot_commands" : "Bot Commands",
     "help_desc_detailed" : "For detailed information about the command: **${process.env.prefix}help** <command name>",

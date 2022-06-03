@@ -25,6 +25,10 @@
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
     "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
 
+    "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
+    "command_no_permission" : "<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.",
+    "command_error" : "Komut çalıştırılırken bir hata oluştu.",
+
     "help_desc" : "Bot komutlarını iletir.",
     "help_bot_commands" : "Bot Komutları",
     "help_desc_detailed" : "Komut hakkında ayrıntılı bilgi almak için: **${process.env.prefix}yardım** __komut adı__",
