@@ -1,24 +1,25 @@
-const { infoMsg } = require('../../functions/message.js');
-const { querySelectAll, queryDelete } = require('../../functions/database.js');
+const { querySelectAll, queryDelete } = require('../../functions/database');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'tokenkick',
     aliases: ['tkick'],
-    category: 'moderasyon',
-    description: 'Otomatik olarak bir davetten gelenleri kickler.',
+    category: 'moderation',
+    description: 'tokenkick_desc',
     prefix: true,
     owner: false,
     supportserver: false,
     permissions: ['ADMINISTRATOR'],
     run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir id girmedin.`, true, 5000);
+        if (!args[0]) return infoMsg(message, 'B20000', await buildText("user_id_required", client, { guild: message.guild.id, message: message }), true, 5000);
         
         let tokens = await querySelectAll(`SELECT user FROM discord_guildusers WHERE guild = '${message.guild.id}' AND inviter = '${args[0]}'`);
 
-        tokens.forEach(token => {
-            message.guild.members.fetch(`${token['user']}`).then(user => {
-                user.kick('Token sebebiyle atıldı.');
-                infoMsg(message, 'RANDOM', `<@${user.id}>, discord sunucusundan atıldı.\nSunucudan atan yetkili: <@${message.author.id}>`, false, 5000);
+        tokens.forEach(async token => {
+            message.guild.members.fetch(`${token['user']}`).then(async user => {
+                user.kick(await buildText("tokenkick_reason", client, { guild: message.guild.id }));
+                infoMsg(message, 'RANDOM', await buildText("tokenkick_kicked_user", client, { guild: message.guild.id, message: message, variables: [user.id] }), false, 5000);
                 queryDelete(`DELETE FROM discord_guildusers WHERE guild = '${message.guild.id}' AND user = '${user.id}'`);
             }).catch(err => {
                 if (err.code === 10007) return;

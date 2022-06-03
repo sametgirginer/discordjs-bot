@@ -23,6 +23,7 @@
     "user_notfound" : "<@${message.author.id}>, kullanıcı bulunamadı.",
     "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
+    "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
 
     "help_desc" : "Bot komutlarını iletir.",
     "help_bot_commands" : "Bot Komutları",
@@ -125,6 +126,23 @@
     "unban_id_required" : "Bir **kullanıcı id** girmelisiniz.",
     "unban_id_incorrect" : "Girdiğiniz **kullanıcı id** yanlış.",
     "unban_user_not_banned" : "Kullanıcı bulundu ancak yasaklı değil.",
-    "unban_user_unbanned" : "<@%0> discord kullanıcısının yasağını <@${message.author.id}> kaldırıldı."
+    "unban_user_unbanned" : "<@%0> discord kullanıcısının yasağını <@${message.author.id}> kaldırıldı.",
+
+    "kick_desc" : "Bir kullanıcıyı sunucudan atar.",
+    "kick_user_required" : "<@${message.author.id}>, herhangi bir kişiyi etiketlemedin.",
+    "kick_hierarchy" : "<@${message.author.id}>, bu discord kullanıcısını atamazsın.",
+    "kick_kicked_user" : "<@${member.id}>, discord sunucusundan atıldı. Atan yetkili: <@${message.author.id}>",
+    "kick_kicked_user_with_reason" : "<@${member.id}>, discord sunucusundan atıldı. Atan yetkili: <@${message.author.id}>\nSunucudan atılma sebebi: **%0**",
+
+    "tokenkick_desc" : "Belirli bir kullanıcı davetinden gelen kullanıcıları sunucudan atar.",
+    "tokenkick_kicked_user" : "<@%0>, Discord sunucusundan atıldı. Atan yetkili: <@${message.author.id}>",
+    "tokenkick_reason" : "Token sebebiyle atıldı.",
+
+    "tokenban_desc" : "Belirli bir kullanıcı davetinden gelen kullanıcıları sunucudan yasaklar.",
+    "tokenban_banned_user" : "<@%0>, discord sunucusundan yasaklandı. Yasaklayan: <@${message.author.id}>",
+    "tokenban_reason" : "Token sebebiyle yasaklandı.",
+
+    "prunexp_desc" : "Belirttiğiniz xp değerinden düşük değere sahip kullanıcıları getirir.",
+    "prunexp_xp_required" : "<@${message.author.id}>, xp değeri girin."
 
 }

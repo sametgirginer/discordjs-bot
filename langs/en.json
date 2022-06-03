@@ -23,6 +23,7 @@
     "user_notfound" : "<@${message.author.id}>, user not found.",
     "must_login_voice" : "To use the command, you must log in to the voice channel.",
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
+    "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
 
     "help_desc" : "Shows bot commands.",
     "help_bot_commands" : "Bot Commands",
@@ -125,6 +126,23 @@
     "unban_id_required" : "You must enter a **user id**.",
     "unban_id_incorrect" : "The **user id** you entered is incorrect.",
     "unban_user_not_banned" : "User found but not banned.",
-    "unban_user_unbanned" : "Discord user <@%0> has been unbanned by <@${message.author.id}>."
+    "unban_user_unbanned" : "Discord user <@%0> has been unbanned by <@${message.author.id}>.",
+
+    "kick_desc" : "Kicks a user from the server.",
+    "kick_user_required" : "<@${message.author.id}>, you haven't tagged anyone.",
+    "kick_hierarchy" : "<@${message.author.id}>, you cannot kick this user.",
+    "kick_kicked_user" : "<@${member.id}> was kicked from the discord server. Kicked by: <@${message.author.id}>",
+    "kick_kicked_user_with_reason" : "<@${member.id}> was kicked from discord server. Kicked by: <@${message.author.id}>\nKick reason: **%0**",
+
+    "tokenkick_desc" : "Kicks users from a specific user invitation from the server.",
+    "tokenkick_kicked_user" : "<@%0> was kicked from Discord server. Kicked by <@${message.author.id}>",
+    "tokenkick_reason" : "Kicked due to token.",
+
+    "tokenban_desc" : "Bans users from a specific user invitation from the server.",
+    "tokenban_banned_user" : "<@%0> has been banned from discord server. Banned by <@${message.author.id}>",
+    "tokenban_reason" : "Banned due to token.",
+
+    "prunexp_desc" : "Retrieves users with less than xp value you specified.",
+    "prunexp_xp_required" : "<@${message.author.id}>, enter xp value."
 
 }

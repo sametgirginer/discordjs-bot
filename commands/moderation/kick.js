@@ -1,19 +1,20 @@
-const { infoMsg } = require('../../functions/message.js');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 
 module.exports = {
     name: 'kick',
-    aliases: ['at'],
-    category: 'moderasyon',
-    description: 'Bir kullanıcıyı sunucudan atar.',
+    category: 'moderation',
+    description: 'kick_desc',
     prefix: true,
     owner: false,
     supportserver: false,
     permissions: ['KICK_MEMBERS'],
     run: async (client, message, args) => {
-        if (!message.mentions.members.size) return infoMsg(message, 'B20000', `<@${message.author.id}>, herhangi bir kişiyi etiketlemedin.`, true, 5000);
+        if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("kick_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 
-        message.mentions.members.forEach(member => {
-            if (!member.kickable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) return infoMsg(message, 'B20000', `<@${message.author.id}>, bu discord kullanıcısını atamazsın.`, true, 5000);
+        message.mentions.members.forEach(async member => {
+            if (!member.kickable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) 
+                return infoMsg(message, 'B20000', await buildText("kick_hierarchy", client, { guild: message.guild.id, message: message }), true, 5000);
 
             if (args[1]) {
                 let reason = '';
@@ -21,11 +22,11 @@ module.exports = {
                     if (`<@!${member.id}>` != arg) reason += `${arg} `;
                 });
 
-                member.kick(`Sebep: ${reason}`);
-                return infoMsg(message, '83eb34', `<@${member.id}>, discord sunucusundan atıldı.\nSunucudan atılma sebebi: **${reason}**\nSunucudan atan yetkili: <@${message.author.id}>`);
+                member.kick(reason);
+                return infoMsg(message, '83eb34', await buildText("kick_kicked_user_with_reason", client, { guild: message.guild.id, message: message, member: member, variables: [reason] }));
             } else {
-                member.kick('Sebep girilmedi.');
-                return infoMsg(message, '83eb34', `<@${member.id}>, discord sunucusundan atıldı.\nSunucudan atan yetkili: <@${message.author.id}>`);
+                member.kick(await buildText("no_reason", client, { guild: message.guild.id }));
+                return infoMsg(message, '83eb34', await buildText("kick_kicked_user", client, { guild: message.guild.id, message: message, member: member }));
             }
         });
     }
