@@ -143,6 +143,26 @@
     "tokenban_reason" : "Token sebebiyle yasaklandı.",
 
     "prunexp_desc" : "Belirttiğiniz xp değerinden düşük değere sahip kullanıcıları getirir.",
-    "prunexp_xp_required" : "<@${message.author.id}>, xp değeri girin."
+    "prunexp_xp_required" : "<@${message.author.id}>, xp değeri girin.",
+
+    "options_desc" : "Bot seçeneklerini özelleştirin.",
+    "options_help_title_info" : "**Bilgilendirme**",
+    "options_help_title_channel" : "**Kanal Ayarları**",
+    "options_help_title_guild" : "**Sunucu Ayarları**",
+    "options_help_desc_info" : "Bot ayarını değiştirmek için: **${process.env.prefix}opts** <**ayar adı**> <**değer**>\nBot ayarını tamamen silmek için: **${process.env.prefix}opts delete** <**ayar adı**>",
+    "options_help_desc_channel" : "**${process.env.prefix}opts joinchannel** <kanal>\n**${process.env.prefix}opts leavechannel** <kanal>",
+    "options_help_desc_guild" : "**${process.env.prefix}opts lang** _en,tr_",
+    "options_arg_required" : "<@${message.author.id}>, komut için gereken argümanlar girilmedi.\nYardım: **${process.env.prefix}opts help**",
+    "options_channel_required" : "Herhangi bir kanal belirtmediniz. Örnek <kanal>",
+    "options_channel_notfound" : "Bu **ID** ile eşelen herhangi bir kanal bulunamadı.",
+    "options_channel_set" : "**%0** ayarı için <#%1> kanalı ayarlandı.",
+    "options_channel_already_set" : "**%0** ayarı için <#%1> kanalı daha önceden ayarlanmış.",
+    "options_channel_updated" : "**%0** ayarı başarıyla güncellendi.",
+    "options_lang_set" : "Sunucu için botun dili '**%0**' olarak başarıyla ayarlandı.",
+    "options_lang_required" : "Herhangi bir dil belirtmediniz. Örnek **en,tr**",
+    "options_delete_notfound" : "**%0** ayarı için bir veri bulunamadı.",
+    "options_delete_successful" : "**%0** ayarı başarıyla silindi.",
+    "options_guild_opts_not_set" : "Sunucu ile ilgili herhangi bir ayar bulunamadı."
+    
 
 }
