@@ -105,14 +105,15 @@ module.exports = {
 
         if (!fs.existsSync('./commands/stats/cache/')) await fs.mkdirSync('./commands/stats/cache/');
 
+        let filePath = `./commands/stats/cache/${message.guild.id}_topten.png`;
         await nodeHtmlToImage({
             html: html_topten,
             transparent: true,
             puppeteerArgs: { args: ['--no-sandbox'] },
-            output: `./commands/stats/cache/${message.guild.id}_topten.png`
+            output: filePath
         });
 
-		const image = new MessageAttachment(`./commands/stats/cache/${message.guild.id}_topten.png`, 'top10.png');
+		const image = new MessageAttachment(filePath, 'top10.png');
         const footer = (args[0] === undefined) ? "2" : (parseInt(args[0]) + 1);
 		const toptenEmbed = new MessageEmbed()
             .setColor('RANDOM')
@@ -121,8 +122,8 @@ module.exports = {
 			.setTimestamp()
 			.setFooter({ text: await buildText("top_footer", client, { guild: message.guild.id, message: message, variables: [footer] }) });
 
-		message.channel.send({ embeds: [toptenEmbed], files: [image] }).then(msg => {
-            fs.unlinkSync(`./commands/stats/cache/${message.guild.id}_topten.png`);
+		message.channel.send({ embeds: [toptenEmbed], files: [image] }).then(async msg => {
+            if (await fs.existsSync(filePath)) await fs.unlinkSync(filePath);
         });
     }
 }
