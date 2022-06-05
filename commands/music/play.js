@@ -1,15 +1,16 @@
-const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
-const { infoMsg } = require('../../functions/message');
-const { youtube_parser } = require('../../functions/helpers');
 const { MessageEmbed } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
+const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
+const { youtube_parser } = require('../../functions/helpers');
+const { joinVoiceChannel, createAudioPlayer } = require('@discordjs/voice');
+const { play } = require('../../functions/voice/music');
 
 module.exports = {
     name: 'play',
-    aliases: ['oynat', 'p'],
+    aliases: ['p'],
     category: 'music',
-    description: 'Müzik komutu.',
+    description: 'music_play_desc',
     prefix: true,
     owner: false,
     supportserver: false,
@@ -80,12 +81,14 @@ module.exports = {
                         guildId: message.guild.id,
                         adapterCreator: message.guild.voiceAdapterCreator,
                     });
+                    
                     const player = createAudioPlayer();
                     const subscription = connection.subscribe(player);
 
                     queueContruct.connection = connection;
                     queueContruct.player = player;
                     queueContruct.subscription = subscription;
+
                     play(message, queueContruct.songs[0]);
                 } catch (err) {
                     client.log.sendError(client, err, message);
@@ -110,38 +113,4 @@ module.exports = {
             client.log.sendError(client, error, message);
         }
     }
-}
-
-async function play(message, song) {
-    const queue = message.client.queue;
-    const guild = message.guild;
-    const serverQueue = queue.get(message.guild.id);
-
-    if (!song) {
-        queue.delete(guild.id);
-        return;
-    }
-
-    const resource = createAudioResource(ytdl(song.url), {
-        metadata: {
-            title: song.title,
-        }
-    })
-    await serverQueue.player.play(resource);
-    await serverQueue.player.on(AudioPlayerStatus.Idle, () => {
-        if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.songs.shift();
-        play(message, serverQueue.songs[0]);
-    });
-    await serverQueue.player.on('error', error => {
-        console.log(error);
-    });
-
-    const videoEmbed = new MessageEmbed()
-        .setColor('RANDOM')
-        .setDescription(`[${song.title}](${song.url})`)
-        .setAuthor({ name: `${song.timestamp[0]} - Şu anda oynatılıyor`, iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
-        .setTimestamp()
-        .setFooter({ text: message.author.username + '#' + message.author.discriminator });
-
-    if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send({ embeds: [videoEmbed] });
 }

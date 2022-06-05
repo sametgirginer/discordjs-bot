@@ -1,28 +1,29 @@
 const { infoMsg } = require('../../functions/message');
-const { getVoiceConnection } = require('@discordjs/voice');
+const { buildText } = require('../../functions/language');
+const { play } = require('../../functions/voice/music');
 
 module.exports = {
-    name: 'geç',
-    aliases: ['skip'],
+    name: 'skip',
     category: 'music',
-    description: 'Müzik komutu / aktif değil',
+    description: 'music_skip_desc',
     prefix: true,
-    owner: true,
+    owner: false,
     supportserver: false,
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
-        try {
-            const connection = getVoiceConnection(message.guild.id);
-            const serverQueue = message.client.queue.get(message.guild.id);
+        const serverQueue = message.client.queue.get(message.guild.id);
 
+        try {
             if (!serverQueue) return infoMsg(message, 'B5200', `Sırada şarkı olmadığı için geçilemiyor.`, true);
             if (serverQueue.songs.length <= 1) return infoMsg(message, 'B5200', `Sırada bekleyen şarkı yok. Oynatılan şarkıyı durdurmak için ${process.env.prefix}durdur`, true, 5000);
 
             if (serverQueue.player) {
-                if (message.member.voice.channelId != connection.joinConfig.channelId) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+                if (message.member.voice.channelId != serverQueue.connection.joinConfig.channelId) return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true)
 
-                if (serverQueue.connection != null) serverQueue.player.play(serverQueue.songs[1]);
-                else if (connection) await connection.destory();
+                if (serverQueue.connection) {
+                    serverQueue.songs.shift();
+                    play(message, serverQueue.songs[0]);
+                }
             }
 
             await message.react('👍');

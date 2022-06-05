@@ -22,6 +22,8 @@ const client = new Client({ intents: [
     ]
 });
 
+client.setMaxListeners(0);
+
 const guildInvites = new Map();  
 
 client.commands = new Collection();

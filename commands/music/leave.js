@@ -1,11 +1,12 @@
 const { infoMsg } = require('../../functions/message');
+const { buildText } = require('../../functions/language');
 const { getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
-    name: 'ayrıl',
-    aliases: ['leave', 'dc', 'disconnect'],
+    name: 'leave',
+    aliases: ['dc'],
     category: 'music',
-    description: 'Müzik komutu.',
+    description: 'music_leave_desc',
     prefix: true,
     owner: false,
     supportserver: false,
