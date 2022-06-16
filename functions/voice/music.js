@@ -42,7 +42,7 @@ module.exports = {
         const videoEmbed = new MessageEmbed()
             .setColor('RANDOM')
             .setDescription(`[${song.title}](${song.url})`)
-            .setAuthor({ name: await buildText("music_playing", client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
+            .setAuthor({ name: await buildText("music_playing", message.client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
             .setTimestamp()
             .setFooter({ text: message.author.username + '#' + message.author.discriminator });
     

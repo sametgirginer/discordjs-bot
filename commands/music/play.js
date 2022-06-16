@@ -21,11 +21,11 @@ module.exports = {
             const serverQueue = message.client.queue.get(message.guild.id);
       
             const vc = message.member.voice.channel;
-            if (!vc) return infoMsg(message, 'B5200', `Komutu kullanmak için ses kanalına giriş yapmalısın.`, true);
+            if (!vc) return infoMsg(message, 'B5200', await buildText("music_member_must_connect_vc", client, { guild: message.guild.id }), true);
 
             const permissions = vc.permissionsFor(message.client.user);
-            if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return infoMsg(message, 'AA5320', `Konuşmak için yetkim yok.`);
-            if (!args.length) return infoMsg(message, 'AA5320', `Şarkı bağlantısı (youtube) veya şarkı ismi yazmalısın.`);
+            if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
+            if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
 
             const ytRegex = (str) => {
                 var regex = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
@@ -50,7 +50,7 @@ module.exports = {
             let video = "";
             if (ytRegex(args[0])) video = await vf(args[0]);
             else video = await vf(args.join(' '));
-            if (video ===  null) return infoMsg(message, 'AA5320', `Belirtilen şarkı oynatılamıyor.`);
+            if (video ===  null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
 
             const song = {
               title: video.title,
@@ -96,14 +96,14 @@ module.exports = {
                 }
             } else {
                 if (message.member.voice.channelId != serverQueue.connection.joinConfig.channelId)
-                    return infoMsg(message, 'B5200', `Bu işlemi yapmak için botun aktif olarak bulunduğu ses kanalına bağlanmalısın.`, true);
+                    return infoMsg(message, 'B5200', await buildText("music_member_same_vc_with_bot", client, { guild: message.guild.id }), true);
 
                 serverQueue.songs.push(song);
 
                 const queueEmbed = new MessageEmbed()
                     .setColor('RANDOM')
                     .setDescription(`[${song.title}](${song.url})`)
-                    .setAuthor({ name: `Sıraya eklendi`, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
+                    .setAuthor({ name: await buildText("music_added_queue", client, { guild: message.guild.id }), iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setTimestamp()
                     .setFooter({ text: message.author.username + '#' + message.author.discriminator });
             
