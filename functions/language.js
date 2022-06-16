@@ -4,7 +4,7 @@ module.exports = {
     buildText: async function(textCode, client, { guild = null, message = null, member = null, variables = null } = {}) {
         if (guild) guild = JSON.parse((await querySelect(`SELECT data FROM discord_settings WHERE guild = '${guild}'`)).data).lang;
 
-        let lang = (guild) ? guild : process.env.defaultLang;
+        let lang = (guild) ? guild : process.env.defaultlang;
         let data = client.langs.get(lang);
         let text = data[textCode];
 
