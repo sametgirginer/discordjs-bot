@@ -14,7 +14,16 @@ module.exports = {
             return;
         }
     
-        const resource = createAudioResource(ytdl(song.url, { filter: "audioonly", quality: "highest" }), {
+        const resource = createAudioResource(
+            ytdl(song.url, { 
+                filter: "audioonly",
+                fmt: "mp3",
+                highWaterMark: 1 << 62,
+                liveBuffer: 1 << 62,
+                dlChunkSize: 0,
+                bitrate: 128,
+                quality: "lowestaudio"
+            }), {
             metadata: {
                 title: song.title,
             }
@@ -33,7 +42,7 @@ module.exports = {
         const videoEmbed = new MessageEmbed()
             .setColor('RANDOM')
             .setDescription(`[${song.title}](${song.url})`)
-            .setAuthor({ name: `${song.timestamp[0]} - Şu anda oynatılıyor`, iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
+            .setAuthor({ name: await buildText("music_playing", client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
             .setTimestamp()
             .setFooter({ text: message.author.username + '#' + message.author.discriminator });
     
