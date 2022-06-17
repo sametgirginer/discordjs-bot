@@ -67,6 +67,7 @@
     "coub_nsfw_video" : "<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
     "coub_view_onsite" : "Sitede Görüntüle",
     "coub_unvaild_url" : "<@${message.author.id}>, coub video bağlantısı geçersiz.",
+    "coub_select_desc" : "Seçim yaptığınızda coub.com sitesinden kategoriye göre video getirilecektir.",
 
     "reddit_desc" : "Reddit sitesinden video indirir.",
     "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",
