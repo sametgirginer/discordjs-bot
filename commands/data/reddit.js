@@ -2,6 +2,7 @@ const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = req
 const { infoMsg } = require("../../functions/message");
 const { buildText } = require('../../functions/language');
 const { download } = require('../../functions/download');
+const ffmpeg = require('fluent-ffmpeg');
 const request = require("request");
 const fs = require('fs');
 
@@ -27,7 +28,6 @@ module.exports = {
 
         message.channel.send({ embeds: [cooldownEmbed] }).then(async msg => {
             message.delete();
-            message = msg;
 
             request({
                 uri: url,
@@ -40,41 +40,60 @@ module.exports = {
     
                     if (data.is_video) {
                         if (!fs.existsSync(`data/reddit`)) fs.mkdirSync('data/reddit');
+                        let rnd = Math.ceil(Math.random() * 5000);
                         let videoClean = data['secure_media']['reddit_video']['fallback_url'];
                         let video = videoClean.replace("?source=fallback", "").replace("720", "480").replace("1080", "480");
-                        let file = `data/reddit/output-${Math.ceil(Math.random() * 5000)}.mp4`;
+                        let audio = `${data['url_overridden_by_dest']}/HLS_AUDIO_64_K.aac`;
+                        let videoFile = `data/reddit/output-video-${rnd}.mp4`;
+                        let audioFile = `data/reddit/output-audio-${rnd}.acc`;
+                        let mergedFile = `data/reddit/output-merged-video-${rnd}.mp4`;
     
-                        await download(video, file).then(async () => {
-                            const redditVideo = new MessageAttachment(file, 'reddit-video.mp4');
-                            const redditButtons = new MessageActionRow().addComponents(
-                                new MessageButton()
-                                    .setStyle('LINK')
-                                    .setLabel(`Reddit`)
-                                    .setURL(`https://reddit.com${data['permalink']}`),
-                                
-                                new MessageButton()
-                                    .setStyle('LINK')
-                                    .setLabel('Video')
-                                    .setURL(videoClean)
-                            );
+                        await download(audio, audioFile);
+                        await download(video, videoFile);
 
-                            return message.channel.send({ files: [redditVideo], components: [redditButtons] }).then(() => {
-                                msg.delete();
-                                fs.unlinkSync(file);
-                            });
-                        }).catch(async e => {
-                            msg.delete();
-                            fs.unlinkSync(file);
-                            infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), true, 5000)
-                        });
-                    
+                        try {
+                            new ffmpeg(videoFile)
+                                .addInput(audioFile)
+                                .saveToFile(mergedFile).on("end", async () => {
+                                    msg.delete();
+                                    fs.unlinkSync(videoFile);
+                                    fs.unlinkSync(audioFile);
+
+                                    let stats = fs.statSync(mergedFile);
+                                    stats.size = Math.round(stats.size / (1024*1024));
+
+                                    if (stats.size > 9) {
+                                        fs.unlinkSync(mergedFile);
+                                        return infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), false, 10000);
+                                    }
+
+                                    const redditVideo = new MessageAttachment(mergedFile, 'reddit-video.mp4');
+                                    const redditButtons = new MessageActionRow().addComponents(
+                                        new MessageButton()
+                                            .setStyle('LINK')
+                                            .setLabel(`Reddit`)
+                                            .setURL(`https://reddit.com${data['permalink']}`),
+                                    );
+            
+                                    return message.channel.send({ content: `<@${message.author.id}>`, files: [redditVideo], components: [redditButtons], allowedMentions: { repliedUser: false } }).then(() => {
+                                        fs.unlinkSync(mergedFile);
+                                    });
+                                });
+                        } catch (error) {
+                            console.log(error);
+
+                            if (fs.existsSync(videoFile)) fs.unlinkSync(videoFile);
+                            if (fs.existsSync(audioFile)) fs.unlinkSync(audioFile);
+                            if (fs.existsSync(mergedFile)) fs.unlinkSync(mergedFile);
+                            infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), false, 10000);
+                        }
                     } else {
                         msg.delete();
-                        infoMsg(message, 'RANDOM', await buildText("reddit_notfound_video", client, { guild: message.guild.id }), true, 5000);
+                        infoMsg(message, 'RANDOM', await buildText("reddit_notfound_video", client, { guild: message.guild.id }), false, 5000);
                     }
                 } else {
                     msg.delete();
-                    return infoMsg(message, 'B20000', await buildText("reddit_data_error", client, { guild: message.guild.id, message: message }), true, 5000)
+                    infoMsg(message, 'B20000', await buildText("reddit_data_error", client, { guild: message.guild.id, message: message }), false, 5000)
                 }
             });
         })
