@@ -109,11 +109,7 @@ module.exports = {
                         {
                             label: 'Memes',
                             value: 'memes',
-                        },
-                        {
-                            label: 'NSFW',
-                            value: 'nsfw',
-                        },
+                        }
                     ])
             );
 
