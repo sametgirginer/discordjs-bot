@@ -68,6 +68,7 @@
     "coub_view_onsite" : "View on Site",
     "coub_unvaild_url" : "<@${message.author.id}>, the coub video link is invalid.",
     "coub_select_desc" : "When you make a selection, videos will be brought from coub.com by category.",
+    "coub_select_category" : "Select category",
     
     "reddit_desc" : "Downloads videos from Reddit.",
     "reddit_required_url" : "You must write a reddit link.",

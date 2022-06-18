@@ -24,7 +24,7 @@ module.exports = {
             const row = new MessageActionRow().addComponents(
                 new MessageSelectMenu()
                     .setCustomId('select-video')
-                    .setPlaceholder('Kategori seçiniz.')
+                    .setPlaceholder(await buildText("coub_select_category", client, { guild: message.guild.id }))
                     .addOptions([
                         {
                             label: 'Random',
