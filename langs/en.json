@@ -25,6 +25,8 @@
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
     "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
 
+    "interaction_command_not_found" : "Command not found.",
+    "interaction_required_args" : "Required arguments were not entered.",
     "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",
     "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
     "command_error" : "An error occurred while executing the command.",
@@ -88,8 +90,8 @@
     "dice_max" : "<@${message.author.id}>, you can roll up to %0 dice at the same time.",
     "dice_result" : "Dice of 20 rolled **%0** times for <@${message.author.id}>.\n%1",
 
-    "kasar_min" : "You must enter **at least 3 letters** to use the **${process.env.prefix}kasar** command.",
-    "kasar_max" : "You must enter **16 letters maximum** to use the **${process.env.prefix}kasar** command.",
+    "kasar_min" : "You must enter **at least 3 letters** to use the command.",
+    "kasar_max" : "You must enter **16 letters maximum** to use the command.",
 
     "chess_desc" : "Starts chess game.",
     "poker_desc" : "Starts poker game.",

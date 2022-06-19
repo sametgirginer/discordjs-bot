@@ -1,6 +1,7 @@
 const { Client, Intents, Collection } = require('discord.js');
 const { ready } = require('./handler/ready');
 const { serverJoin, serverLeave, createInvite, deleteInvite } = require('./functions/join-leave');
+const { interactionCreate } = require('./handler/interaction');
 const msg = require('./handler/message');
 const voice = require('./functions/voice/index');
 
@@ -26,6 +27,7 @@ client.setMaxListeners(0);
 
 const guildInvites = new Map();  
 
+client.slashCommands = new Collection();
 client.commands = new Collection();
 client.langs = new Collection();
 client.aliases = new Collection();
@@ -36,6 +38,8 @@ require(`./handler/command`)(client);
 require('./handler/language')(client);
 
 client.on('ready', async () => ready(client, guildInvites));
+
+client.on('interactionCreate', async interaction => interactionCreate(client, interaction));
 
 client.on('messageCreate', async message => msg.create(client, message));
 client.on("messageReactionAdd", async (reaction, user) => msg.reactionAdd(reaction, user));

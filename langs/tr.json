@@ -25,6 +25,8 @@
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
     "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
 
+    "interaction_command_not_found" : "Komut bulunamadı.",
+    "interaction_required_args" : "Gerekli argümanlar girilmedi.",
     "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
     "command_no_permission" : "<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.",
     "command_error" : "Komut çalıştırılırken bir hata oluştu.",
@@ -88,8 +90,8 @@
     "dice_max" : "<@${message.author.id}>, aynı anda en fazla %0 zar atabilirsin.",
     "dice_result" : "<@${message.author.id}> için **%0** defa 20'lik zar atıldı.\n%1",
 
-    "kasar_min" : "**${process.env.prefix}kaşar** komutunu kullanabilmek için __en az 3__ harf girmelisin.",
-    "kasar_max" : "**${process.env.prefix}kaşar** komutunu kullanabilmek  için __en fazla 16__ harf girmelisin.",
+    "kasar_min" : "Bu komutu kullanabilmek için __en az 3__ harf girmelisin.",
+    "kasar_max" : "Bu komutu kullanabilmek  için __en fazla 16__ harf girmelisin.",
 
     "chess_desc" : "Satranç oyunu başlatır.",
     "poker_desc" : "Poker oyunu başlatır.",

@@ -1,32 +1,15 @@
-const Canvas = require('canvas');
 const { MessageAttachment, MessageEmbed } = require('discord.js');
-const { infoMsg } = require('../../functions/message');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { buildText } = require('../../functions/language');
+const Canvas = require('canvas');
 
 module.exports = {
-	name: 'kasar',
-	aliases: ['kaşar',],
-    category: 'info',
-    description: 'Kaşar peynir',
-	prefix: true,
-	owner: false,
-	supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
-    run: async (client, message, args) => {
-		if (!args.length) return infoMsg(message, 'RANDOM', `**${process.env.prefix}kaşar** <kim kaşar>`, true, 5000);
+    run: async (client, interaction) => {
+		let text = interaction.options.getString('text');
+		if (!text) return interaction.reply({ content: await buildText("interaction_required_args", client, { guild: interaction.guildId }), ephemeral: true });
 
-		let yazi = "";
-		
-		if (args.length > 1) {
-			for	(i = 0; i < args.length; i++) {
-				yazi += args[i] + ' ';
-			}
-		} else if (args.length == 1) {
-			yazi = args[0];
-		}
-
-		if (yazi.length < 3) return infoMsg(message, 'RANDOM', await buildText("kasar_min", client, { guild: message.guild.id }), true, 5000);
-		if (yazi.length > 16) return infoMsg(message, 'RANDOM', await buildText("kasar_max", client, { guild: message.guild.id }), true, 5000);
+		if (text.length < 3) return interaction.reply({ content: await buildText("kasar_min", client, { guild: interaction.guildId }), ephemeral: true });
+		if (text.length > 16) return interaction.reply({ content: await buildText("kasar_max", client, { guild: interaction.guildId }), ephemeral: true });
 
 		const canvas = Canvas.createCanvas(590, 440);
 		const ctx = canvas.getContext('2d');
@@ -40,7 +23,7 @@ module.exports = {
 		
 		ctx.font = '46px sans-serif';
 		ctx.fillStyle = '#197531';
-		ctx.fillText(`${yazi}`, canvas.width / 12, canvas.height / 3);
+		ctx.fillText(`${text}`, canvas.width / 12, canvas.height / 3);
 		
 		ctx.beginPath();
 		ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
@@ -48,13 +31,21 @@ module.exports = {
 		ctx.clip();
 		
 		const attachment = new MessageAttachment(canvas.toBuffer(), 'kasar.png');
-
 		const embed = new MessageEmbed()
 			.setColor('#65c936')
 			.setImage('attachment://kasar.png')
 			.setTimestamp()
-			.setFooter({ text: `${message.author.username}#${message.author.discriminator}` });
+			.setFooter({ text: `${interaction.user.username}#${interaction.user.discriminator}` });
 
-		message.reply({ embeds: [embed], files: [attachment], allowedMentions: { repliedUser: false } });
+		return interaction.reply({ embeds: [embed], files: [attachment], allowedMentions: { repliedUser: false } });
 	},
+
+	data: new SlashCommandBuilder()
+		.setName('kaşar')
+		.setDescription('Just the "kaşar" command')
+		.setDMPermission(true)
+		.addStringOption(option =>
+			option.setName('text')
+				.setDescription('The "kaşar" command to be entered for the text')
+				.setRequired(true))
 };
