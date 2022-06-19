@@ -1,11 +1,11 @@
 const { readdirSync } = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const slashCommands = [];
 
 module.exports = (client) => {
     readdirSync('./commands/').forEach(dir => {
         const commands = readdirSync(`./commands/${dir}/`).filter(f => f.endsWith('.js'));
-        const slashCommands = [];
 
         commands.forEach(async file => {
             let pull = require(`../commands/${dir}/${file}`);
@@ -20,18 +20,18 @@ module.exports = (client) => {
             if (pull.aliases && Array.isArray(pull.aliases)) 
                 pull.aliases.forEach(alias => client.aliases.set(alias, pull.name));
         });
-
-        const rest = new REST({ version: '9' }).setToken(process.env.token);
-
-        (async () => {
-            try {
-                await rest.put(
-                    Routes.applicationGuildCommands(process.env.appid, process.env.supportserver),
-                    { body: slashCommands },
-                );
-            } catch (error) {
-                console.error(error);
-            }
-        })();
     });
+
+    const rest = new REST({ version: '9' }).setToken(process.env.token);
+
+    (async () => {
+        try {
+            await rest.put(
+                Routes.applicationGuildCommands(process.env.appid, process.env.supportserver),
+                { body: slashCommands },
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    })();
 }
