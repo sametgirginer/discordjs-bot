@@ -5,7 +5,7 @@
 
 const { deleteMsg } = require('../message');
 const deepai = require('deepai');
-deepai.setApiKey(process.env.deepAiKey);
+deepai.setApiKey(process.env.deepaiKey);
 
 module.exports = {
     check: async function(message) {

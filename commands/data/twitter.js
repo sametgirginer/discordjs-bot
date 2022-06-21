@@ -6,7 +6,7 @@ const { buildText } = require('../../functions/language');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
-const twitterClient = new TwitterApi(process.env.twitterAppToken);
+const twitterClient = new TwitterApi(process.env.twitterapptoken);
 
 module.exports = {
     name: 'twitter',
