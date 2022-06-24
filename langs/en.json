@@ -61,14 +61,11 @@
     "artstation_search_found" : "**%1** results found for **%0** search.\nClick [here](%2) to view in browser.\n\nSearch function is under construction.",
     "artstation_data_error" : "An error occurred while extracting data.",
 
-    "coub_desc" : "Creates video from coub.com.",
-    "coub_required_url" : "<@${message.author.id}>, you must enter coub video link.",
-    "coub_processing_video" : "<@${message.author.id}>, preparing **coub video**. Will upload when ready.",
-    "coub_nsfw_video" : "<@${message.author.id}>, this video can only be uploaded to a channel that allows nsfw sharing.",
+    "coub_required_url_or_category" : "You have to enter the Coub video link or choose a category.",
+    "coub_processing_video" : "Preparing **coub video**. Will upload when ready.",
+    "coub_nsfw_video" : "This video can only be uploaded to a channel that allows nsfw sharing.",
     "coub_view_onsite" : "View on Site",
-    "coub_unvaild_url" : "<@${message.author.id}>, the coub video link is invalid.",
-    "coub_select_desc" : "When you make a selection, videos will be brought from coub.com by category.",
-    "coub_select_category" : "Select category",
+    "coub_unvaild_url" : "The coub video link is invalid.",
     
     "reddit_desc" : "Downloads videos from Reddit.",
     "reddit_required_url" : "You must write a reddit link.",

@@ -61,14 +61,11 @@
     "artstation_search_found" : "**%0** araması ile ilgili **%1** sonuç bulundu.\nTarayıcıda görüntülemek için [buraya](%2) tıklayın.\n\nArama fonksiyonu yapım aşamasındadır.",
     "artstation_data_error" : "Veri çekme işleminde bir hata oluştu.",
 
-    "coub_desc" : "coub.com sitesinden video çeker.",
-    "coub_required_url" : "<@${message.author.id}>, coub video bağlantısı girmelisiniz.",
-    "coub_processing_video" : "<@${message.author.id}>, **coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
-    "coub_nsfw_video" : "<@${message.author.id}>, bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
+    "coub_required_url_or_category" : "Coub video bağlantısını girmelisiniz veya kategori seçmelisiniz.",
+    "coub_processing_video" : "**Coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "coub_nsfw_video" : "Bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
     "coub_view_onsite" : "Sitede Görüntüle",
-    "coub_unvaild_url" : "<@${message.author.id}>, coub video bağlantısı geçersiz.",
-    "coub_select_desc" : "Seçim yaptığınızda coub.com sitesinden kategoriye göre video getirilecektir.",
-    "coub_select_category" : "Kategori seçiniz",
+    "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
 
     "reddit_desc" : "Reddit sitesinden video indirir.",
     "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",
