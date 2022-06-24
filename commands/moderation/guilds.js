@@ -15,7 +15,7 @@ module.exports = {
         client.guilds.cache.forEach(async guild => {
             let channel = await guild.channels.cache.filter(c=> c.permissionsFor(guild.me).has('CREATE_INSTANT_INVITE')).random();
 
-            if (channel) {
+            if (channel && args[0] === "invite") {
                 try {
                     let invite = await guild.invites.create(channel.id);
                     guilds += `${guild.name} - ${await invite.url}\n`;
