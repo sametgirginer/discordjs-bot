@@ -16,7 +16,7 @@ module.exports = {
         let pinId = url.match(regex)[4];
         let pinURL = `https://pinterest.com/pin/${pinId}`;
 
-        interaction.deferReply({ content: await buildText("pinterest_getting_pwsdata", client, { guild: interaction.guildId }) }).then(async () => {
+        interaction.deferReply().then(async () => {
             try {
                 request({
                     uri: pinURL,
@@ -29,7 +29,6 @@ module.exports = {
 
                         var handler = new htmlparser.DomHandler(async function(error, dom) {
                             if (error) {
-                                interaction.deleteReply();
                                 return interaction.editReply({ content: await buildText("pinterest_error_pwsdata", client, { guild: interaction.guildId }), ephemeral: true });
                             } else {
                                 const item = domutils.findOne(element => {
@@ -79,8 +78,7 @@ module.exports = {
 
                             if (stats.size > 9) {
                                 fs.unlinkSync(videoFile);
-                                interaction.deleteReply();
-                                return interaction.reply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true });
+                                return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true });
                             }
 
                             const pinVideo = new MessageAttachment(videoFile, 'pin-video.mp4');
@@ -96,7 +94,6 @@ module.exports = {
                             });
                         }
                     } else {
-                        interaction.deleteReply();
                         return interaction.reply({ content: await buildText("pinterest_error_pwsdata", client, { guild: interaction.guildId }), ephemeral: true });
                     }
                 });

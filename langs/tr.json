@@ -70,7 +70,6 @@
     "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
 
     "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
-    "pinterest_getting_pwsdata" : "Siteden veri çekiliyor...",
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
 
     "reddit_desc" : "Reddit sitesinden video indirir.",

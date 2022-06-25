@@ -70,7 +70,6 @@
     "coub_unvaild_url" : "The coub video link is invalid.",
 
     "pinterest_invaild_url" : "You must enter a valid Pinterest link.",
-    "pinterest_getting_pwsdata" : "Getting data from the site...",
     "pinterest_error_pwsdata" : "An error occurred while extracting data from the site.",
     
     "reddit_desc" : "Downloads videos from Reddit.",
