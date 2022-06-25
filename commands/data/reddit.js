@@ -64,7 +64,7 @@ module.exports = {
 
                                     if (stats.size > 9) {
                                         fs.unlinkSync(mergedFile);
-                                        return infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), false, 10000);
+                                        return infoMsg(message, 'RANDOM', await buildText("file_size_large", client, { guild: message.guild.id }), false, 10000);
                                     }
 
                                     const redditVideo = new MessageAttachment(mergedFile, 'reddit-video.mp4');

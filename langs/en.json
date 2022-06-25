@@ -24,12 +24,15 @@
     "must_login_voice" : "To use the command, you must log in to the voice channel.",
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
     "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
+    "file_size_large" : "Could not share because the file size is large.",
 
     "interaction_command_not_found" : "Command not found.",
     "interaction_required_args" : "Required arguments were not entered.",
     "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",
     "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
     "command_error" : "An error occurred while executing the command.",
+
+    "button_view_onsite" : "View on Site",
 
     "join_message_title" : "Welcome!",
     "join_message_desc_invite_tracker" : "<@${member.user.id}>, Welcome to **%0** Discord server.\nInvited by <@%1> (**%2** invite)",
@@ -64,8 +67,11 @@
     "coub_required_url_or_category" : "You have to enter the Coub video link or choose a category.",
     "coub_processing_video" : "Preparing **coub video**. Will upload when ready.",
     "coub_nsfw_video" : "This video can only be uploaded to a channel that allows nsfw sharing.",
-    "coub_view_onsite" : "View on Site",
     "coub_unvaild_url" : "The coub video link is invalid.",
+
+    "pinterest_invaild_url" : "You must enter a valid Pinterest link.",
+    "pinterest_getting_pwsdata" : "Getting data from the site...",
+    "pinterest_error_pwsdata" : "An error occurred while extracting data from the site.",
     
     "reddit_desc" : "Downloads videos from Reddit.",
     "reddit_required_url" : "You must write a reddit link.",

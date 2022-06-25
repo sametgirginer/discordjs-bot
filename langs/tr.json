@@ -24,12 +24,15 @@
     "must_login_voice" : "Komutu kullanmak için ses kanalına giriş yapmalısın.",
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
     "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
+    "file_size_large" : "Dosya boyutu büyük olduğundan paylaşılamadı.",
 
     "interaction_command_not_found" : "Komut bulunamadı.",
     "interaction_required_args" : "Gerekli argümanlar girilmedi.",
     "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
     "command_no_permission" : "<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.",
     "command_error" : "Komut çalıştırılırken bir hata oluştu.",
+
+    "button_view_onsite" : "Sitede Görüntüle",
 
     "join_message_title" : "Hoş geldin!",
     "join_message_desc_invite_tracker" : "<@${member.user.id}>, **%0** discord sunucusuna hoş geldin.\nDavet eden: <@%1> (**%2** davet)",
@@ -64,8 +67,11 @@
     "coub_required_url_or_category" : "Coub video bağlantısını girmelisiniz veya kategori seçmelisiniz.",
     "coub_processing_video" : "**Coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "coub_nsfw_video" : "Bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
-    "coub_view_onsite" : "Sitede Görüntüle",
     "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
+
+    "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
+    "pinterest_getting_pwsdata" : "Siteden veri çekiliyor...",
+    "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
 
     "reddit_desc" : "Reddit sitesinden video indirir.",
     "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",

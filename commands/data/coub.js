@@ -1,6 +1,5 @@
-const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const { MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 const Coub = require('coub-dl');
 const request = require('request');
@@ -95,7 +94,7 @@ async function getCoubVideo(client, interaction, url) {
             const coubButton = new MessageActionRow().addComponents(
                 new MessageButton()
                     .setStyle('LINK')
-                    .setLabel(await buildText("coub_view_onsite", client, { guild: interaction.guildId }))
+                    .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                     .setURL(`https://coub.com/view/${coub.metadata.permalink}`)
             );
 
