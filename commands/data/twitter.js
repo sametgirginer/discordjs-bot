@@ -34,7 +34,6 @@ module.exports = {
                                     selVar['id'] = tweet.id;
                                     selVar['title'] = tweet.text;
                                     selVar['videoURL'] = variant.url;
-                                    if (variant.bitrate != 0) selVar['videoURL'] = (variant.url).substring(0, (variant.url).length - 7);
                                     selVar['outputFile'] = `data/twitter/${tweet.id}.mp4`;
                                 }
                             });
