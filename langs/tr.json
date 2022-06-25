@@ -79,6 +79,9 @@
     "reddit_notfound_video" : "Reddit bağlantısında video bulunamadı.",
     "reddit_data_error" : "<@${message.author.id}>, veri çekme işleminde bir hata oluştu.",
 
+    "tiktok_invaild_url" : "Geçerli bir TikTok bağlantısı girmelisiniz.",
+    "tiktok_error_data" : "Siteden veri çekilirken hata oluştu.",
+
     "twitter_desc" : "Twitter sitesinden medya getirir.",
     "twitter_notfound_media" : "Bu bağlantıdaki medyaya erişilemedi.",
     "twitter_notfound_video_or_gif" : "Bu bağlantıdaki gif veya video medyasına erişilemedi.",

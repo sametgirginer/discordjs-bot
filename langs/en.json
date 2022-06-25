@@ -79,6 +79,9 @@
     "reddit_notfound_video" : "No video found in reddit link.",
     "reddit_data_error" : "<@${message.author.id}>, an error occurred while extracting data.",
 
+    "tiktok_invaild_url" : "You must enter a valid TikTok link.",
+    "tiktok_error_data" : "An error occurred while extracting data from the site.",
+
     "twitter_desc" : "Retrieves media from Twitter.",
     "twitter_notfound_media" : "The media on this link could not be accessed.",
     "twitter_notfound_video_or_gif" : "Could not access gif or video media from this link.",
