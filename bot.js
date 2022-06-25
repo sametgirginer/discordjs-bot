@@ -1,9 +1,10 @@
 const { Client, Intents, Collection } = require('discord.js');
 const { ready } = require('./handler/ready');
-const { serverJoin, serverLeave, createInvite, deleteInvite } = require('./functions/join-leave');
-const { interactionCreate } = require('./handler/interaction');
-const msg = require('./handler/message');
-const voice = require('./functions/voice/index');
+const joinLeaveFunctions = require('./functions/join-leave');
+const interactionHandler = require('./handler/interaction');
+const messageHandler = require('./handler/message');
+const guildHandler = require('./handler/guild');
+const voiceHandler = require('./functions/voice/index');
 
 const client = new Client({ intents: [
         Intents.FLAGS.GUILDS,
@@ -39,18 +40,21 @@ require('./handler/language')(client);
 
 client.on('ready', async () => ready(client, guildInvites));
 
-client.on('interactionCreate', async interaction => interactionCreate(client, interaction));
+client.on('guildCreate', async guild => guildHandler.create(client, guild));
+client.on('guildDelete', async guild => guildHandler.delete(client, guild));
 
-client.on('messageCreate', async message => msg.create(client, message));
-client.on("messageReactionAdd", async (reaction, user) => msg.reactionAdd(reaction, user));
-client.on("messageReactionRemove", async (reaction, user) => msg.reactionRemove(reaction, user));
+client.on('interactionCreate', async interaction => interactionHandler.create(client, interaction));
 
-client.on('voiceStateUpdate', async (oldMember, newMember) => voice.state(client, oldMember, newMember));
+client.on('messageCreate', async message => messageHandler.create(client, message));
+client.on("messageReactionAdd", async (reaction, user) => messageHandler.reactionAdd(reaction, user));
+client.on("messageReactionRemove", async (reaction, user) => messageHandler.reactionRemove(reaction, user));
 
-client.on('guildMemberAdd', async member => serverJoin(client, member, guildInvites));
-client.on('guildMemberRemove', async member => serverLeave(client, member, guildInvites));
+client.on('voiceStateUpdate', async (oldMember, newMember) => voiceHandler.state(client, oldMember, newMember));
 
-client.on('inviteCreate', async invite => createInvite(invite, guildInvites));
-client.on('inviteDelete', async invite => deleteInvite(invite, guildInvites));
+client.on('guildMemberAdd', async member => joinLeaveFunctions.serverJoin(client, member, guildInvites));
+client.on('guildMemberRemove', async member => joinLeaveFunctions.serverLeave(client, member, guildInvites));
+
+client.on('inviteCreate', async invite => joinLeaveFunctions.createInvite(invite, guildInvites));
+client.on('inviteDelete', async invite => joinLeaveFunctions.deleteInvite(invite, guildInvites));
 
 client.login(process.env.token);

@@ -1,7 +1,7 @@
 const { buildText } = require("../functions/language");
 
 module.exports = {
-    interactionCreate: async function(client, interaction) {
+    create: async function(client, interaction) {
         if (!interaction.isCommand()) return;
 
         let command = client.slashCommands.get(interaction.commandName);
