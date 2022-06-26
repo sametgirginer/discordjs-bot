@@ -26,10 +26,17 @@ module.exports = (client) => {
 
     (async () => {
         try {
-            await rest.put(
-                Routes.applicationGuildCommands(process.env.appid, process.env.supportserver),
-                { body: slashCommands },
-            );
+            if (process.env.development === "true") {
+                await rest.put(
+                    Routes.applicationGuildCommands(process.env.appid, process.env.supportserver),
+                    { body: slashCommands }
+                );
+            } else {
+                await rest.put(
+                    Routes.applicationCommands(process.env.appid),
+                    { body: slashCommands }
+                );
+            }
         } catch (error) {
             console.error(error);
         }

@@ -110,6 +110,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('pinterest')
         .setDescription('Retrieves the data on the Pinterest link.')
+        .setDMPermission(false)
         .addStringOption(option =>
             option.setName('url')
                 .setDescription('Example: https://pinterest.com/pin/xxx')

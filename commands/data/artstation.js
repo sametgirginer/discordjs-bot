@@ -76,12 +76,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('art')
 		.setDescription('It pulls media data from artstation.com site.')
-		.setDMPermission(true)
-		.addStringOption(option =>
-			option.setName('search')
-				.setDescription('You can search for any media you want.')
-				.setRequired(false)
-		)
+		.setDMPermission(false)
 		.addStringOption(option =>
 			option.setName('category')
 				.setDescription('You can select a category and bring media.')
@@ -100,5 +95,10 @@ module.exports = {
 					{ name: 'Science Fiction', value: 'science_fiction' },
 					{ name: 'Weapons', value: 'weapons' }
 				))
+		.addStringOption(option =>
+			option.setName('search')
+				.setDescription('You can search for any media you want.')
+				.setRequired(false)
+		)
 				
 }

@@ -69,6 +69,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('tiktok')
         .setDescription('Retrieves the data on the Tiktok link.')
+        .setDMPermission(false)
         .addStringOption(option =>
             option.setName('url')
                 .setDescription('Example: https://www.tiktok.com/@mudlusamoi/video/xxx')

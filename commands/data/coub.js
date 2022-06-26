@@ -34,7 +34,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('coub')
 		.setDescription('Creates video from coub.com.')
-		.setDMPermission(true)
+		.setDMPermission(false)
 		.addStringOption(option =>
 			option.setName('category')
 				.setDescription('When you make a selection, videos will be brought from coub.com by category.')
@@ -72,7 +72,6 @@ module.exports = {
 async function getCoubVideo(client, interaction, url) {
     let channel = client.guilds.cache.get(interaction.guildId).channels.cache.get(interaction.channelId);
 
-    
     interaction.deferReply({ content: await buildText("coub_processing_video", client, { guild: interaction.guildId }) }).then(async () => {
         try {
             if (!fs.existsSync(`data/coub`)) fs.mkdirSync('data/coub');
