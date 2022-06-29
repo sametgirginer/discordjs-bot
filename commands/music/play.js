@@ -4,7 +4,7 @@ const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 const { youtube_parser } = require('../../functions/helpers');
 const { joinVoiceChannel, createAudioPlayer } = require('@discordjs/voice');
-const { play } = require('../../functions/voice/music');
+const { play, getSpotifyTrack } = require('../../functions/voice/music');
 
 module.exports = {
     name: 'play',
@@ -27,20 +27,29 @@ module.exports = {
             if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
             if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
 
-            const ytRegex = (str) => {
-                var regex = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
-                if (!regex.test(str)) {
-                    return false;
-                } else {
-                    return true;
-                }
+            const regexSwitch = (str) => {
+                var youtubeRegex = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
+                var spotifyRegex = /(https:\/\/open\.spotify\.com\/(track|album|playlist)\/)([a-zA-Z0-9]{15,})/;
+
+                if (youtubeRegex.test(str)) return "youtube_url";
+                else if (spotifyRegex.test(str)) return "spotify_url";
+                else return false;
             }
     
             const vf = async (query) => {
                 let vr = "";
-                if (ytRegex(args[0])) {          
+                let rr = regexSwitch(args[0]);
+                if (rr === "youtube_url") {          
                     if (await youtube_parser(args[0]) === false)  return;     
                     return await ytSearch({ videoId: await youtube_parser(args[0]) });
+                } else if (rr === "spotify_url") {
+                    query = await getSpotifyTrack(args[0]);
+                    if (!query) return null;
+                    vr = await ytSearch(query.title);
+                    vr = (vr.videos.length > 1 ) ? vr.videos[0] : null;
+                    vr.title = query.title;
+                    vr.spotifyURL = query.url;
+                    return vr;
                 } else {
                     vr = await ytSearch(query);
                     return (vr.videos.length > 1 ) ? vr.videos[0] : null;
@@ -48,7 +57,7 @@ module.exports = {
             }
 
             let video = "";
-            if (ytRegex(args[0])) video = await vf(args[0]);
+            if (regexSwitch(args[0])) video = await vf(args[0]);
             else video = await vf(args.join(' '));
             if (video ===  null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
 
@@ -57,6 +66,7 @@ module.exports = {
               url: video.url,
               timestamp: [video.duration.timestamp, (video.duration.seconds * 1000)],
               loop: false,
+              spotifyURL: (video.spotifyURL) ? video.spotifyURL : false,
             };
       
             if (!serverQueue) {
@@ -110,7 +120,7 @@ module.exports = {
                 return serverQueue.textChannel.send({ embeds: [queueEmbed] });
             }
         } catch (error) {
-            client.log.sendError(client, error, message);
+            console.log(error);
         }
     }
 }
