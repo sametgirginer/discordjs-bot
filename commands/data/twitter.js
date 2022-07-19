@@ -1,5 +1,5 @@
 const { TwitterApi } = require('twitter-api-v2');
-const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { twitterRegex } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
@@ -14,7 +14,7 @@ module.exports = {
     description: 'twitter_desc',
     prefix: true,
     owner: false,
-    permissions: ['VIEW_CHANNEL'],
+    permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         let id = await twitterRegex(args[0], 4);
 

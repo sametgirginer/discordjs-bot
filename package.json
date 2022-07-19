@@ -1,6 +1,6 @@
 {
   "name": "re-dcjs-bot",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Discord bot",
   "main": "index.js",
   "scripts": {

@@ -14,7 +14,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         try {
             const queue = message.client.queue;

@@ -1,6 +1,7 @@
 const { infoMsg } = require('../../functions/message');
 const { getXP } = require('../../functions/level');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'prunexp',
@@ -9,7 +10,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['MANAGE_SERVER'],
+    permissions: [PermissionFlagsBits.ManageGuild],
     run: async (client, message, args) => {
         if (!args[0]) return infoMsg(message, 'B20000', await buildText("prunexp_xp_required", client, { guild: message.guild.id, message: message }), true, 5000);
 

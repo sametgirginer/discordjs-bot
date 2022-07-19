@@ -1,4 +1,4 @@
-const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, PermissionFlagsBits } = require('discord.js');
 const { querySelectAll } = require('../../functions/database');
 const { buildText } = require('../../functions/language');
 const { infoMsg } = require('../../functions/message');
@@ -13,7 +13,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         let top = await querySelectAll(`SELECT * FROM discord_levels WHERE guild = '${message.guild.id}' ORDER BY xp DESC`);
         let ttrow = [];
@@ -68,7 +68,7 @@ module.exports = {
                     html, body {
                         background: transparent;
                         width: 500px;
-                        height: 400px;
+                        height: 500px;
                         font-family: 'Nunito', sans-serif;
                     }
 

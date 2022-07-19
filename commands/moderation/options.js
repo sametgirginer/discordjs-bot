@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const db = require('../../functions/database');
 const { channelCheck } = require('../../functions/channels');
 const { infoMsg } = require('../../functions/message');
@@ -12,7 +12,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['MANAGE_GUILD'],
+    permissions: [PermissionFlagsBits.ManageGuild],
     run: async (client, message, args) => {
         /* 
             HELP MESSAGE

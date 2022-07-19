@@ -1,3 +1,4 @@
+const { PermissionFlagsBits } = require('discord.js');
 const { buildText } = require('../../functions/language.js');
 const { infoMsg } = require('../../functions/message.js');
 
@@ -9,7 +10,7 @@ module.exports = {
 	prefix: false,
 	owner: false,
 	supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
 		let maxdice = 5;
 		let argdice = (args[0]) ? args[0] : 1;

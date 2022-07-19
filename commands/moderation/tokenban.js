@@ -1,6 +1,7 @@
 const { querySelectAll, queryDelete } = require('../../functions/database');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'tokenban',
@@ -10,7 +11,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['ADMINISTRATOR'],
+    permissions: [PermissionFlagsBits.Administrator],
     run: async (client, message, args) => {
         if (!args[0]) return infoMsg(message, 'B20000', await buildText("user_id_required", client, { guild: message.guild.id, message: message }), true, 5000);
         

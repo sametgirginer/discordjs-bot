@@ -1,6 +1,7 @@
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 const { getVoiceConnection } = require('@discordjs/voice');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'leave',
@@ -10,7 +11,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         try {
             const connection = getVoiceConnection(message.guild.id);

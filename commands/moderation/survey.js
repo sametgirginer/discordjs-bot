@@ -1,4 +1,4 @@
-const { MessageCollector, EmbedBuilder } = require('discord.js');
+const { MessageCollector, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 
@@ -10,7 +10,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
+    permissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageMessages],
     run: async (client, message, args) => {
         if (!args.length) return infoMsg(message, 'FFE26A', await buildText("survey_required_args", client, { guild: message.guild.id, message: message }), true, 10000);
 

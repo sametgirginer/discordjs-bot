@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js");
 const { infoMsg } = require("../../functions/message");
 const { buildText } = require("../../functions/language");
 
@@ -9,7 +9,7 @@ module.exports = {
     prefix: true,
 	owner: false,
 	supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         if (!args[0]) return infoMsg(message, 'Random', await buildText("emoji_required_arg", client, { guild: message.guild.id, message: message }), true, 5000);
 

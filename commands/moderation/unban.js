@@ -1,5 +1,6 @@
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'unban',
@@ -8,7 +9,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['BAN_MEMBERS'],
+    permissions: [PermissionFlagsBits.Administrator],
     run: async (client, message, args) => {
         if (!args[0]) return infoMsg(message, 'B20000', await buildText("unban_id_required", client, { guild: message.guild.id }), true, 5000); 
 

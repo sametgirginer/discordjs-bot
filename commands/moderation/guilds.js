@@ -8,7 +8,7 @@ module.exports = {
     prefix: true,
     owner: true,
     supportserver: false,
-    permissions: ['ADMINISTRATOR'],
+    permissions: [PermissionFlagsBits.Administrator],
     run: async (client, message, args) => {
         let guilds = "";
         let aend = 0;

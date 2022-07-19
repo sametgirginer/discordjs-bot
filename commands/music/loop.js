@@ -1,6 +1,7 @@
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'loop',
@@ -9,7 +10,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         try {
             const serverQueue = message.client.queue.get(message.guild.id);

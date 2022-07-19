@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { buildText } = require('../../functions/language');
 const { infoMsg } = require('../../functions/message');
 const search = require('../../functions/search');
@@ -11,7 +11,7 @@ module.exports = {
 	prefix: true,
 	owner: false,
 	supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
 		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
 			let member = await search.member(message);

@@ -9,7 +9,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['BAN_MEMBERS'],
+    permissions: [PermissionFlagsBits.BanMembers],
     run: async (client, message, args) => {
         if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("ban_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 

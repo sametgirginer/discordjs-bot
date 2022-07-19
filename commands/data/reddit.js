@@ -1,4 +1,4 @@
-const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { infoMsg } = require("../../functions/message");
 const { buildText } = require('../../functions/language');
 const { download } = require('../../functions/download');
@@ -13,7 +13,7 @@ module.exports = {
     description: 'reddit_desc',
     prefix: true,
     owner: false,
-    permissions: ['VIEW_CHANNEL'],
+    permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         let regex = /http(s)?:\/\/(\w.*\.)?reddit\.com\/r\/([a-zA-Z0-9]*?)\/comments\/([a-zA-Z0-9]*[/]?)/;
         if (!regex.test(args[0])) return infoMsg(message, `B20000`, await buildText("reddit_required_url", client, { guild: message.guild.id }), true, 5000);

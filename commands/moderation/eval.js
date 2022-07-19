@@ -1,6 +1,7 @@
 const hastebin = require("hastebin-gen");
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
     name: 'eval',
@@ -9,7 +10,7 @@ module.exports = {
     prefix: false,
     owner: true,
     supportserver: false,
-    permissions: ['ADMINISTRATOR'],
+    permissions: [PermissionFlagsBits.Administrator],
     run: async (client, message, args) => {
         try {
             const code = args.join(" ");

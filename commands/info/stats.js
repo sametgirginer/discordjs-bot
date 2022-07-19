@@ -1,5 +1,6 @@
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'stats',
@@ -9,7 +10,7 @@ module.exports = {
     prefix: true,
 	owner: false,
 	supportserver: false,
-	permissions: ['VIEW_CHANNEL'],
+	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
 		const promises = [
 			await client.shard.fetchClientValues('guilds.cache.size'),

@@ -9,7 +9,7 @@ module.exports = {
     prefix: true,
     owner: false,
     supportserver: false,
-    permissions: ['KICK_MEMBERS'],
+    permissions: [PermissionFlagsBits.KickMembers],
     run: async (client, message, args) => {
         if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("kick_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 
