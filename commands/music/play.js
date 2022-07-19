@@ -1,5 +1,5 @@
 const ytSearch = require('yt-search');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 const { youtube_parser } = require('../../functions/helpers');
@@ -24,7 +24,7 @@ module.exports = {
             if (!vc) return infoMsg(message, 'B5200', await buildText("music_member_must_connect_vc", client, { guild: message.guild.id }), true);
 
             const permissions = vc.permissionsFor(message.client.user);
-            if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
+            if (!permissions.has(PermissionFlagsBits.Connect) || !permissions.has(PermissionFlagsBits.Speak)) return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
             if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
 
             const regexSwitch = (str) => {
@@ -110,8 +110,8 @@ module.exports = {
 
                 serverQueue.songs.push(song);
 
-                const queueEmbed = new MessageEmbed()
-                    .setColor('RANDOM')
+                const queueEmbed = new EmbedBuilder()
+                    .setColor('Random')
                     .setDescription(`[${song.title}](${song.url})`)
                     .setAuthor({ name: await buildText("music_added_queue", client, { guild: message.guild.id }), iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setTimestamp()

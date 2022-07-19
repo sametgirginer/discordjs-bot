@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { buildText }  = require('./language');
 const db = require('./database');
 const levelSystem = require('./level');
@@ -44,14 +44,14 @@ module.exports = {
                 }
                 
                 if (inviteCount === 0) inviteCount = 1;
-                var joinEmbed = new MessageEmbed()
-                    .setColor('RANDOM')
+                var joinEmbed = new EmbedBuilder()
+                    .setColor('Random')
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                     .setAuthor({ name: await buildText("join_message_title", client, { guild: member.guild.id }), iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                     .setDescription(await buildText("join_message_desc_invite_tracker", client, { guild: member.guild.id, member: member, variables: [guild.name, usedInvite.inviter.id, inviteCount] }))
             } else {
-                var joinEmbed = new MessageEmbed()
-                    .setColor('RANDOM')
+                var joinEmbed = new EmbedBuilder()
+                    .setColor('Random')
                     .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                     .setAuthor({ name: await buildText("join_message_title", client, { guild: member.guild.id }), iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                     .setDescription(await buildText("join_message_desc_no_tracker", client, { guild: member.guild.id, member: member, variables: [guild.name] }))
@@ -85,8 +85,8 @@ module.exports = {
                 db.queryDelete(`DELETE FROM discord_guildusers WHERE guild = '${member.guild.id}' AND user = '${member.id}'`);
             }
             
-            var leaveEmbed = new MessageEmbed()
-                .setColor('RANDOM')
+            var leaveEmbed = new EmbedBuilder()
+                .setColor('Random')
                 .setThumbnail(member.user.avatarURL({ format: 'png', dynamic: true }))
                 .setAuthor({ name: await buildText("leave_message_title", client, { guild: member.guild.id }), iconURL: guild.iconURL({ format: 'png', dynamic: true }) })
                 .setDescription(await buildText("leave_message_desc", client, { guild: member.guild.id, member: member }))

@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 const auth = require('../authorization');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { buildText } = require('../../functions/language');
 const { msToMinutesAndSeconds } = require('../../functions/helpers');
 const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
@@ -41,8 +41,8 @@ module.exports = {
             message.client.log.sendError(message.client, error, message);
         });
     
-        const videoEmbed = new MessageEmbed()
-            .setColor('RANDOM')
+        const videoEmbed = new EmbedBuilder()
+            .setColor('Random')
             .setDescription(`[${song.title}](${(song.spotifyURL) ? song.spotifyURL : song.url})`)
             .setAuthor({ name: await buildText("music_playing", message.client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
             .setTimestamp()

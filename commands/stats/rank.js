@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { buildText } = require('../../functions/language');
 const { checkUsrName } = require('../../functions/helpers');
 const levelSystem = require('../../functions/level');
@@ -16,12 +16,14 @@ module.exports = {
         let username = await checkUsrName(message.author.username, 30);
 
         if (!message.mentions.users.size && !args.length) {
-            var rankEmbed = new MessageEmbed()
-                .setColor('RANDOM')
+            var rankEmbed = new EmbedBuilder()
+                .setColor('Random')
                 .setTitle(await buildText("rank_user_title", client, { guild: message.guild.id, variables: [username] }))
                 .setDescription(`**${message.guild.name}**`)
-                .addField('XP', (await levelSystem.getXP(message.guild.id, message.author.id)).toString(), true)
-                .addField('Level', (await levelSystem.getLevel(message.guild.id, message.author.id)).toString(), true)
+                .addFields([
+                    { name: 'XP', value: (await levelSystem.getXP(message.guild.id, message.author.id)).toString(), inline: true },
+                    { name: 'Level', value: (await levelSystem.getLevel(message.guild.id, message.author.id)).toString(), inline: true }
+                ])
                 .setThumbnail(message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setTimestamp()
                 .setFooter({ text: `${message.author.username}#${message.author.discriminator}` })
@@ -32,12 +34,14 @@ module.exports = {
 				for (i = message.mentions.users.size; i >= 1; i--) {
                     username = await checkUsrName(user.username, 30);
 
-                    var rankEmbed = new MessageEmbed()
-                        .setColor('RANDOM')
+                    var rankEmbed = new EmbedBuilder()
+                        .setColor('Random')
                         .setTitle(await buildText("rank_user_title", client, { guild: message.guild.id, variables: [username] }))
                         .setDescription(`**${message.guild.name}**`)
-                        .addField('XP', ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), true)
-                        .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
+                        .addFields([
+                            { name: 'XP', value: ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), inline: true },
+                            { name: 'Level', value: ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), inline: true }
+                        ])
                         .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                         .setTimestamp()
                         .setFooter({ text: `${message.author.username}#${message.author.discriminator}` })
@@ -53,12 +57,14 @@ module.exports = {
 			if (user) {
                 username = await checkUsrName(user.username, 30);
 
-                var rankEmbed = new MessageEmbed()
-                    .setColor('RANDOM')
+                var rankEmbed = new EmbedBuilder()
+                    .setColor('Random')
                     .setTitle(await buildText("rank_user_title", client, { guild: message.guild.id, variables: [username] }))
                     .setDescription(`**${message.guild.name}**`)
-                    .addField('XP', ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), true)
-                    .addField('Level', ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), true)
+                    .addFields([
+                        { name: 'XP', value: ((await levelSystem.getXP(message.guild.id, user.id)) ? await levelSystem.getXP(message.guild.id, user.id) : 0).toString(), inline: true },
+                        { name: 'Level', value: ((await levelSystem.getLevel(message.guild.id, user.id)) ? await levelSystem.getLevel(message.guild.id, user.id) : 0).toString(), inline: true }
+                    ])
                     .setThumbnail(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                     .setTimestamp()
                     .setFooter({ text: `${message.author.username}#${message.author.discriminator}` })

@@ -1,4 +1,4 @@
-const { MessageCollector, MessageEmbed } = require('discord.js');
+const { MessageCollector, EmbedBuilder } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 
@@ -50,8 +50,8 @@ module.exports = {
                     }
                 });
 
-                var surveyEmbed = new MessageEmbed()
-                    .setColor('RANDOM')
+                var surveyEmbed = new EmbedBuilder()
+                    .setColor('Random')
                     .setAuthor({ name: await buildText("survey_title", client, { guild: message.guild.id }), iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
                     .setDescription(`${embedData}`)
                     .setTimestamp()

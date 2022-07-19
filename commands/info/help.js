@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { infoMsg, deleteMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 
@@ -19,14 +19,16 @@ module.exports = {
                 else commands[cmd.category] += " `" + cmd.name + "`";
             });
     
-            var helpEmbed = new MessageEmbed()
+            var helpEmbed = new EmbedBuilder()
                 .setColor('#65bff0')
                 .setAuthor({ name: await buildText("help_bot_commands", client, { guild: message.guild.id }), iconURL: client.user.avatarURL({ format: 'png', dynamic: true }) })
                 .setDescription(await buildText("help_desc_detailed", client, { guild: message.guild.id }))
-                .addField(await buildText("help_general_commands", client, { guild: message.guild.id }), commands.info, false)
-                .addField(await buildText("help_rank_commands", client, { guild: message.guild.id }), commands.stats, false)
-                .addField(await buildText("help_music_commands", client, { guild: message.guild.id }), commands.music, false)
-                .addField(await buildText("help_mod_commands", client, { guild: message.guild.id }), commands.moderation, false)
+                .addFields([
+                    { name: await buildText("help_general_commands", client, { guild: message.guild.id }), value: commands.info },
+                    { name: await buildText("help_rank_commands", client, { guild: message.guild.id }), value: commands.stats },
+                    { name: await buildText("help_music_commands", client, { guild: message.guild.id }), value: commands.music },
+                    { name: await buildText("help_mod_commands", client, { guild: message.guild.id }), value: commands.moderation }
+                ]);
 
             message.channel.send({ embeds: [helpEmbed] });
         }
@@ -47,7 +49,7 @@ module.exports = {
                 let owner = (client.commands.get(args[0]).owner) ? no : yes;
                 let support = (client.commands.get(args[0]).supportserver) ? yes : no;
 
-                var cmdEmbed = new MessageEmbed()
+                var cmdEmbed = new EmbedBuilder()
 					.setColor('#65bff0')
                     .setAuthor({ name: await buildText("help_command_name", client, { guild: message.guild.id, variables: [args[0]] }), iconURL: client.user.avatarURL({ format: 'png', dynamic: true }) })
                     .setDescription(await buildText(client.commands.get(args[0]).description, client, { guild: message.guild.id }))

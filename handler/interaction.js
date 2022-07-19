@@ -1,20 +1,19 @@
+const { InteractionType } = require("discord.js");
 const { buildText } = require("../functions/language");
 
 module.exports = {
     create: async function(client, interaction) {
-        if (!interaction.isCommand()) return;
+        if (!interaction.type === InteractionType.ApplicationCommand) return;
 
         let command = client.slashCommands.get(interaction.commandName);
-
+        
         if (command) {
             try {
                 command.run(client, interaction);
             } catch (error) {
                 console.log(` > ${await buildText("error", client, { guild: interaction.guildId })}: ${error}`);
-                interaction.reply(await buildText("command_error", client, { guild: interaction.guildId }));
+                interaction.reply({ content: await buildText("command_error", client, { guild: interaction.guildId }), ephemeral: true });
             }
-        } else {
-            await interaction.reply(await buildText("interaction_command_not_found", client, { guild: interaction.guildId }));
         }
     },
 }

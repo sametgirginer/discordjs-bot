@@ -1,10 +1,10 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     infoMsg: function(message, hexColor, returnMsg, cmdMsgDel, deleteCooldown, reply = [false, false]) {
-        if (hexColor != "RANDOM") hexColor = `#${hexColor}`;
+        if (hexColor != "Random") hexColor = `#${hexColor}`;
         
-        var embed = new MessageEmbed()
+        var embed = new EmbedBuilder()
             .setColor(hexColor)
             .setDescription(returnMsg)
 

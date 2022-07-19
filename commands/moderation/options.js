@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const db = require('../../functions/database');
 const { channelCheck } = require('../../functions/channels');
 const { infoMsg } = require('../../functions/message');
@@ -18,11 +18,13 @@ module.exports = {
             HELP MESSAGE
         */
         if (args[0] === 'help') {
-            var helpMsg = new MessageEmbed()
+            var helpMsg = new EmbedBuilder()
                 .setColor('#65bff0')
-                .addField(await buildText("options_help_title_info", client, { guild: message.guild.id }), await buildText("options_help_desc_info", client, { guild: message.guild.id }), false)
-                .addField(await buildText("options_help_title_channel", client, { guild: message.guild.id }), await buildText("options_help_desc_channel", client, { guild: message.guild.id }), true)
-                .addField(await buildText("options_help_title_guild", client, { guild: message.guild.id }), await buildText("options_help_desc_guild", client, { guild: message.guild.id }), true)
+                .addFields([
+                    { name: await buildText("options_help_title_info", client, { guild: message.guild.id }), value: await buildText("options_help_desc_info", client, { guild: message.guild.id }) },
+                    { name: await buildText("options_help_title_channel", client, { guild: message.guild.id }), value: await buildText("options_help_desc_channel", client, { guild: message.guild.id }) },
+                    { name: await buildText("options_help_title_guild", client, { guild: message.guild.id }), value: await buildText("options_help_desc_guild", client, { guild: message.guild.id }) }
+                ])
 
             message.channel.send({ embeds: [helpMsg] });
             message.delete();

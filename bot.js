@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
 const { ready } = require('./handler/ready');
 const joinLeaveFunctions = require('./functions/join-leave');
 const interactionHandler = require('./handler/interaction');
@@ -6,21 +6,32 @@ const messageHandler = require('./handler/message');
 const guildHandler = require('./handler/guild');
 const voiceHandler = require('./functions/voice/index');
 
-const client = new Client({ intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MEMBERS,
-        Intents.FLAGS.GUILD_BANS,
-        Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-        Intents.FLAGS.GUILD_WEBHOOKS,
-        Intents.FLAGS.GUILD_INVITES,
-        Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-        Intents.FLAGS.GUILD_MESSAGE_TYPING,
-        Intents.FLAGS.DIRECT_MESSAGES,
-        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-        Intents.FLAGS.DIRECT_MESSAGE_TYPING
+const client = new Client({ 
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildBans,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping
+    ],
+    partials: [
+        Partials.User,
+        Partials.Channel,
+        Partials.GuildMember,
+        Partials.Message,
+        Partials.Reaction,
+        Partials.GuildScheduledEvent,
+        Partials.ThreadMember
     ]
 });
 

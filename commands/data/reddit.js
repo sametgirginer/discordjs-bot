@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { infoMsg } = require("../../functions/message");
 const { buildText } = require('../../functions/language');
 const { download } = require('../../functions/download');
@@ -22,8 +22,8 @@ module.exports = {
         url = (url.match(regex))[0];
         url = url.substring(0, url.length - 1) + ".json";
 
-        var cooldownEmbed = new MessageEmbed()
-            .setColor('RANDOM')
+        var cooldownEmbed = new EmbedBuilder()
+            .setColor('Random')
             .setDescription(await buildText("reddit_processing_video", client, { guild: message.guild.id, message: message }))
 
         message.channel.send({ embeds: [cooldownEmbed] }).then(async msg => {
@@ -64,13 +64,16 @@ module.exports = {
 
                                     if (stats.size > 9) {
                                         fs.unlinkSync(mergedFile);
-                                        return infoMsg(message, 'RANDOM', await buildText("file_size_large", client, { guild: message.guild.id }), false, 10000);
+                                        return infoMsg(message, 'Random', await buildText("file_size_large", client, { guild: message.guild.id }), false, 10000);
                                     }
 
-                                    const redditVideo = new MessageAttachment(mergedFile, 'reddit-video.mp4');
-                                    const redditButtons = new MessageActionRow().addComponents(
-                                        new MessageButton()
-                                            .setStyle('LINK')
+                                    const redditVideo = new AttachmentBuilder()
+                                        .setFile(mergedFile)
+                                        .setName('reddit-video.mp4');
+                                        
+                                    const redditButtons = new ActionRowBuilder().addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
                                             .setLabel(`Reddit`)
                                             .setURL(`https://reddit.com${data['permalink']}`),
                                     );
@@ -85,11 +88,11 @@ module.exports = {
                             if (fs.existsSync(videoFile)) fs.unlinkSync(videoFile);
                             if (fs.existsSync(audioFile)) fs.unlinkSync(audioFile);
                             if (fs.existsSync(mergedFile)) fs.unlinkSync(mergedFile);
-                            infoMsg(message, 'RANDOM', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), false, 10000);
+                            infoMsg(message, 'Random', await buildText("reddit_cannot_upload", client, { guild: message.guild.id }), false, 10000);
                         }
                     } else {
                         msg.delete();
-                        infoMsg(message, 'RANDOM', await buildText("reddit_notfound_video", client, { guild: message.guild.id }), false, 5000);
+                        infoMsg(message, 'Random', await buildText("reddit_notfound_video", client, { guild: message.guild.id }), false, 5000);
                     }
                 } else {
                     msg.delete();

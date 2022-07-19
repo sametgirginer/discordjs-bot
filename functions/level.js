@@ -55,7 +55,7 @@ module.exports = {
             //Private Server
             role.levelup(guild, member, level, messageOrGuild);
 
-            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'RANDOM', await buildText("level_up", messageOrGuild.client, { guild: guild, variables: [member, level] }));
+            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'Random', await buildText("level_up", messageOrGuild.client, { guild: guild, variables: [member, level] }));
         }
     },
 

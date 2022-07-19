@@ -26,7 +26,6 @@
     "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
     "file_size_large" : "Could not share because the file size is large.",
 
-    "interaction_command_not_found" : "Command not found.",
     "interaction_required_args" : "Required arguments were not entered.",
     "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",
     "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
@@ -68,6 +67,7 @@
     "coub_processing_video" : "Preparing **coub video**. Will upload when ready.",
     "coub_nsfw_video" : "This video can only be uploaded to a channel that allows nsfw sharing.",
     "coub_unvaild_url" : "The coub video link is invalid.",
+    "coub_video_uploaded" : "Coub video uploaded.",
 
     "pinterest_invaild_url" : "You must enter a valid Pinterest link.",
     "pinterest_error_pwsdata" : "An error occurred while extracting data from the site.",
@@ -208,6 +208,6 @@
     "top_list_number" : "The list could not be retrieved because you did not enter a valid list number.",
     "top_title" : "${message.guild.name} TOP 10",
     "top_empty_list" : "This page is currently empty.",
-    "top_footer" : "Next page: ${process.env.prefix}top %0 / ${message.author.username}#${message.author.discriminator}"
+    "top_footer" : "Next page: ${process.env.prefix}top %0"
 
 }

@@ -1,7 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
-const { getUserBannerUrl } = require('../../functions/banner');
 const search = require('../../functions/search');
 
 module.exports = {
@@ -14,10 +13,11 @@ module.exports = {
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
 		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
-            const bannerUrl = await getUserBannerUrl(client, message.author.id, { size: 4096 });
+			const user = await client.users.fetch(message.author.id, { force: true });
+            const bannerUrl = user.bannerURL({ format: 'png', dynamic: true, size: 4096 });
             if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
-			const avatarEmbed = new MessageEmbed()
+			const avatarEmbed = new EmbedBuilder()
 				.setColor('#adf542')
 				.setAuthor({ name: 'Banner: ' + message.author.username + '#' + message.author.discriminator, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
 				.setImage(bannerUrl)
@@ -28,10 +28,11 @@ module.exports = {
 		} else if (message.mentions.users.size === 1) {
 			message.mentions.users.map(async user => {
 				for (i = message.mentions.users.size; i >= 1; i--) {
-                    const bannerUrl = await getUserBannerUrl(client, user.id, { size: 4096 });
+					const bUser = await client.users.fetch(user.id, { force: true });
+					const bannerUrl = bUser.bannerURL({ format: 'png', dynamic: true, size: 4096 });
                     if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
-					const avatarEmbed = new MessageEmbed()
+					const avatarEmbed = new EmbedBuilder()
 						.setColor('#adf542')
 						.setAuthor({ name: 'Banner: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 						.setImage(bannerUrl)
@@ -47,10 +48,10 @@ module.exports = {
 			let user = await search.user(client, null, message, args[0]);
 
 			if (user) {
-                const bannerUrl = await getUserBannerUrl(client, user.id, { size: 4096 });
+                const bannerUrl = user.bannerURL({ format: 'png', dynamic: true, size: 4096 });
                 if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
-				const avatarEmbed = new MessageEmbed()
+				const avatarEmbed = new EmbedBuilder()
 					.setColor('#adf542')
 					.setAuthor({ name: 'Banner: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 					.setImage(bannerUrl)

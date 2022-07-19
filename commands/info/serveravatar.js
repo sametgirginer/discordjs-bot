@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { buildText } = require('../../functions/language');
 const { infoMsg } = require('../../functions/message');
 const search = require('../../functions/search');
@@ -17,7 +17,7 @@ module.exports = {
 			let member = await search.member(message);
 			if (!member.avatar) return infoMsg(message, 'B20000', await buildText("serveravatar_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
-			const avatarEmbed = new MessageEmbed()
+			const avatarEmbed = new EmbedBuilder()
 				.setColor('#adf542')
 				.setAuthor({ name: 'Server Avatar: ' + message.author.username + '#' + message.author.discriminator, iconURL: member.avatarURL({ format: 'png', dynamic: true })})
 				.setImage(member.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
@@ -30,7 +30,7 @@ module.exports = {
 				for (i = message.mentions.users.size; i >= 1; i--) {
 					let member = await search.member(message, user.id);
 
-					const avatarEmbed = new MessageEmbed()
+					const avatarEmbed = new EmbedBuilder()
 						.setColor('#adf542')
 						.setAuthor({ name: 'Server Avatar: ' + user.username + '#' + user.discriminator, iconURL: member.avatarURL({ format: 'png', dynamic: true })})
 						.setImage(member.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
@@ -49,7 +49,7 @@ module.exports = {
 			if (!user) return infoMsg(message, 'B20000', await buildText("user_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 			if (!member.avatar) return infoMsg(message, 'B20000', await buildText("serveravatar_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
-			const avatarEmbed = new MessageEmbed()
+			const avatarEmbed = new EmbedBuilder()
 				.setColor('#adf542')
 				.setAuthor({ name: 'Server Avatar: ' + user.username + '#' + user.discriminator, iconURL: member.avatarURL({ format: 'png', dynamic: true })})
 				.setImage(member.avatarURL({ format: 'png', dynamic: true, size: 1024 }))

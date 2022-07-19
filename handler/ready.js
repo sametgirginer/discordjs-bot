@@ -1,4 +1,4 @@
-const { Permissions } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
 const { buildText } = require('../functions/language');
 const voice = require('../functions/voice/index');
 
@@ -21,7 +21,7 @@ module.exports = {
         client.guilds.cache.forEach(async guild => {
             voice.speaking(client, guild, true);
     
-            if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(Permissions.FLAGS.MANAGE_GUILD))
+            if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(PermissionFlagsBits.ManageGuild))
                 await guild.invites.fetch()
                     .then(async invites => {
                         const codeUses = new Map();

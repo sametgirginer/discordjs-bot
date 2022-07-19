@@ -1,7 +1,7 @@
 const { TwitterApi } = require('twitter-api-v2');
-const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
-const { twitterRegex, stringShort } = require('../../functions/helpers');
+const { twitterRegex } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
@@ -27,7 +27,8 @@ module.exports = {
                     tweet.extended_entities.media.forEach(async media => {
                         bitrateOld = 0; // Compare bitrates
 
-                        if (media.type === "video" || media.type === "animated_gif") {
+                        // GIF : media.type === "animated_gif"
+                        if (media.type === "video") {
                             media.video_info.variants.forEach(variant => {
                                 if (bitrateOld <= variant.bitrate) {
                                     bitrateOld = variant.bitrate;
@@ -47,7 +48,7 @@ module.exports = {
             });
 
             if (selVar['id']) {
-                var cooldownEmbed = new MessageEmbed()
+                var cooldownEmbed = new EmbedBuilder()
                     .setColor('#d747ed')
                     .setDescription(await buildText("twitter_processing_media", client, { guild: message.guild.id, message: message }))
 
@@ -55,10 +56,13 @@ module.exports = {
                     message.delete();
                     if (!fs.existsSync(`data/twitter`)) fs.mkdirSync('data/twitter');
     
-                    let video = new MessageAttachment(selVar.outputFile);
-                    let twitterButtons = new MessageActionRow().addComponents(
-                        new MessageButton()
-                            .setStyle('LINK')
+                    let video = new AttachmentBuilder()
+                        .setFile(selVar.outputFile)
+                        .setName('twitter-video.mp4');
+
+                    let twitterButtons = new ActionRowBuilder().addComponents(
+                        new ButtonBuilder()
+                            .setStyle(ButtonStyle.Link)
                             .setLabel('Twitter')
                             .setURL(args[0])
                     );

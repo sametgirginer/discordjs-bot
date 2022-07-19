@@ -19,7 +19,7 @@ module.exports = {
         tokens.forEach(async token => {
             message.guild.members.fetch(`${token['user']}`).then(async user => {
                 user.ban({ days: 7, reason: await buildText("tokenban_reason", client, { guild: message.guild.id }) });
-                infoMsg(message, 'RANDOM', await buildText("tokenban_banned_user", client, { guild: message.guild.id, message: message, variables: [user.id] }), false, 5000);
+                infoMsg(message, 'Random', await buildText("tokenban_banned_user", client, { guild: message.guild.id, message: message, variables: [user.id] }), false, 5000);
                 queryDelete(`DELETE FROM discord_guildusers WHERE guild = '${message.guild.id}' AND user = '${user.id}'`);
             }).catch(err => {
                 if (err.code === 10007) return;

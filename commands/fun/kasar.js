@@ -1,4 +1,4 @@
-const { MessageAttachment, MessageEmbed } = require('discord.js');
+const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { buildText } = require('../../functions/language');
 const Canvas = require('canvas');
@@ -30,14 +30,11 @@ module.exports = {
 		ctx.closePath();
 		ctx.clip();
 		
-		const attachment = new MessageAttachment(canvas.toBuffer(), 'kasar.png');
-		const embed = new MessageEmbed()
-			.setColor('#65c936')
-			.setImage('attachment://kasar.png')
-			.setTimestamp()
-			.setFooter({ text: `${interaction.user.username}#${interaction.user.discriminator}` });
+		const attachment = new AttachmentBuilder()
+			.setFile(canvas.toBuffer())
+			.setName('kasar.png')
 
-		return interaction.reply({ embeds: [embed], files: [attachment], allowedMentions: { repliedUser: false } });
+		return interaction.reply({ files: [attachment], allowedMentions: { repliedUser: false } });
 	},
 
 	data: new SlashCommandBuilder()

@@ -1,3 +1,4 @@
+const { PermissionFlagsBits } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
         let aend = 0;
 
         client.guilds.cache.forEach(async guild => {
-            let channel = await guild.channels.cache.filter(c=> c.permissionsFor(guild.me).has('CREATE_INSTANT_INVITE')).random();
+            let channel = await guild.channels.cache.filter(c => c.permissionsFor(client.user).has([PermissionFlagsBits.CreateInstantInvite])).random();
 
             if (channel && args[0] === "invite") {
                 try {
@@ -27,7 +28,7 @@ module.exports = {
             }
 
             aend++;
-            if (aend === client.guilds.cache.size) return infoMsg(message, 'RANDOM', `${guilds}`);
+            if (aend === client.guilds.cache.size) return infoMsg(message, 'Random', `${guilds}`);
         });
     }
 }

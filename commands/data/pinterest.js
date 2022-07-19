@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { buildText } = require("../../functions/language");
 const { download } = require('../../functions/download');
@@ -50,17 +50,17 @@ module.exports = {
                         parser.end();
     
                         if (!pin.videos) {
-                            const pinImageEmbed = new MessageEmbed()
-                                .setColor('RANDOM')
+                            const pinImageEmbed = new EmbedBuilder()
+                                .setColor('Random')
                                 .setDescription(meta.description)
                                 .setAuthor({ name: meta.title, url: pin.pinner.image_medium_url })
                                 .setImage(pin.images.orig.url)
                                 .setTimestamp()
                                 .setFooter({ text: interaction.user.username + '#' + interaction.user.discriminator });
         
-                            const pinButton = new MessageActionRow().addComponents(
-                                new MessageButton()
-                                    .setStyle('LINK')
+                            const pinButton = new ActionRowBuilder().addComponents(
+                                new ButtonBuilder()
+                                    .setStyle(ButtonStyle.Link)
                                     .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                                     .setURL(url)
                             );
@@ -81,10 +81,10 @@ module.exports = {
                                 return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true });
                             }
 
-                            const pinVideo = new MessageAttachment(videoFile, 'pin-video.mp4');
-                            const pinButton = new MessageActionRow().addComponents(
-                                new MessageButton()
-                                    .setStyle('LINK')
+                            const pinVideo = new AttachmentBuilder(videoFile, 'pin-video.mp4');
+                            const pinButton = new ActionRowBuilder().addComponents(
+                                new ButtonBuilder()
+                                    .setStyle(ButtonStyle.Link)
                                     .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                                     .setURL(url)
                             );

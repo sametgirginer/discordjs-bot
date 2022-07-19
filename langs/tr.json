@@ -26,7 +26,6 @@
     "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
     "file_size_large" : "Dosya boyutu büyük olduğundan paylaşılamadı.",
 
-    "interaction_command_not_found" : "Komut bulunamadı.",
     "interaction_required_args" : "Gerekli argümanlar girilmedi.",
     "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
     "command_no_permission" : "<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.",
@@ -68,6 +67,7 @@
     "coub_processing_video" : "**Coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "coub_nsfw_video" : "Bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
     "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
+    "coub_video_uploaded" : "Coub videosu yüklendi.",
 
     "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
@@ -208,6 +208,6 @@
     "top_list_number" : "Geçerli bir liste numarası girmediğiniz için liste getirilemedi.",
     "top_title" : "${message.guild.name} TOP 10",
     "top_empty_list" : "Bu sayfa şu anlık boş.",
-    "top_footer" : "Sonraki liste için ${process.env.prefix}top %0 / ${message.author.username}#${message.author.discriminator}"
+    "top_footer" : "Sonraki liste için ${process.env.prefix}top %0"
 
 }

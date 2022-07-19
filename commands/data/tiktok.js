@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton, MessageAttachment } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { buildText } = require("../../functions/language");
 const { download } = require('../../functions/download');
@@ -43,10 +43,13 @@ module.exports = {
                     });
                 }
 
-                const tiktokVideo = new MessageAttachment(videoFile, 'tiktok-video.mp4');
-                const tiktokButton = new MessageActionRow().addComponents(
-                    new MessageButton()
-                        .setStyle('LINK')
+                const tiktokVideo = new AttachmentBuilder()
+                    .setFile(videoFile)
+                    .setName('tiktok-video.mp4');
+                    
+                const tiktokButton = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Link)
                         .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                         .setURL(url)
                 );

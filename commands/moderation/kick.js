@@ -1,5 +1,6 @@
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: 'kick',
@@ -13,7 +14,7 @@ module.exports = {
         if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("kick_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 
         message.mentions.members.forEach(async member => {
-            if (!member.kickable || member.permissions.has(['BAN_MEMBERS']) || member.permissions.has(['KICK_MEMBERS'])) 
+            if (!member.kickable || member.permissions.has([PermissionFlagsBits.BanMembers]) || member.permissions.has([PermissionFlagsBits.KickMembers])) 
                 return infoMsg(message, 'B20000', await buildText("kick_hierarchy", client, { guild: message.guild.id, message: message }), true, 5000);
 
             if (args[1]) {

@@ -5,7 +5,7 @@ module.exports = {
 	name: 'd20',
 	aliases: ['d!20',],
     category: 'info',
-    description: 'd20_desc',
+    description: 'dice_desc',
 	prefix: false,
 	owner: false,
 	supportserver: false,
@@ -15,7 +15,7 @@ module.exports = {
 		let argdice = (args[0]) ? args[0] : 1;
 		let dice = "";
 
-		if (argdice > maxdice) return infoMsg(message, `RANDOM`, await buildText("dice_max", client, { guild: message.guild.id, message: message, variables: [maxdice] }), true, 3000);
+		if (argdice > maxdice) return infoMsg(message, 'Random', await buildText("dice_max", client, { guild: message.guild.id, message: message, variables: [maxdice] }), true, 3000);
 		
 		if (argdice > 1) {
 			for (let i = 0; i < argdice; i++) {

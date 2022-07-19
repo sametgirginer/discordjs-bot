@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
 const search = require('../../functions/search');
@@ -14,7 +14,7 @@ module.exports = {
 	permissions: ['VIEW_CHANNEL'],
     run: async (client, message, args) => {
 		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
-			const avatarEmbed = new MessageEmbed()
+			const avatarEmbed = new EmbedBuilder()
 				.setColor('#adf542')
 				.setAuthor({ name: 'Avatar: ' + message.author.username + '#' + message.author.discriminator, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
 				.setImage(message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
@@ -25,7 +25,7 @@ module.exports = {
 		} else if (message.mentions.users.size === 1) {
 			message.mentions.users.map(user => {
 				for (i = message.mentions.users.size; i >= 1; i--) {
-					const avatarEmbed = new MessageEmbed()
+					const avatarEmbed = new EmbedBuilder()
 						.setColor('#adf542')
 						.setAuthor({ name: 'Avatar: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 						.setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
@@ -41,7 +41,7 @@ module.exports = {
 			let user = await search.user(client, null, message, args[0]);
 
 			if (user) {
-				const avatarEmbed = new MessageEmbed()
+				const avatarEmbed = new EmbedBuilder()
 					.setColor('#adf542')
 					.setAuthor({ name: 'Avatar: ' + user.username + '#' + user.discriminator, iconURL: user.avatarURL({ format: 'png', dynamic: true }) })
 					.setImage(user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
