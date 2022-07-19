@@ -1,5 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
 const { buildText } = require("../../functions/language");
 const { download } = require('../../functions/download');
 const htmlparser = require("htmlparser2");

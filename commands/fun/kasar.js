@@ -1,5 +1,4 @@
-const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { AttachmentBuilder, SlashCommandBuilder } = require('discord.js');
 const { buildText } = require('../../functions/language');
 const Canvas = require('canvas');
 
