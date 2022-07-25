@@ -9,11 +9,12 @@ module.exports = {
         let category = interaction.options.getString('category');
 		let query = interaction.options.getString('url');
 
-        interaction.deferReply();
         if (category) {
             let url = `https://coub.com/api/v2/timeline/random/${category}`;
             if (category === "random") url = `https://coub.com/api/v2/timeline/explore/random`;
     
+            interaction.deferReply();
+
             request({
                 uri: url,
                 json: true,
@@ -21,11 +22,11 @@ module.exports = {
             }, async function(err, response, body) {
                 if (!err && response.statusCode === 200) {
                     url = body.coubs[0].permalink;        
-                    getCoubVideo(client, interaction, url);
+                    getCoubVideo(client, interaction, url, true);
                 }
             });
         } else if (query) {
-            getCoubVideo(client, interaction, query)
+            getCoubVideo(client, interaction, query, false);
         } else {
             return interaction.reply({ content: await buildText("coub_required_url_or_category", client, { guild: interaction.guildId }), ephemeral: true })
         }
@@ -69,43 +70,44 @@ module.exports = {
 		)
 }
 
-async function getCoubVideo(client, interaction, url) {
+async function getCoubVideo(client, interaction, url, deferred) {
     let channel = client.guilds.cache.get(interaction.guildId).channels.cache.get(interaction.channelId);
 
-    interaction.editReply({ content: await buildText("coub_processing_video", client, { guild: interaction.guildId }) }).then(async () => {
-        try {
-            if (!fs.existsSync(`data/coub`)) fs.mkdirSync('data/coub');
+    if (deferred) interaction.editReply({ content: await buildText("coub_processing_video", client, { guild: interaction.guildId }) });
+    else interaction.reply({ content: await buildText("coub_processing_video", client, { guild: interaction.guildId }) });
 
-            const file = `data/coub/output-${Math.ceil(Math.random() * 5000)}.mp4`;
-            const coub = await Coub.fetch(url, "HIGH");
+    try {
+        if (!fs.existsSync(`data/coub`)) fs.mkdirSync('data/coub');
 
-            if (coub.metadata.not_safe_for_work === true) 
-                if (channel.nsfw === false) return interaction.editReply({ content: await buildText("coub_nsfw_video", client, { guild: interaction.guildId }) });
+        const file = `data/coub/output-${Math.ceil(Math.random() * 5000)}.mp4`;
+        const coub = await Coub.fetch(url, "HIGH");
 
-            if (coub.duration < 5) coub.duration = 10;
+        if (coub.metadata.not_safe_for_work === true) 
+            if (channel.nsfw === false) return interaction.editReply({ content: await buildText("coub_nsfw_video", client, { guild: interaction.guildId }) });
 
-            await coub.loop(10);
-            await coub.attachAudio();
-            await coub.addOption('-t', coub.duration);
-            await coub.write(file);
+        if (coub.duration < 5) coub.duration = 10;
 
-            const coubVideo = new AttachmentBuilder()
-                .setFile(file)
-                .setName('coub-video.mp4');
+        await coub.loop(10);
+        await coub.attachAudio();
+        await coub.addOption('-t', coub.duration);
+        await coub.write(file);
 
-            const coubButton = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                    .setStyle(ButtonStyle.Link)
-                    .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
-                    .setURL(`https://coub.com/view/${coub.metadata.permalink}`)
-            );
+        const coubVideo = new AttachmentBuilder()
+            .setFile(file)
+            .setName('coub-video.mp4');
 
-            return interaction.editReply({ content: await buildText("coub_video_uploaded", client, { guild: interaction.guildId }), files: [coubVideo], components: [coubButton] }).then(() => {
-                fs.unlinkSync(file);
-            });
-        } catch (error) {
-            console.log(error);
-            return interaction.editReply({ content: await buildText("coub_unvaild_url", client, { guild: interaction.guildId }) });
-        }
-    });
+        const coubButton = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
+                .setURL(`https://coub.com/view/${coub.metadata.permalink}`)
+        );
+
+        return interaction.editReply({ content: await buildText("coub_video_uploaded", client, { guild: interaction.guildId }), files: [coubVideo], components: [coubButton] }).then(() => {
+            fs.unlinkSync(file);
+        });
+    } catch (error) {
+        console.log(error);
+        return interaction.editReply({ content: await buildText("coub_unvaild_url", client, { guild: interaction.guildId }) });
+    }
 }
