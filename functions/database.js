@@ -93,6 +93,34 @@ module.exports = {
             }
         });
     },
+
+    buildDatabase: async function() {
+        conn.promise().query("SELECT * FROM discord_guildusers")
+        .catch(error => {
+            if (error && error.code === "ER_NO_SUCH_TABLE") {
+                conn.query("CREATE TABLE IF NOT EXISTS `discord_guildusers` (`id` int(11) NOT NULL, `guild` varchar(50) NOT NULL, `user` varchar(50) NOT NULL, `invitecount` int(11) NOT NULL DEFAULT 0, `inviter` varchar(50) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+                conn.query("ALTER TABLE `discord_guildusers` ADD PRIMARY KEY (id);");
+                conn.query("ALTER TABLE `discord_guildusers` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;");
+            }
+        });
+
+        conn.promise().query("SELECT * FROM discord_levels")
+        .catch(error => {
+            if (error && error.code === "ER_NO_SUCH_TABLE") {
+                conn.query("CREATE TABLE `discord_levels` (`id` int(11) NOT NULL, `guild` varchar(50) NOT NULL, `user` varchar(50) NOT NULL, `xp` double NOT NULL DEFAULT 0, `xplimit` int(11) NOT NULL DEFAULT 500, `level` int(11) NOT NULL DEFAULT 0) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+                conn.query("ALTER TABLE `discord_levels` ADD PRIMARY KEY (id);");
+                conn.query("ALTER TABLE `discord_levels` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;");
+            }
+        });
+
+        conn.promise().query("SELECT * FROM discord_settings")
+        .catch(error => {
+            if (error && error.code === "ER_NO_SUCH_TABLE") {
+                conn.query("CREATE TABLE `discord_settings` (`guild` varchar(50) NOT NULL, `data` text NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+                conn.query("ALTER TABLE `discord_settings` ADD PRIMARY KEY (guild);");
+            }
+        });
+    },
 }
 
 var conn = mysql.createConnection({
@@ -103,6 +131,8 @@ var conn = mysql.createConnection({
 });
 
 conn.connect(function(err) {
-    if (err) throw err;
-    console.log(' > MySQL connection successfully completed.');
+    if (err) return console.log(`DB ERROR: ${err.sqlMessage}`);
+
+    module.exports.buildDatabase();
+    console.log(' > MySQL connection successful.');
 })

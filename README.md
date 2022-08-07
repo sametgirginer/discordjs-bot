@@ -90,4 +90,11 @@ Discord bot still in development.
 
 # Installing
 
-🔜 Many things required for the bot to work will be explained here soon.
+1. Rename the **.env.example** file to **.env**
+2. Fill in the required variables.
+    - `token` & `appid`
+    - `ownerid` & `supportserver`
+    - `dbhost` & `dbuser` & `dbpassword` & `dbname`
+    - `twitterapptoken` (It will be optional in future versions.)
+    - `spotifyclientid` & `spotifyclientsecret` (It will be optional in future versions.)
+3. You can now run the bot.

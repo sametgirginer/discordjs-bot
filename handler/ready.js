@@ -1,6 +1,7 @@
 const { PermissionFlagsBits } = require('discord.js');
 const { buildText } = require('../functions/language');
 const voice = require('../functions/voice/index');
+const db = require('../functions/database');
 
 const wait = require('util').promisify(setTimeout);
 
@@ -20,6 +21,11 @@ module.exports = {
     
         client.guilds.cache.forEach(async guild => {
             voice.speaking(client, guild, true);
+
+            if (await db.getSetting(guild.id) === 0) {
+                let data = `{"lang":"${process.env.defaultlang}"}`;
+                db.queryInsert(`INSERT INTO discord_settings (guild, data) VALUES ('${guild.id}', '${data}')`);
+            }
     
             if (guild.members.cache.find(member => member.id == client.user.id).permissions.has(PermissionFlagsBits.ManageGuild))
                 await guild.invites.fetch()

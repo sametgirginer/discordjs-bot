@@ -1,8 +1,6 @@
 const { config } = require('dotenv');
-
-config({
-    path: __dirname + '/.env'
-});
+config({path: __dirname + '/.env'});
+require('./functions/database');
 
 const { ShardingManager } = require('discord.js');
 const manager = new ShardingManager('bot.js', {
