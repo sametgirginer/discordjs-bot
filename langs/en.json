@@ -109,8 +109,7 @@
     "banner_userbanner_notfound" : "<@${message.author.id}>, user has no banner.",
 
     "emoji_desc" : "Returns the specified emoji.",
-    "emoji_required_arg" : "<@${message.author.id}>, no emoji was entered.",
-    "emoji_not_found" : "<@${message.author.id}>, emoji(s) not found.",
+    "emoji_not_found" : "Emoji(s) not found.",
     "emoji_buttontime_over" : "The button click time has passed.",
 
     "invite_desc" : "Send the invite link to add the bot to your server.",

@@ -1,24 +1,18 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js");
 const { infoMsg } = require("../../functions/message");
 const { buildText } = require("../../functions/language");
 
 module.exports = {
-    name: 'emoji',
-    category: 'info',
-    description: 'emoji_desc',
-    prefix: true,
-	owner: false,
-	supportserver: false,
-	permissions: [PermissionFlagsBits.ViewChannel],
-    run: async (client, message, args) => {
-        if (!args[0]) return infoMsg(message, 'Random', await buildText("emoji_required_arg", client, { guild: message.guild.id, message: message }), true, 5000);
+    run: async (client, interaction) => {
+        let text = interaction.options.getString('text');
+        let data = text.split(">");
 
-        let regex = /<([a]?):([a-z-A-Z0-9_]*):([0-9]*)>/;
+        let regex = /<([a]?):([a-z-A-Z0-9_]*):([0-9]*)/;
         let cdnEmojiURL = "https://cdn.discordapp.com/emojis/";
         let emojis = [];
         let number = 1;
-
-        args.forEach(emoji => {
+        
+        data.forEach(emoji => {
             if (regex.test(emoji)) {
                 let em = emoji.match(regex);
 
@@ -31,14 +25,14 @@ module.exports = {
             }
         });
 
-        if (!emojis[0]) return infoMsg(message, 'Random', await buildText("emoji_not_found", client, { guild: message.guild.id, message: message }), true, 5000);
+        if (!emojis[0]) return interaction.reply({ content: await buildText("emoji_not_found", client, { guild: interaction.guildId }), ephemeral: true });
 
         emojis.forEach(emoji => {
             let rnd = Math.ceil(Math.random() * 10000);
 
             emoji.embed = new EmbedBuilder()
                 .setColor('Random')
-                .setAuthor({ name: `Emoji: ${emoji.name}`, iconURL: message.author.avatarURL({ format: 'png', dynamic: true }) })
+                .setAuthor({ name: `Emoji: ${emoji.name}`, iconURL: interaction.user.avatarURL({ format: 'png', dynamic: true }) })
                 .setImage(emoji.url)
                 .setTimestamp()
                 .setFooter({ text: `Emoji: ${emoji.number}/${emojis.length}` });
@@ -65,10 +59,10 @@ module.exports = {
 
         if (emojis.length > 1) {
             let emojiId = 0;
-            const sm = await message.channel.send({ embeds: [emojis[0].embed], components: [emojis[0].row] });
+            interaction.reply({ embeds: [emojis[0].embed], components: [emojis[0].row] });
 
-            const filter = i => i.user.id === message.author.id;
-            const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
+            const filter = i => i.user.id === interaction.user.id;
+            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
             
             collector.on('collect', async i => {
                 emojiId = i.customId.charAt(i.customId.length - 1) - 1;
@@ -76,7 +70,7 @@ module.exports = {
             });
 
             collector.on('end', async collected => {
-                sm.edit({ content: await buildText("emoji_buttontime_over", client, { guild: message.guild.id, message: message }), embeds: [emojis[emojiId].embed], components: [] });
+                interaction.editReply({ content: await buildText("emoji_buttontime_over", client, { guild: interaction.guildId }), embeds: [emojis[emojiId].embed], components: [] });
             });
         } else {
             const row = new ActionRowBuilder()
@@ -87,7 +81,16 @@ module.exports = {
                         .setURL(emojis[0].url)
             );
 
-            message.channel.send({ embeds: [emojis[0].embed], components: [row] });
+            interaction.reply({ embeds: [emojis[0].embed], components: [row] });
         }
-    }
+    },
+
+    data: new SlashCommandBuilder()
+        .setName('emoji')
+        .setDescription('emoji_desc')
+        .setDMPermission(false)
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Enter emoji.')
+                .setRequired(true))
 }

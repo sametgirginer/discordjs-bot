@@ -109,8 +109,7 @@
     "banner_userbanner_notfound" : "<@${message.author.id}>, kullanıcının bannerı yok.",
 
     "emoji_desc" : "Belirtilen emojiyi getirir.",
-    "emoji_required_arg" : "<@${message.author.id}>, bir emoji girilmedi.",
-    "emoji_not_found" : "<@${message.author.id}>, emoji(ler) bulunamadı.",
+    "emoji_not_found" : "Emoji(ler) bulunamadı.",
     "emoji_buttontime_over" : "Butona tıklama süresi geçti.",
 
     "invite_desc" : "Botu sunucunuza eklemek için davet bağlantısını gönderir.",

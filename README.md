@@ -48,7 +48,7 @@ Discord bot still in development.
 | ------------- | ------------- | ----------------- | ------------- |
 | avatar        | Info          | Prefix Command    | Sends avatar image and link. |
 | banner        | Info          | Prefix Command    | Sends banner image and link. |
-| emoji         | Info          | Prefix Command    | Returns the specified emoji. |
+| emoji         | Info          | Slash Command     | Returns the specified emoji(s). |
 | help          | Info          | Prefix Command    | Shows bot commands. (prefix support only) |
 | invite        | Info          | Prefix Command    | Send the invite link to add the bot to your server. |
 | ping          | Info          | Prefix Command    | Indicates ping delay. |
