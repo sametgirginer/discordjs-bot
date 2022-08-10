@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
     usrNameRegex: async function(str) {
         return new Promise((resolve) => {
@@ -55,5 +57,20 @@ module.exports = {
             (minutes+1) + ":00" :
             minutes + ":" + (seconds < 10 ? "0" : "") + seconds
         );
+    },
+
+    fileSize: async function(data, limit = false) {
+        let stats = fs.statSync(data);
+        stats.size = Math.round(stats.size / (1024*1024));
+
+        if (limit) {
+            if (stats.size > limit) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return stats.size;
+        }
     },
 }

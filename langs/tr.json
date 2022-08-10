@@ -29,6 +29,7 @@
     "interaction_required_args" : "Gerekli argümanlar girilmedi.",
     "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
     "command_no_permission" : "<@${message.author.id}>, bu komutu kullanmak için maalesef yetkiniz yok.",
+    "command_inactive" : "Bu komut şu anda aktif değildir.",
     "command_error" : "Komut çalıştırılırken bir hata oluştu.",
 
     "button_view_onsite" : "Sitede Görüntüle",
@@ -67,7 +68,7 @@
     "coub_processing_video" : "**Coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "coub_nsfw_video" : "Bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
     "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
-    "coub_video_uploaded" : "Coub videosu yüklendi.",
+    "coub_file_uploaded" : "Coub dosyayı yüklendi.",
 
     "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
@@ -82,10 +83,8 @@
     "tiktok_invaild_url" : "Geçerli bir TikTok bağlantısı girmelisiniz.",
     "tiktok_error_data" : "Siteden veri çekilirken hata oluştu.",
 
-    "twitter_desc" : "Twitter sitesinden medya getirir.",
     "twitter_notfound_media" : "Bu bağlantıdaki medyaya erişilemedi.",
-    "twitter_notfound_video_or_gif" : "Bu bağlantıdaki gif veya video medyasına erişilemedi.",
-    "twitter_processing_media" : "<@${message.author.id}>, **twitter medyası** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "twitter_processing_media" : "<@%0>, **twitter medyası** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "twitter_already_processing" : "Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.",
     "twitter_unvaild_url" : "Geçerli bir bağlantı girmeniz gerekmektedir.",
 

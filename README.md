@@ -1,6 +1,9 @@
 # Discord Bot
 Discord bot still in development.
 
+[English Description](https://github.com/sametgirginer/discordjs-bot/blob/master/README.md)
+[Turkish Description](https://github.com/sametgirginer/discordjs-bot/blob/master/README_TR.md)
+
 # 🏷️ Features
 
 - Organized and easy to read code structure.
@@ -25,7 +28,7 @@ Discord bot still in development.
 | pinterest     | Data          | Slash Command     | Retrieves video/image data from Pinterest.com link. |
 | reddit        | Data          | Prefix Command    | Retrieves video data from Reddit.com link. |
 | tiktok        | Data          | Slash Command     | Retrieves video data from TikTok.com link. |
-| twitter       | Data          | Prefix Command    | Retrieves video/gif data from Twitter.com link. |
+| twitter       | Data          | Slash Command     | Retrieves video/gif data from Twitter.com link. |
 
 **🤖 Fun Commands 🤖**
 
@@ -95,6 +98,11 @@ Discord bot still in development.
     - `token` & `appid`
     - `ownerid` & `supportserver`
     - `dbhost` & `dbuser` & `dbpassword` & `dbname`
-    - `twitterapptoken` (It will be optional in future versions.)
-    - `spotifyclientid` & `spotifyclientsecret` (It will be optional in future versions.)
-3. You can now run the bot.
+3. Type "**npm install**" on the command line to install the required npm packages.
+4. You can start the bot with the command "**node index.js**"
+
+# .env information
+
+- `twitterapptoken` - Optional for twitter command
+- `spotifyclientid` & `spotifyclientsecret` - Spotify links for play command
+- `deepaikey` - NSFW detection for images in messages.

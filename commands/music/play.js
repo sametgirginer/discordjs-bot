@@ -5,6 +5,7 @@ const { buildText } = require('../../functions/language');
 const { youtube_parser } = require('../../functions/helpers');
 const { joinVoiceChannel, createAudioPlayer } = require('@discordjs/voice');
 const { play, getSpotifyTrack } = require('../../functions/voice/music');
+const spotify = (process.env.spotifyclientid.length > 0 && process.env.spotifyclientsecret.length > 0) ? true : false;
 
 module.exports = {
     name: 'play',
@@ -32,7 +33,7 @@ module.exports = {
                 var spotifyRegex = /(https:\/\/open\.spotify\.com\/(track|album|playlist)\/)([a-zA-Z0-9]{15,})/;
 
                 if (youtubeRegex.test(str)) return "youtube_url";
-                else if (spotifyRegex.test(str)) return "spotify_url";
+                else if (spotify && spotifyRegex.test(str)) return "spotify_url";
                 else return false;
             }
     

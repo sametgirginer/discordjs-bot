@@ -29,6 +29,7 @@
     "interaction_required_args" : "Required arguments were not entered.",
     "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",
     "command_no_permission" : "<@${message.author.id}>, unfortunately you are not authorized to use this command.",
+    "command_inactive" : "This command is currently inactive.",
     "command_error" : "An error occurred while executing the command.",
 
     "button_view_onsite" : "View on Site",
@@ -67,7 +68,7 @@
     "coub_processing_video" : "Preparing **coub video**. Will upload when ready.",
     "coub_nsfw_video" : "This video can only be uploaded to a channel that allows nsfw sharing.",
     "coub_unvaild_url" : "The coub video link is invalid.",
-    "coub_video_uploaded" : "Coub video uploaded.",
+    "coub_file_uploaded" : "Coub file uploaded.",
 
     "pinterest_invaild_url" : "You must enter a valid Pinterest link.",
     "pinterest_error_pwsdata" : "An error occurred while extracting data from the site.",
@@ -82,10 +83,8 @@
     "tiktok_invaild_url" : "You must enter a valid TikTok link.",
     "tiktok_error_data" : "An error occurred while extracting data from the site.",
 
-    "twitter_desc" : "Retrieves media from Twitter.",
     "twitter_notfound_media" : "The media on this link could not be accessed.",
-    "twitter_notfound_video_or_gif" : "Could not access gif or video media from this link.",
-    "twitter_processing_media" : "<@${message.author.id}>, preparing **twitter media**. Will upload when ready.",
+    "twitter_processing_media" : "<@%0>, preparing **twitter media**. Will upload when ready.",
     "twitter_already_processing" : "The link you specified is currently being processed. Please do not process it again.",
     "twitter_unvaild_url" : "You must enter a valid link.",
 
