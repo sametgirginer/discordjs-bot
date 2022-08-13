@@ -62,9 +62,15 @@ module.exports = {
                     ffmpeg(selVar.url)
                     .output(selVar.file)
                     .on('end', function() {
-                        interaction.editReply({ content: `> ${selVar.text}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
-                            fs.unlinkSync(selVar.file);
-                        });
+                        if (selVar.text.length > 0) {
+                            interaction.editReply({ content: `> ${selVar.text}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
+                                fs.unlinkSync(selVar.file);
+                            });
+                        } else {
+                            interaction.editReply({ files: [video], components: [twitterButtons], embeds: [] }).then(() => {
+                                fs.unlinkSync(selVar.file);
+                            });
+                        }
                     })
                     .run();
                 } else {
