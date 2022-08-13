@@ -73,12 +73,11 @@
     "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
 
-    "reddit_desc" : "Reddit sitesinden video indirir.",
     "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",
-    "reddit_processing_video" : "<@${message.author.id}>, **reddit videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
+    "reddit_processing_video" : "<@%0>, **reddit videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "reddit_cannot_upload" : "Reddit videosu indirilemedi veya dosya boyutu yüksek olduğu için yüklenemedi.",
     "reddit_notfound_video" : "Reddit bağlantısında video bulunamadı.",
-    "reddit_data_error" : "<@${message.author.id}>, veri çekme işleminde bir hata oluştu.",
+    "reddit_data_error" : "<@%0>, veri çekme işleminde bir hata oluştu.",
 
     "tiktok_invaild_url" : "Geçerli bir TikTok bağlantısı girmelisiniz.",
     "tiktok_error_data" : "Siteden veri çekilirken hata oluştu.",

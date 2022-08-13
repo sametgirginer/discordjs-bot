@@ -26,7 +26,7 @@ Discord bot still in development.
 | artstation    | Data          | Slash Command     | Retrieves image data from Artstation.com link.  |
 | coub          | Data          | Slash Command     | Retrieves video data from Coub.com link. |
 | pinterest     | Data          | Slash Command     | Retrieves video/image data from Pinterest.com link. |
-| reddit        | Data          | Prefix Command    | Retrieves video data from Reddit.com link. |
+| reddit        | Data          | Slash Command     | Retrieves video data from Reddit.com link. |
 | tiktok        | Data          | Slash Command     | Retrieves video data from TikTok.com link. |
 | twitter       | Data          | Slash Command     | Retrieves video/gif data from Twitter.com link. |
 

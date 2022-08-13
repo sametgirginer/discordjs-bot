@@ -26,7 +26,7 @@ Discord botu hala geliştirme aşamasında.
 | artstation    | Veri          | Slash Komutu      | Artstation.com bağlantısından resim verilerini alır. |
 | coub          | Veri          | Slash Komutu      | Coub.com bağlantısından video verilerini alır. |
 | pinterest     | Veri          | Slash Komutu      | Pinterest.com bağlantısından video/resim verilerini alır. |
-| reddit        | Veri          | Prefix Komutu     | Reddit.com bağlantısından video verilerini alır. |
+| reddit        | Veri          | Slash Komutu      | Reddit.com bağlantısından video verilerini alır. |
 | tiktok        | Veri          | Slash Komutu      | TikTok.com bağlantısından video verilerini alır. |
 | twitter       | Veri          | Slash Komutu      | Twitter.com bağlantısından video/gif verilerini alır. |
 
