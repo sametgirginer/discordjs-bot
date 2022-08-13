@@ -69,6 +69,7 @@ Discord bot still in development.
 | options       | Moderation    | Prefix Command    | Customize bot options. |
 | prunexp       | Moderation    | Prefix Command    | Retrieves users with less than xp value you specified. |
 | restart       | Moderation    | Prefix Command    | Restarts the bot. |
+| scmd          | Moderation    | Prefix Command    | Deletes or updates all slash commands in a guild. |
 | survey        | Moderation    | Prefix Command    | Automatically prepares a survey. |
 | tokenban      | Moderation    | Prefix Command    | Bans users from a specific user invitation from the server. |
 | tokenkick     | Moderation    | Prefix Command    | Kicks users from a specific user invitation from the server. |

@@ -69,6 +69,7 @@ Discord botu hala geliştirme aşamasında.
 | options       | Moderasyon    | Prefix Komutu     | Bot seçeneklerini özelleştirin. |
 | prunexp       | Moderasyon    | Prefix Komutu     | Belirttiğiniz xp değerinden daha düşük olan kullanıcıları getirir. |
 | restart       | Moderasyon    | Prefix Komutu     | Botu yeniden başlatır. |
+| scmd          | Moderasyon    | Prefix Komutu     | Bir sunucudaki tüm eğik çizgi komutlarını siler veya günceller. |
 | survey        | Moderasyon    | Prefix Komutu     | Otomatik olarak bir anket hazırlar. |
 | tokenban      | Moderasyon    | Prefix Komutu     | Belirli bir kullanıcı davetinden gelen kullanıcıları yasaklar. |
 | tokenkick     | Moderasyon    | Prefix Komutu     | Belirli bir kullanıcı davetinden gelen kullanıcıları atar. |

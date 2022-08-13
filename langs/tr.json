@@ -125,6 +125,12 @@
     "restart_desc" : "Botu yeniden başlatır.",
     "restart_restarting_bot" : "Bot yeniden başlatılıyor...",
 
+    "scmd_desc" : "Bir sunucudaki tüm eğik çizgi komutlarını siler veya günceller.",
+    "scmd_args" : "Gerekli argümanlar girilmedi. (update/delete)",
+    "scmd_error" : "İşlem yapılırken hata oluştu.",
+    "scmd_delete" : "Sunucudaki komutlar başarıyla silindi.",
+    "scmd_update" : "Sunucudaki komutlar başarıyla güncellendi.",
+
     "eval_desc" : "eval command",
     "guilds_desc" : "Botun hangi sunucularda olduğunu gösterir.",
 

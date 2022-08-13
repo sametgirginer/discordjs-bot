@@ -22,7 +22,7 @@ module.exports = (client) => {
         });
     });
 
-    const rest = new REST({ version: '9' }).setToken(process.env.token);
+    const rest = new REST({ version: '10' }).setToken(process.env.token);
 
     (async () => {
         try {

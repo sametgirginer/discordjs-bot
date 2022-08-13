@@ -125,6 +125,12 @@
     "restart_desc" : "Restarts the bot.",
     "restart_restarting_bot" : "Restarting the bot...",
 
+    "scmd_desc" : "Deletes or updates all slash commands in a guild.",
+    "scmd_args" : "Required arguments were not entered. (update/delete)",
+    "scmd_error" : "An error occurred while processing.",
+    "scmd_delete" : "Successfully deleted all guild commands.",
+    "scmd_update" : "Successfully updated all guild commands.",
+
     "eval_desc" : "eval command",
     "guilds_desc" : "Shows which servers the bot is on.",
 
