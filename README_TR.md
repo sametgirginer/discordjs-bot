@@ -1,8 +1,8 @@
 # Discord Bot
 Discord botu hala geliştirme aşamasında.
 
-[İngilizce Açıklama](https://github.com/sametgirginer/discordjs-bot/blob/master/README.md)
-[Türkçe Açıklama](https://github.com/sametgirginer/discordjs-bot/blob/master/README_TR.md)
+- [İngilizce Açıklama](https://github.com/sametgirginer/discordjs-bot/blob/master/README.md)
+- [Türkçe Açıklama](https://github.com/sametgirginer/discordjs-bot/blob/master/README_TR.md)
 
 # 🏷️ Özellikler
 

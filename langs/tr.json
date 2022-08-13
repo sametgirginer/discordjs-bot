@@ -68,7 +68,7 @@
     "coub_processing_video" : "**Coub videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "coub_nsfw_video" : "Bu video sadece nsfw paylaşımına izin verilen kanala yüklenebilir.",
     "coub_unvaild_url" : "Coub video bağlantısı geçersiz.",
-    "coub_file_uploaded" : "Coub dosyayı yüklendi.",
+    "coub_file_uploaded" : "Coub dosyası yüklendi.",
 
     "pinterest_invaild_url" : "Geçerli bir Pinterest bağlantısı girmelisiniz.",
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
