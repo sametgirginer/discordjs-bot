@@ -1,6 +1,6 @@
 const { TwitterApi } = require('twitter-api-v2');
 const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
-const { twitterRegex } = require('../../functions/helpers');
+const { twitterRegex, sleep } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
@@ -11,6 +11,7 @@ module.exports = {
         
         const twitterClient = new TwitterApi(process.env.twitterapptoken);
         let url = interaction.options.getString('url');
+        url = await twitterRegex(url, 2);
         let id = await twitterRegex(url, 4);
 
         if (id) {
@@ -20,19 +21,21 @@ module.exports = {
             tweet.includes.media.forEach(async media => {
                 if (media.variants != undefined) {
                     media.variants.forEach(async variant => {
-                        selVar['id'] = tweet.data[0].id;
-                        selVar['url'] = variant.url;
-                        selVar['type'] = media.type;
-                        selVar['text'] = tweet.data[0].text.replace(/http[s]?:\/\/t.co\/[a-zA-Z0-9]*/g, "");
+                        if (variant.content_type === "video/mp4") {
+                            selVar['id'] = tweet.data[0].id;
+                            selVar['url'] = variant.url;
+                            selVar['type'] = media.type;
+                            selVar['text'] = tweet.data[0].text.replace(/http[s]?:\/\/t.co\/[a-zA-Z0-9]*/g, "");
 
-                        if (media.type === "video") {
-                            selVar['fileExtension'] = "mp4";
-                            selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
-                        }
+                            if (media.type === "video") {
+                                selVar['fileExtension'] = "mp4";
+                                selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
+                            }
 
-                        if (media.type === "animated_gif") {
-                            selVar['fileExtension'] = "gif";
-                            selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
+                            if (media.type === "animated_gif") {
+                                selVar['fileExtension'] = "gif";
+                                selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
+                            }
                         }
                     });
                 }
@@ -44,6 +47,7 @@ module.exports = {
                     .setDescription(await buildText("twitter_processing_media", client, { guild: interaction.guildId, variables: [interaction.user.id] }))
 
                 interaction.reply({ embeds: [cooldownEmbed] });
+                await sleep(1000);
                 if (!fs.existsSync(`data/twitter`)) fs.mkdirSync('data/twitter');
     
                 let video = new AttachmentBuilder()
@@ -74,7 +78,7 @@ module.exports = {
                     })
                     .run();
                 } else {
-                    return interaction.editReply({ content: await buildText("twitter_already_processing", client, { guild: interaction.guildId }) });
+                    return interaction.editReply({ content: await buildText("twitter_already_processing", client, { guild: interaction.guildId }), embeds: [] });
                 }
             } else {
                 return interaction.reply({ content: await buildText("twitter_notfound_media", client, { guild: interaction.guildId }), ephemeral: true });
