@@ -2,7 +2,6 @@
 /.env
 /node_modules
 /package-lock.json
-/logs
 /start.bat
 /start.sh
 /data/coub/*
