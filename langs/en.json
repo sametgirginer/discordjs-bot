@@ -190,6 +190,7 @@
     "rank_user_title" : "User: %0",
 
     "music_play_desc" : "Command to play music.",
+    "music_queue_desc" : "Get the list of music queue.",
     "music_pause_desc" : "Command to stop music.",
     "music_skip_desc" : "Command to skip music.",
     "music_loop_desc" : "Command to loop music.",
@@ -206,6 +207,10 @@
     "music_empty_queue" : "Cannot skip because there are no songs in the queue.",
     "music_playing_empty_queue" : "There are no songs waiting in the queue. ${process.env.prefix}pause to stop the playing song",
     "music_bot_must_in_vc" : "I am not currently connected to the voice channel.",
+    "music_playlist_added_queue" : "Playlist songs have been added to the queue.",
+    "music_playlist_added_queue_desc" : "You can use the **${process.env.prefix}queue** command to see the next songs.",
+    "music_no_queue" : "There are no songs in the queue.",
+    "music_current_song" : "CURRENT SONG:",
 
     "top_desc" : "Discord server level ranking.",
     "top_list_number" : "The list could not be retrieved because you did not enter a valid list number.",

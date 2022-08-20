@@ -52,23 +52,38 @@ module.exports = {
     },
 
     getSpotifyTrack: async function (url) {
-        var regex = /(https:\/\/open\.spotify\.com\/(track|album|playlist)\/)([a-zA-Z0-9]{15,})/;
+        var regex = /https:\/\/open\.spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]{15,})/;
         var match = url.match(regex);
-        var id = match[3];
+        var category = match[1];
+        var id = match[2];
 
-        if (match[2] === "track") {
+        if (category === "track") {
             const data = await auth.spotify(`https://api.spotify.com/v1/tracks/${id}`);
             const track = {
                 title: `${data.artists[0].name} - ${data.name}`,
                 url: data.external_urls.spotify,
             }
             return track;
-        } else if (match[2] === "album") {
+        } else if (category === "album") {
             const data = await auth.spotify(`https://api.spotify.com/v1/albums/${id}`);
-            return false; //todo
-        } else if (match[2] === "playlist") {
+            const tracks = [];
+            data.tracks.items.forEach(item => {
+                tracks.push({
+                    title: `${item.artists[0].name} - ${item.name}`,
+                    url: item.external_urls.spotify,
+                });
+            });
+            return tracks;
+        } else if (category === "playlist") {
             const data = await auth.spotify(`https://api.spotify.com/v1/playlists/${id}`);
-            return false; //todo
+            const tracks = [];
+            data.tracks.items.forEach(item => {
+                tracks.push({
+                    title: `${item.track.artists[0].name} - ${item.track.name}`,
+                    url: item.track.external_urls.spotify,
+                });
+            });
+            return tracks;
         } else {
             return false;
         }

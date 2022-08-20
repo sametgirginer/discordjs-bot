@@ -190,6 +190,7 @@
     "rank_user_title" : "Kullanıcı: %0",
 
     "music_play_desc" : "Müzik çalma komutu.",
+    "music_queue_desc" : "Müzik kuyruğunun listesini alın..",
     "music_pause_desc" : "Müzik durdurma komutu.",
     "music_skip_desc" : "Müzik geçme komutu.",
     "music_loop_desc" : "Müziği döngüye alma komutu.",
@@ -206,6 +207,10 @@
     "music_empty_queue" : "Sırada şarkı olmadığı için geçilemiyor.",
     "music_playing_empty_queue" : "Sırada bekleyen şarkı yok. Oynatılan şarkıyı durdurmak için ${process.env.prefix}pause",
     "music_bot_must_in_vc" : "Şu anda ses kanalına bağlı değilim.",
+    "music_playlist_added_queue" : "Playlist şarkıları sıraya eklendi.",
+    "music_playlist_added_queue_desc" : "Sıradaki şarkıları görmek için **${process.env.prefix}queue** komutunu kullanabilirsiniz.",
+    "music_no_queue" : "Sırada şarkı yok.",
+    "music_current_song" : "ŞU ANKİ ŞARKI:",
 
     "top_desc" : "Discord sunucusunun level sıralaması.",
     "top_list_number" : "Geçerli bir liste numarası girmediğiniz için liste getirilemedi.",
