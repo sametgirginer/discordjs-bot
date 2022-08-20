@@ -32,13 +32,12 @@ module.exports = {
         }
 
         if (list.length) {
-            let embeds = [];
             list.forEach(l => {
-                embeds.push(new EmbedBuilder()
+                const queueEmbed = new EmbedBuilder()
                     .setColor('Random')
-                    .setDescription(l))
+                    .setDescription(l)
 
-                queue.textChannel.send({ embeds: embeds });
+                queue.textChannel.send({ embeds: [queueEmbed] });
             });
         }
     },
