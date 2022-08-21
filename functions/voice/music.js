@@ -78,10 +78,12 @@ module.exports = {
             const data = await auth.spotify(`https://api.spotify.com/v1/playlists/${id}`);
             const tracks = [];
             data.tracks.items.forEach(item => {
-                tracks.push({
-                    title: `${item.track.artists[0].name} - ${item.track.name}`,
-                    url: item.track.external_urls.spotify,
-                });
+                if (item.track) {
+                    tracks.push({
+                        title: `${item.track.artists[0].name} - ${item.track.name}`,
+                        url: item.track.external_urls.spotify,
+                    });
+                }
             });
             return tracks;
         } else {
