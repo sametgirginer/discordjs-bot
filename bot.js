@@ -65,7 +65,7 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => voiceHandler.state
 client.on('guildMemberAdd', async member => joinLeaveFunctions.serverJoin(client, member, guildInvites));
 client.on('guildMemberRemove', async member => joinLeaveFunctions.serverLeave(client, member, guildInvites));
 
-client.on('inviteCreate', async invite => joinLeaveFunctions.createInvite(invite, guildInvites));
-client.on('inviteDelete', async invite => joinLeaveFunctions.deleteInvite(invite, guildInvites));
+client.on('inviteCreate', async invite => joinLeaveFunctions.createInvite(client, invite, guildInvites));
+client.on('inviteDelete', async invite => joinLeaveFunctions.deleteInvite(client, invite, guildInvites));
 
 client.login(process.env.token);

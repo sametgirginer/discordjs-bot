@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { buildText }  = require('./language');
 const db = require('./database');
 const levelSystem = require('./level');
@@ -97,21 +97,26 @@ module.exports = {
         }
     },
 
-    createInvite: async function(invite, guildInvites) {
+    createInvite: async function(client, invite, guildInvites) {
         try {
-            const invites = await invite.guild.invites.fetch();
-            const codeUses = new Map();
-            
-            invites.each(inv => codeUses.set(inv.code, inv.uses));
-            guildInvites.set(invite.guild.id, codeUses);
+            const guild = client.guilds.cache.get(invite.guild.id);
+            const channel = await guild.channels.cache.filter(c => c.permissionsFor(client.user).has([PermissionFlagsBits.ManageGuild])).random();
 
-            if (await db.getInvite(invite.guild.id, invite.inviter.id) === 0) db.queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
+            if (channel) {
+                const invites = await invite.guild.invites.fetch();
+                const codeUses = new Map();
+                
+                invites.each(inv => codeUses.set(inv.code, inv.uses));
+                guildInvites.set(invite.guild.id, codeUses);
+                
+                if (await db.getInvite(invite.guild.id, invite.inviter.id) === 0) db.queryInsert(`INSERT INTO discord_guildusers (guild, user, invitecount, inviter) VALUES ('${invite.guild.id}', '${invite.inviter.id}', '0', '0')`);
+            }
         } catch (error) {
             console.log(error);
         }
     },
 
-    deleteInvite: async function(invite, guildInvites) {
+    deleteInvite: async function(client, invite, guildInvites) {
         try {
             guildInvites.delete(invite.guild.id, invite);
         } catch (error) {
