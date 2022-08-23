@@ -1,8 +1,8 @@
 const ytdl = require('ytdl-core');
+const ytSearch = require('yt-search');
 const auth = require('../authorization');
 const { EmbedBuilder } = require('discord.js');
 const { buildText } = require('../../functions/language');
-const { msToMinutesAndSeconds } = require('../../functions/helpers');
 const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 
 module.exports = {
@@ -14,6 +14,13 @@ module.exports = {
         if (!song) {
             queue.delete(guild.id);
             return;
+        }
+
+        if (song.spotifyURL && !song.url.includes("youtube")) {
+            let vr = await ytSearch(song.title);
+            song.url = (vr.videos.length > 1) ? vr.videos[0].url : null;
+            if (song.url === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
+            song.timestamp = [vr.videos[0].duration.timestamp, (vr.videos[0].duration.seconds * 1000)];
         }
     
         const resource = createAudioResource(

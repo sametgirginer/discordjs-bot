@@ -23,10 +23,11 @@ module.exports = {
       
             const vc = message.member.voice.channel;
             if (!vc) return infoMsg(message, 'B5200', await buildText("music_member_must_connect_vc", client, { guild: message.guild.id }), true);
+            if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
 
             const permissions = vc.permissionsFor(message.client.user);
-            if (!permissions.has(PermissionFlagsBits.Connect) || !permissions.has(PermissionFlagsBits.Speak)) return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
-            if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
+            if (!permissions.has(PermissionFlagsBits.Connect) || !permissions.has(PermissionFlagsBits.Speak) || !permissions.has(PermissionFlagsBits.ViewChannel))
+                return infoMsg(message, 'AA5320', await buildText("music_permission_required", client, { guild: message.guild.id }));
 
             const regexSwitch = (str) => {
                 var youtubeRegex = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
@@ -62,6 +63,8 @@ module.exports = {
             let pltracks = [];
             if (regexSwitch(args[0])) video = await vf(args[0]);
             else video = await vf(args.join(' '));
+            if (video === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
+
             if (video.length) {
                 pltracks = video;
                 vr = await ytSearch(video[0].title);
@@ -69,7 +72,6 @@ module.exports = {
                 if (vr) vr.spotifyURL = video[0].url;
                 video = vr;
             }
-            if (video === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
 
             const song = {
               title: video.title,
@@ -83,18 +85,13 @@ module.exports = {
                 if (queue) {
                     let songsLength = 0;
                     songs.forEach(async song => {
-                        vr = await ytSearch(song.title);
-                        vr = (vr.videos.length > 1 ) ? vr.videos[0] : null;
-                        if (vr) {
-                            vr = {
-                                title: vr.title,
-                                url: vr.url,
-                                timestamp: [vr.duration.timestamp, (vr.duration.seconds * 1000)],
-                                loop: false,
-                                spotifyURL: song.url,
-                            };
-                            queue.songs.push(vr);
-                        }
+                        const track = {
+                            title: song.title,
+                            url: song.url,
+                            loop: false,
+                            spotifyURL: song.url,
+                        };
+                        queue.songs.push(track);
 
                         ++songsLength;
                         if (songsLength === songs.length) {
@@ -134,7 +131,7 @@ module.exports = {
                         adapterCreator: message.guild.voiceAdapterCreator,
                     });
                     
-                    const player = createAudioPlayer();
+                    const player = createAudioPlayer({ debug: true });
                     const subscription = connection.subscribe(player);
 
                     queueContruct.connection = connection;
