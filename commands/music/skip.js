@@ -1,6 +1,6 @@
 const { infoMsg } = require('../../functions/message');
 const { buildText } = require('../../functions/language');
-const { play } = require('../../functions/voice/music');
+const { getSong } = require('../../functions/voice/music');
 const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 
                 if (serverQueue.connection) {
                     serverQueue.songs.shift();
-                    play(message, serverQueue.songs[0]);
+                    serverQueue.player.play(await getSong(message, serverQueue.songs[0], true))
                 }
             }
 

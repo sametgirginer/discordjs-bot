@@ -131,7 +131,7 @@ module.exports = {
                         adapterCreator: message.guild.voiceAdapterCreator,
                     });
                     
-                    const player = createAudioPlayer({ debug: true });
+                    const player = createAudioPlayer().setMaxListeners(0);
                     const subscription = connection.subscribe(player);
 
                     queueContruct.connection = connection;
