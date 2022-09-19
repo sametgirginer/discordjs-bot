@@ -8,12 +8,18 @@ const fs = require('fs');
 module.exports = {
     run: async (client, interaction) => {
         let category = interaction.options.getString('category');
+        let tag = interaction.options.getString('tag');
 		let query = interaction.options.getString('url');
         let gif = interaction.options.getBoolean('gif');
 
-        if (category) {
-            let url = `https://coub.com/api/v2/timeline/random/${category}`;
-            if (category === "random") url = `https://coub.com/api/v2/timeline/explore/random`;
+        if (category || tag) {
+            let url = "";
+            if (category) {
+                url = `https://coub.com/api/v2/timeline/random/${category}`;
+                if (category === "random") url = `https://coub.com/api/v2/timeline/explore/random`;
+            } else if (tag) {
+                url = `https://coub.com/api/v2/timeline/tag/${tag}`;
+            }
     
             interaction.deferReply();
 
@@ -23,7 +29,8 @@ module.exports = {
                 jsonReplacer: true
             }, async function(err, response, body) {
                 if (!err && response.statusCode === 200) {
-                    url = body.coubs[0].permalink;        
+                    rnd = Math.floor(Math.random() * 10);
+                    url = body.coubs[rnd].permalink;        
                     getCoubVideo(client, interaction, url, gif, true);
                 }
             });
@@ -74,6 +81,14 @@ module.exports = {
 					{ name: 'Food & Kitchen', value: 'food-kitchen', name_localizations: { tr : "Yemek & Mutfak"} },
 					{ name: 'Memes', value: 'memes', name_localizations: { tr : "Mizah"} }
 				))
+		.addStringOption(option =>
+			option.setName('tag')
+				.setDescription('You can search by a tag.')
+                .setDescriptionLocalizations({ 
+                    tr : "Bir etikete göre arama yapabilirsin.",
+                })
+				.setRequired(false)
+		)
 		.addStringOption(option =>
 			option.setName('url')
 				.setDescription('You must enter the Coub video link.')
