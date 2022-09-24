@@ -96,16 +96,34 @@ module.exports = {
             });
             return tracks;
         } else if (category === "playlist") {
-            const data = await auth.spotify(`https://api.spotify.com/v1/playlists/${id}`);
-            const tracks = [];
-            data.tracks.items.forEach(item => {
-                if (item.track) {
-                    tracks.push({
-                        title: `${item.track.artists[0].name} - ${item.track.name}`,
-                        url: item.track.external_urls.spotify,
-                    });
+            let data = await auth.spotify(`https://api.spotify.com/v1/playlists/${id}/tracks`);
+            let total = data['total'];
+            let offset = 0;
+
+            const alltracks = async (data, tracks = null) => {
+                tracks = (tracks) ? tracks : [];
+
+                data.items.forEach(item => {
+                    if (item.track) {
+                        tracks.push({
+                            title: `${item.track.artists[0].name} - ${item.track.name}`,
+                            url: item.track.external_urls.spotify,
+                        });
+                    }
+                });
+
+                if (total % 100 > 0 && total > 100) {
+                    offset = parseInt(total.toString().substring(0, 1) + "00");
+                    if (tracks.length < total) {
+                        data = await auth.spotify(`https://api.spotify.com/v1/playlists/${id}/tracks?offset=${offset}`);
+                        alltracks(data, tracks);
+                    }
                 }
-            });
+
+                return tracks;
+            }
+
+            const tracks = alltracks(data);
             return tracks;
         } else {
             return false;
