@@ -1,3 +1,4 @@
+const request = require('request');
 const fs = require('fs');
 
 module.exports = {
@@ -73,4 +74,30 @@ module.exports = {
             return stats.size;
         }
     },
+
+    tiktokMetaVideo: async function(url, onlyVideo = false) {        
+        return new Promise((resolve) => {
+            try {
+                request({
+                    uri: url,
+                    headers: {
+                        "Referer": "https://www.tiktok.com/",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+                    }
+                }, async function(err, response, body) {
+                    if (!err && response.statusCode === 200) {
+                        let bodySplit = body.split('type="application/json">')[1];
+                        let data = JSON.parse(bodySplit.split('</script>')[0]);
+                    
+                        if (onlyVideo) resolve(data.ItemList.video.preloadList[0].url);
+                        resolve(data);
+                    } else {
+                        resolve(false);
+                    }
+                });
+            } catch (error) {
+                resolve(false);
+            }
+        });
+      }
 }
