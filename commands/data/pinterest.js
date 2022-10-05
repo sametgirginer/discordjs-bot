@@ -24,7 +24,8 @@ module.exports = {
                 }, async function(err, response, body) {
                     if (!err && response.statusCode === 200) {
                         let pin;
-                        let meta;
+                        let title;
+                        let desc;
 
                         var handler = new htmlparser.DomHandler(async function(error, dom) {
                             if (error) {
@@ -36,9 +37,9 @@ module.exports = {
                             }, dom);
                                 if (item) {
                                     pin = (JSON.parse(item.children[0].data)).props.initialReduxState.pins[pinId];
-                                    meta = pin.page_metadata.metatags;
+                                    title = pin.title;
 
-                                    if (pin.rich_metadata) meta = pin.rich_metadata;
+                                    if (pin.rich_metadata) title = pin.rich_metadata.title;
                                     if (pin.videos) pin.videos = pin.videos.video_list;
                                 }
                             }
@@ -51,8 +52,7 @@ module.exports = {
                         if (!pin.videos) {
                             const pinImageEmbed = new EmbedBuilder()
                                 .setColor('Random')
-                                .setDescription(meta.description)
-                                .setAuthor({ name: meta.title, url: pin.pinner.image_medium_url })
+                                .setAuthor({ name: title, url: pin.pinner.image_medium_url })
                                 .setImage(pin.images.orig.url)
                                 .setTimestamp()
                                 .setFooter({ text: interaction.user.username + '#' + interaction.user.discriminator });
