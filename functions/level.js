@@ -26,13 +26,7 @@ module.exports = {
 
     dbCheck: async function(guild, member) {
         let xp = await this.getXP(guild.id, member.id);
-        
-        if (xp === 0) {
-            await this.addUser(guild.id, member.id);
-            return true;
-        }
-
-        return false;
+        if (xp === undefined) await this.addUser(guild.id, member.id);
     },
     
     updateLevel: async function(guild, member, xp, messageOrGuild) {
