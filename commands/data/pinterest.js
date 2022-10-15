@@ -9,9 +9,11 @@ const fs = require('fs');
 module.exports = {
     run: async (client, interaction) => {
         let url = interaction.options.getString('url');
+        let pinitregex = /http(s)?:\/\/(www)?pin.it\/([0-9a-zA-Z]*)/;
         let regex = /http(s)?:\/\/(\w.*\.)?([a-zA-Z][a-zA-Z].)?pinterest\.com\/pin\/([0-9]*?)\//;
-        
-        if (url.match(regex) == null) return interaction.reply({ content: await buildText("pinterest_invaild_url", client, { guild: interaction.guildId }), ephemeral: true })
+
+        if (url.match(pinitregex)) url = await pinitRegex(url);
+        if (url.match(regex) == null) return interaction.reply({ content: await buildText("pinterest_invaild_url", client, { guild: interaction.guildId }), ephemeral: true });
         let pinId = url.match(regex)[4];
         let pinURL = `https://pinterest.com/pin/${pinId}`;
 
@@ -25,7 +27,6 @@ module.exports = {
                     if (!err && response.statusCode === 200) {
                         let pin;
                         let title;
-                        let desc;
 
                         var handler = new htmlparser.DomHandler(async function(error, dom) {
                             if (error) {
@@ -114,4 +115,18 @@ module.exports = {
             option.setName('url')
                 .setDescription('Example: https://pinterest.com/pin/xxx')
                 .setRequired(true))
+}
+
+async function pinitRegex(url) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            request({
+                uri: url,
+            }, async function(err, response, body) {
+                if (!err && response.statusCode === 200) resolve(response.request.uri.href);
+            });
+        } catch (error) {
+            reject(false);
+        }
+    });
 }
