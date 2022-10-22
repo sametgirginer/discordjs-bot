@@ -16,7 +16,7 @@ module.exports = {
         autoResponse(message);
         levelSystem.updateMessageXP(message);
     
-        if (!message.content.startsWith(prefix)) {
+        if (!message.content.toLowerCase().startsWith(prefix)) {
             const args = message.content.trim().split(/ +/g);
             const cmd = args.shift().toLowerCase();
     
