@@ -36,7 +36,7 @@ module.exports = {
             song = serverQueue.songs[0];
         }
         
-        if (typeof song.spotifyURL != "undefined" && !song.url.includes("youtube")) {
+        if (song.url.includes("spotify")) {
             let vr = await ytSearch(song.title);
             song.url = (vr.videos.length > 1) ? vr.videos[0].url : null;
             if (song.url === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
