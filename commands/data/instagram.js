@@ -5,8 +5,6 @@ const { sleep } = require("../../functions/helpers");
 const request = require("request");
 const fs = require("fs");
 
-//EXAMPLE URL : https://www.instagram.com/p/CkD8056p5h8/?__a=1&__d=dis
-
 module.exports = {
     run: async (client, interaction) => {
         if (process.env.instagramcookies.length <= 0) return interaction.reply({ content: await buildText("command_inactive", client, { guild: interaction.guildId }), ephemeral: true });
@@ -26,54 +24,106 @@ module.exports = {
                 }
             }, async function(err, response, body) {
                 if (!err && response.statusCode === 200) {
-                    let data = body.graphql.shortcode_media;
+                    if (body.graphql) {
+                        let data = body.graphql.shortcode_media;
 
-                    if (data.is_video) {
-                        interaction.deferReply().then(async () => {
-                            if (!fs.existsSync(`data/instagram`)) fs.mkdirSync('data/instagram');
-                            let rnd = Math.ceil(Math.random() * 5000);
-                            let videoFile = `data/instagram/insta-video-${rnd}.mp4`;
-                
-                            try {
-                                await download(data.video_url, videoFile);
-                
-                                let stats = fs.statSync(videoFile);
-                                stats.size = Math.round(stats.size / (1024*1024));
-                
-                                if (stats.size > 9) {
-                                    fs.unlinkSync(videoFile);
-                                    return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
+                        if (data.is_video) {
+                            interaction.deferReply().then(async () => {
+                                if (!fs.existsSync(`data/instagram`)) fs.mkdirSync('data/instagram');
+                                let rnd = Math.ceil(Math.random() * 5000);
+                                let videoFile = `data/instagram/insta-video-${rnd}.mp4`;
+                    
+                                try {
+                                    await download(data.video_url, videoFile);
+                    
+                                    let stats = fs.statSync(videoFile);
+                                    stats.size = Math.round(stats.size / (1024*1024));
+                    
+                                    if (stats.size > 9) {
+                                        fs.unlinkSync(videoFile);
+                                        return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
+                                            await sleep(5000);
+                                            interaction.deleteReply();
+                                        });
+                                    }
+                    
+                                    const tiktokVideo = new AttachmentBuilder()
+                                        .setFile(videoFile)
+                                        .setName('instagram-video.mp4');
+                                        
+                                    const tiktokButton = new ActionRowBuilder().addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
+                                            .setURL(url)
+                                    );
+                                
+                                    return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
+                                        fs.unlinkSync(videoFile);
+                                    });
+                                } catch (error) {
+                                    console.log(error);
+                    
+                                    if (fs.existsSync(videoFile)) fs.unlinkSync(videoFile);
+                                    interaction.editReply({ content: await buildText("error_downloading_data", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
                                         await sleep(5000);
                                         interaction.deleteReply();
                                     });
                                 }
-                
-                                const tiktokVideo = new AttachmentBuilder()
-                                    .setFile(videoFile)
-                                    .setName('instagram-video.mp4');
-                                    
-                                const tiktokButton = new ActionRowBuilder().addComponents(
-                                    new ButtonBuilder()
-                                        .setStyle(ButtonStyle.Link)
-                                        .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
-                                        .setURL(url)
-                                );
-                            
-                                return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
-                                    fs.unlinkSync(videoFile);
-                                });
-                            } catch (error) {
-                                console.log(error);
-                
-                                if (fs.existsSync(videoFile)) fs.unlinkSync(videoFile);
-                                interaction.editReply({ content: await buildText("error_downloading_data", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
-                                    await sleep(5000);
-                                    interaction.deleteReply();
-                                });
-                            }
-                        });
+                            });
+                        } else {
+                            return interaction.reply({ content: await buildText("notfound_video", client, { guild: interaction.guildId }), ephemeral: true });
+                        }
                     } else {
-                        return interaction.reply({ content: await buildText("notfound_video", client, { guild: interaction.guildId }), ephemeral: true });
+                        let data = body.items[0];
+
+                        if (data.media_type === 2 || data.media_type === "VIDEO") {
+                            interaction.deferReply().then(async () => {
+                                if (!fs.existsSync(`data/instagram`)) fs.mkdirSync('data/instagram');
+                                let rnd = Math.ceil(Math.random() * 5000);
+                                let videoFile = `data/instagram/insta-video-${rnd}.mp4`;
+                    
+                                try {
+                                    await download(data.video_versions[0].url, videoFile);
+                    
+                                    let stats = fs.statSync(videoFile);
+                                    stats.size = Math.round(stats.size / (1024*1024));
+                    
+                                    if (stats.size > 9) {
+                                        fs.unlinkSync(videoFile);
+                                        return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
+                                            await sleep(5000);
+                                            interaction.deleteReply();
+                                        });
+                                    }
+                    
+                                    const tiktokVideo = new AttachmentBuilder()
+                                        .setFile(videoFile)
+                                        .setName('instagram-video.mp4');
+                                        
+                                    const tiktokButton = new ActionRowBuilder().addComponents(
+                                        new ButtonBuilder()
+                                            .setStyle(ButtonStyle.Link)
+                                            .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
+                                            .setURL(url)
+                                    );
+                                
+                                    return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
+                                        fs.unlinkSync(videoFile);
+                                    });
+                                } catch (error) {
+                                    console.log(error);
+                    
+                                    if (fs.existsSync(videoFile)) fs.unlinkSync(videoFile);
+                                    interaction.editReply({ content: await buildText("error_downloading_data", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
+                                        await sleep(5000);
+                                        interaction.deleteReply();
+                                    });
+                                }
+                            });
+                        } else {
+                            return interaction.reply({ content: await buildText("notfound_video", client, { guild: interaction.guildId }), ephemeral: true });
+                        }
                     }
                 } else {
                     return interaction.reply({ content: await buildText("notfound_media", client, { guild: interaction.guildId }), ephemeral: true });
