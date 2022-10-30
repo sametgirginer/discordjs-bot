@@ -25,6 +25,7 @@ Discord botu hala geliştirme aşamasında.
 | ------------- | ------------- | ----------------- | ------------- |
 | artstation    | Veri          | Slash Komutu      | Artstation.com bağlantısından resim verilerini alır. |
 | coub          | Veri          | Slash Komutu      | Coub.com bağlantısından video verilerini alır. |
+| instagram     | Veri          | Slash Komutu      | Instagram.com bağlantısından medya verilerini alır. |
 | pinterest     | Veri          | Slash Komutu      | Pinterest.com bağlantısından video/resim verilerini alır. |
 | reddit        | Veri          | Slash Komutu      | Reddit.com bağlantısından video verilerini alır. |
 | tiktok        | Veri          | Slash Komutu      | TikTok.com bağlantısından video verilerini alır. |
@@ -104,6 +105,7 @@ Discord botu hala geliştirme aşamasında.
 
 # .env bilgilendirme
 
-- `twitterapptoken` - twitter komutu için opsiyonel
+- `twitterapptoken` - Twitter komutu için opsiyonel
+- `instagramcookies` - Instagram komutu için opsiyonel
 - `spotifyclientid` & `spotifyclientsecret` - play komutu için Spotify bağlantıları
 - `deepaikey` - Mesajlardaki resimler için NSFW algılama.

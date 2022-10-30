@@ -25,6 +25,10 @@
     "allowed_max_mention" : "<@${message.author.id}>, you cannot tag more than one person.",
     "user_id_required" : "<@${message.author.id}>, you did not enter any id.",
     "file_size_large" : "Could not share because the file size is large.",
+    "unvaild_url" : "You must enter a valid link.\nExample: %0",
+    "notfound_media" : "Could not access media in link.",
+    "notfound_video" : "Could not access video in link.",
+    "error_downloading_data" : "An error occurred while downloading data.",
 
     "interaction_required_args" : "Required arguments were not entered.",
     "command_only_support_server" : "<@${message.author.id}>, this command can only be used on bot's **Discord support** server.",

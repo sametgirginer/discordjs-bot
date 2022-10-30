@@ -25,6 +25,7 @@ Discord bot still in development.
 | ------------- | ------------- | ----------------- | ------------- |
 | artstation    | Data          | Slash Command     | Retrieves image data from Artstation.com link.  |
 | coub          | Data          | Slash Command     | Retrieves video data from Coub.com link. |
+| instagram     | Data          | Slash Command     | Retrieves media data from Instagram link. |
 | pinterest     | Data          | Slash Command     | Retrieves video/image data from Pinterest.com link. |
 | reddit        | Data          | Slash Command     | Retrieves video data from Reddit.com link. |
 | tiktok        | Data          | Slash Command     | Retrieves video data from TikTok.com link. |
@@ -104,6 +105,7 @@ Discord bot still in development.
 
 # .env information
 
-- `twitterapptoken` - Optional for twitter command
+- `twitterapptoken` - Optional for Twitter command
+- `instagramcookies` - Optional for Instagram command
 - `spotifyclientid` & `spotifyclientsecret` - Spotify links for play command
 - `deepaikey` - NSFW detection for images in messages.

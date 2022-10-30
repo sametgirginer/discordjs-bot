@@ -25,6 +25,10 @@
     "allowed_max_mention" : "<@${message.author.id}>, birden fazla kişiyi etiketleyemezsin.",
     "user_id_required" : "<@${message.author.id}>, herhangi bir id girmedin.",
     "file_size_large" : "Dosya boyutu büyük olduğundan paylaşılamadı.",
+    "unvaild_url" : "Geçerli bir bağlantı girmelisiniz.\nÖrnek: %0",
+    "notfound_media" : "Bağlantıdaki medyaya erişilemedi.",
+    "notfound_video" : "Bağlantıdaki videoya erişilemedi.",
+    "error_downloading_data" : "Veri indirilirken bir hata oluştu.",
 
     "interaction_required_args" : "Gerekli argümanlar girilmedi.",
     "command_only_support_server" : "<@${message.author.id}>, bu komut sadece botun **discord destek** sunucusunda kullanılabilir.",
