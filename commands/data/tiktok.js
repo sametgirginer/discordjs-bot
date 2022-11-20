@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
-const { sleep, tiktokMetaVideo } = require('../../functions/helpers');
+const { sleep, tiktokMetaVideo, getRedirectURL } = require('../../functions/helpers');
 const { buildText } = require("../../functions/language");
 const { download } = require('../../functions/download');
 const fs = require('fs');
@@ -8,8 +8,12 @@ module.exports = {
     run: async (client, interaction) => {
         let url = interaction.options.getString('url');
         let regex = /http(s)?:\/\/(\w.*\.)?tiktok\.com\/([@a-zA-Z0-9._]*)\/video\/([0-9]*)/;
+        let shortregex = /http(s)?:\/\/vm.tiktok\.com\/([@a-zA-Z0-9._]*)/;
 
-        if (url.match(regex) == null) return interaction.reply({ content: await buildText("tiktok_invaild_url", client, { guild: interaction.guildId }), ephemeral: true });
+        if (url.match(regex) == null) {
+            if (url.match(shortregex) != null) url = await getRedirectURL(url);
+            else return interaction.reply({ content: await buildText("tiktok_invaild_url", client, { guild: interaction.guildId }), ephemeral: true });
+        }
 
         interaction.deferReply().then(async () => {
             if (!fs.existsSync(`data/tiktok`)) fs.mkdirSync('data/tiktok');

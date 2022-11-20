@@ -99,5 +99,19 @@ module.exports = {
                 resolve(false);
             }
         });
-      }
+      },
+
+      getRedirectURL: async function(url) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                request({
+                    uri: url,
+                }, async function(err, response, body) {
+                    if (!err && response.statusCode === 200) resolve(response.request.uri.href);
+                });
+            } catch (error) {
+                reject(false);
+            }
+        });
+    },
 }
