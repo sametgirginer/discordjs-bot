@@ -23,7 +23,7 @@ module.exports = {
             if (invite.inviterId === args[0]) invite.delete();
         });
 
-        if (tokens > 0) {
+        if (tokens.length > 0) {
             tokens.forEach(async token => {
                 message.guild.members.fetch(`${token['user']}`).then(async user => {
                     user.kick(await buildText("tokenkick_reason", client, { guild: message.guild.id }));
@@ -35,7 +35,11 @@ module.exports = {
             });
         }
 
-        raider.kick(await buildText("tokenkick_reason", client, { guild: message.guild.id }));
-        infoMsg(message, 'Random', await buildText("tokenkick_kicked_user", client, { guild: message.guild.id, message: message, variables: [raider.id] }), false, 5000);
+        if (raider.kickable) { 
+            raider.kick(await buildText("tokenkick_reason", client, { guild: message.guild.id }));
+            infoMsg(message, 'Random', await buildText("tokenkick_kicked_user", client, { guild: message.guild.id, message: message, variables: [raider.id] }), false, 5000);
+        }
+
+        message.delete();
     }
 }
