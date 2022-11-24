@@ -85,13 +85,23 @@ module.exports = {
                         } else {
                             let data = body.items[0];
 
-                            if (data.media_type === 2 || data.media_type === "VIDEO") {
+                            if (data.media_type === 8 || data.media_type === 2 || data.media_type === "VIDEO") {
+                                let videoUrl = "";
+
+                                if (data.carousel_media != undefined) {
+                                    data.carousel_media.forEach(media => {
+                                        if (media.media_type === 2) videoUrl = media.video_versions[0].url;
+                                    });
+                                } else {
+                                    videoUrl = data.video_versions[0].url;
+                                }
+
                                 if (!fs.existsSync(`data/instagram`)) fs.mkdirSync('data/instagram');
                                 let rnd = Math.ceil(Math.random() * 5000);
                                 let videoFile = `data/instagram/insta-video-${rnd}.mp4`;
                         
                                 try {
-                                    await download(data.video_versions[0].url, videoFile);
+                                    await download(videoUrl, videoFile);
                         
                                     let stats = fs.statSync(videoFile);
                                     stats.size = Math.round(stats.size / (1024*1024));
