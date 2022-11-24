@@ -77,8 +77,10 @@ module.exports = {
         /*
             GUILD SETTINGS
         */
-        if (args[0] === 'lang') {
-            if (args[1] == "en" || args[1] == "tr") {
+        if (args[0] === 'lang' || args[0] === 'levelmsg') {
+            if (args[0] === 'lang' && (args[1] == "en" || args[1] == "tr") ||
+                args[0] === 'levelmsg' && (args[1] == "true" || args[1] == "false")
+            ) {
                 if (await db.getSetting(message.guild.id) === 0) {
                     let data = `{"${args[0]}":"${args[1]}"}`;
 
@@ -92,9 +94,9 @@ module.exports = {
                     db.queryUpdate(`UPDATE discord_settings SET data = '${data}' WHERE guild = '${message.guild.id}'`);
                 }
                 
-                infoMsg(message, '65ed3b', await buildText("options_lang_set", client, { guild: message.guild.id, variables: [args[1]] }));
+                infoMsg(message, '65ed3b', await buildText("options_set", client, { guild: message.guild.id, variables: [args[0], args[1]] }));
             } else {
-                infoMsg(message, 'FFE26A', await buildText("options_lang_required", client, { guild: message.guild.id }));
+                infoMsg(message, 'FFE26A', await buildText("options_arg_required", client, { guild: message.guild.id, message: message }));
             }
         }
 
@@ -102,7 +104,7 @@ module.exports = {
             DELETE SETTING
         */
         if (args[0] === 'delete') {
-            if(args[1]) {
+            if(args[1] != "lang") {
                 if (await db.getSetting(message.guild.id)) {
                     let data = JSON.parse((await db.querySelect(`SELECT * FROM discord_settings WHERE guild = '${message.guild.id}'`)).data);
 

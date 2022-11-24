@@ -49,7 +49,8 @@ module.exports = {
             //Private Server
             role.levelup(guild, member, level, messageOrGuild);
 
-            if (messageOrGuild.author != undefined) infoMsg(messageOrGuild, 'Random', await buildText("level_up", messageOrGuild.client, { guild: guild, variables: [member, level] }));
+            let data = JSON.parse((await db.querySelect(`SELECT * FROM discord_settings WHERE guild = '${guild}'`)).data);
+            if (messageOrGuild.author != undefined) if (data['levelmsg'] === undefined || data['levelmsg'] == "true") infoMsg(messageOrGuild, 'Random', await buildText("level_up", messageOrGuild.client, { guild: guild, variables: [member, level] }));
         }
     },
 
