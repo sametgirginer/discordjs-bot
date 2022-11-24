@@ -28,6 +28,15 @@ module.exports = {
                         if (body.graphql) {
                             let data = body.graphql.shortcode_media;
 
+                            if (data.edge_sidecar_to_children != undefined) {
+                                data.edge_sidecar_to_children.edges.forEach(n => {
+                                    if (n.node.is_video) {
+                                        data.is_video = true;
+                                        data.video_url = n.node.video_url;
+                                    }
+                                });
+                            }
+
                             if (data.is_video) {
                                 if (!fs.existsSync(`data/instagram`)) fs.mkdirSync('data/instagram');
                                 let rnd = Math.ceil(Math.random() * 5000);
