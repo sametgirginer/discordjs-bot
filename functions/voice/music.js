@@ -2,8 +2,8 @@ const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
 const auth = require('../authorization');
 const { EmbedBuilder } = require('discord.js');
-const { sleep } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
+const { errorLog } = require('../../functions/logger');
 const { createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 
 module.exports = {
@@ -18,12 +18,14 @@ module.exports = {
 
         serverQueue.player.play(await module.exports.getSong(message, song, true));
         serverQueue.player.on(AudioPlayerStatus.Idle, async () => {
-            serverQueue.player.play(await module.exports.getSong(message, serverQueue.songs[0]));
+            if (serverQueue.songs.length > 1) serverQueue.player.play(await module.exports.getSong(message, serverQueue.songs[0]));
+            else queue.delete(message.guild.id);
         });
 
         serverQueue.player.on('error', async error => {
             message.client.log.sendError(message.client, error, message);
-            serverQueue.player.play(await module.exports.getSong(message, serverQueue.songs[0]));
+            if (serverQueue.songs.length > 1) serverQueue.player.play(await module.exports.getSong(message, serverQueue.songs[0]));
+            else queue.delete(message.guild.id);
         });
     },
     
@@ -31,45 +33,50 @@ module.exports = {
         const queue = message.client.queue;
         const serverQueue = queue.get(message.guild.id);
 
-        if (!firstPlay) if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) {
-            serverQueue.songs.shift();
-            song = serverQueue.songs[0];
-        }
+        try {
+            if (!firstPlay) if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) {
+                serverQueue.songs.shift();
+                song = serverQueue.songs[0];
+            }
         
-        if (song.url.includes("spotify")) {
-            let vr = await ytSearch(song.title);
-            song.url = (vr.videos.length > 1) ? vr.videos[0].url : null;
-            if (song.url === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
-            song.timestamp = [vr.videos[0].duration.timestamp, (vr.videos[0].duration.seconds * 1000)];
-        }
+            if (song.url.includes("spotify")) {
+                let vr = await ytSearch(song.title);
+                song.url = (vr.videos.length > 1) ? vr.videos[0].url : null;
+                if (song.url === null) return infoMsg(message, 'AA5320', await buildText("music_cannot_played", client, { guild: message.guild.id }));
+                song.timestamp = [vr.videos[0].duration.timestamp, (vr.videos[0].duration.seconds * 1000)];
+            }    
 
-        return new Promise(async (resolve, reject) => {
-            const resource = await createAudioResource(
-                ytdl(song.url, {
-                    filter: "audioonly",
-                    fmt: "mp3",
-                    highWaterMark: 1 << 25,
-                    liveBuffer: 1 << 25,
-                    dlChunkSize: 0,
-                    bitrate: 128,
-                    quality: "highestaudio"
-                }), {
-                metadata: {
-                    title: song.title,
-                }
+            return new Promise(async (resolve, reject) => {
+                const resource = await createAudioResource(
+                    ytdl(song.url, {
+                        filter: "audioonly",
+                        fmt: "mp3",
+                        highWaterMark: 1 << 25,
+                        liveBuffer: 1 << 25,
+                        dlChunkSize: 0,
+                        bitrate: 128,
+                        quality: "highestaudio"
+                    }), {
+                    metadata: {
+                        title: song.title,
+                    }
+                });
+
+                const videoEmbed = new EmbedBuilder()
+                    .setColor('Random')
+                    .setDescription(`[${song.title}](${(song.spotifyURL) ? song.spotifyURL : song.url})`)
+                    .setAuthor({ name: await buildText("music_playing", message.client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
+                    .setTimestamp()
+                    .setFooter({ text: message.author.username + '#' + message.author.discriminator });
+            
+                if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send({ embeds: [videoEmbed] });
+
+                resolve(resource);
             });
-
-            const videoEmbed = new EmbedBuilder()
-                .setColor('Random')
-                .setDescription(`[${song.title}](${(song.spotifyURL) ? song.spotifyURL : song.url})`)
-                .setAuthor({ name: await buildText("music_playing", message.client, { guild: message.guild.id, variables: [song.timestamp[0]] }), iconURL: 'https://i.imgur.com/5ZbX7RV.png' })
-                .setTimestamp()
-                .setFooter({ text: message.author.username + '#' + message.author.discriminator });
-        
-            if (serverQueue.songs.length > 0) if (!serverQueue.songs[0].loop) serverQueue.textChannel.send({ embeds: [videoEmbed] });
-
-            resolve(resource);
-        });
+        } catch (error) {
+            console.log(error);
+            errorLog(message.client, message, error);
+        }
     },
 
     getSpotifyTrack: async function(url) {
