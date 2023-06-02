@@ -75,7 +75,10 @@ module.exports = {
         }
     },
 
-    tiktokMetaVideo: async function(url, onlyVideo = false) {        
+    tiktokMetaVideo: async function(url, onlyVideo = false) {
+        var regex = /https?:\/\/(?:m|www|vm)\.tiktok\.com\/.*\b(?:(?:usr|v|embed|user|video)\/|\?shareId=|\&item_id=)(\d+)\b/;
+        if (regex.test(url)) url = "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=" + url.match(regex)[1];
+
         return new Promise((resolve) => {
             try {
                 request({
@@ -86,11 +89,9 @@ module.exports = {
                     }
                 }, async function(err, response, body) {
                     if (!err && response.statusCode === 200) {
-                        let bodySplit = body.split('type="application/json">')[1];
-                        let data = JSON.parse(bodySplit.split('</script>')[0]);
-                    
-                        if (onlyVideo) resolve(data.ItemList.video.preloadList[0].url);
-                        resolve(data);
+                        body = JSON.parse(body);
+                        if (onlyVideo) resolve(body.aweme_list[0].video.play_addr.url_list[0]);
+                        resolve(body);
                     } else {
                         resolve(false);
                     }
