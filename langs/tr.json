@@ -78,7 +78,6 @@
     "pinterest_error_pwsdata" : "Siteden veri çekilirken hata oluştu.",
 
     "reddit_required_url" : "Reddit bağlantısı yazmanız gereklidir.",
-    "reddit_processing_video" : "<@%0>, **reddit videosu** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "reddit_cannot_upload" : "Reddit videosu indirilemedi veya dosya boyutu yüksek olduğu için yüklenemedi.",
     "reddit_notfound_video" : "Reddit bağlantısında video bulunamadı.",
     "reddit_data_error" : "<@%0>, veri çekme işleminde bir hata oluştu.",

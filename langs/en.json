@@ -78,7 +78,6 @@
     "pinterest_error_pwsdata" : "An error occurred while extracting data from the site.",
     
     "reddit_required_url" : "You must write a reddit link.",
-    "reddit_processing_video" : "<@%0>, preparing **reddit video**. Will upload when ready.",
     "reddit_cannot_upload" : "The Reddit video could not be downloaded or uploaded because the file size is high.",
     "reddit_notfound_video" : "No video found in reddit link.",
     "reddit_data_error" : "<@%0>, an error occurred while extracting data.",
