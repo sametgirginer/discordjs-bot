@@ -39,9 +39,11 @@ module.exports = {
                             }, dom);
                                 if (item) {
                                     pin = (JSON.parse(item.children[0].data)).props.initialReduxState.pins[pinId];
-                                    title = pin.title;
+                                    if (pin.title.length != 0) title = pin.title;
+                                    else if (pin.rich_metadata != null) title = pin.rich_metadata.title;
+                                    else if (pin.seo_title != null) title = pin.seo_title;
+                                    else title = pin.pinner.username;
 
-                                    if (pin.rich_metadata) title = pin.rich_metadata.title;
                                     if (pin.videos) pin.videos = pin.videos.video_list;
                                 }
                             }
@@ -54,7 +56,7 @@ module.exports = {
                         if (!pin.videos) {
                             const pinImageEmbed = new EmbedBuilder()
                                 .setColor('Random')
-                                .setAuthor({ name: title, url: pin.pinner.image_medium_url })
+                                .setAuthor({ name: title })
                                 .setImage(pin.images.orig.url)
                                 .setTimestamp()
                                 .setFooter({ text: interaction.user.username + '#' + interaction.user.discriminator });
