@@ -16,7 +16,7 @@ module.exports = {
             let url = "";
             if (category) {
                 url = `https://coub.com/api/v2/timeline/random/${category}`;
-                if (category === "random") url = `https://coub.com/api/v2/timeline/explore/random`;
+                if (category == "Random") url = `https://coub.com/api/v2/timeline/explore/random`;
             } else if (tag) {
                 url = `https://coub.com/api/v2/timeline/tag/${tag}`;
             }
