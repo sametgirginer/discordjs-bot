@@ -42,44 +42,40 @@ module.exports = {
             });
 
             if (selVar.file) {
-                var cooldownEmbed = new EmbedBuilder()
-                    .setColor('#d747ed')
-                    .setDescription(await buildText("twitter_processing_media", client, { guild: interaction.guildId, variables: [interaction.user.id] }))
-
-                interaction.reply({ embeds: [cooldownEmbed] });
-                await sleep(1000);
-                if (!fs.existsSync(`data/twitter`)) fs.mkdirSync('data/twitter');
+                interaction.deferReply().then(async () => {
+                    if (!fs.existsSync(`data/twitter`)) fs.mkdirSync('data/twitter');
     
-                let video = new AttachmentBuilder()
-                    .setFile(selVar.file)
-                    .setName(`twitter-${selVar.type}.${selVar.fileExtension}`);
-
-                let twitterButtons = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder()
-                        .setStyle(ButtonStyle.Link)
-                        .setLabel('Twitter')
-                        .setURL(url)
-                );
-        
-                let fileExists = fs.existsSync(selVar.file);
-                if (!fileExists) {
-                    ffmpeg(selVar.url)
-                    .output(selVar.file)
-                    .on('end', function() {
-                        if (selVar.text.length > 0) {
-                            interaction.editReply({ content: `> ${selVar.text}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
-                                fs.unlinkSync(selVar.file);
-                            });
-                        } else {
-                            interaction.editReply({ files: [video], components: [twitterButtons], embeds: [] }).then(() => {
-                                fs.unlinkSync(selVar.file);
-                            });
-                        }
-                    })
-                    .run();
-                } else {
-                    return interaction.editReply({ content: await buildText("twitter_already_processing", client, { guild: interaction.guildId }), embeds: [] });
-                }
+                    let video = new AttachmentBuilder()
+                        .setFile(selVar.file)
+                        .setName(`twitter-${selVar.type}.${selVar.fileExtension}`);
+    
+                    let twitterButtons = new ActionRowBuilder().addComponents(
+                        new ButtonBuilder()
+                            .setStyle(ButtonStyle.Link)
+                            .setLabel('Twitter')
+                            .setURL(url)
+                    );
+            
+                    let fileExists = fs.existsSync(selVar.file);
+                    if (!fileExists) {
+                        ffmpeg(selVar.url)
+                        .output(selVar.file)
+                        .on('end', function() {
+                            if (selVar.text.length > 0) {
+                                interaction.editReply({ content: `> ${selVar.text}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
+                                    fs.unlinkSync(selVar.file);
+                                });
+                            } else {
+                                interaction.editReply({ files: [video], components: [twitterButtons], embeds: [] }).then(() => {
+                                    fs.unlinkSync(selVar.file);
+                                });
+                            }
+                        })
+                        .run();
+                    } else {
+                        return interaction.editReply({ content: await buildText("twitter_already_processing", client, { guild: interaction.guildId }), embeds: [] });
+                    }
+                });
             } else {
                 return interaction.reply({ content: await buildText("twitter_notfound_media", client, { guild: interaction.guildId }), ephemeral: true });
             }

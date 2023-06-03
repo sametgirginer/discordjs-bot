@@ -86,7 +86,6 @@
     "tiktok_error_data" : "Siteden veri çekilirken hata oluştu.",
 
     "twitter_notfound_media" : "Bu bağlantıdaki medyaya erişilemedi.",
-    "twitter_processing_media" : "<@%0>, **twitter medyası** hazırlanıyor. Hazır olduğunda yüklenecek.",
     "twitter_already_processing" : "Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.",
     "twitter_unvaild_url" : "Geçerli bir bağlantı girmeniz gerekmektedir.",
 
