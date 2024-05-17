@@ -1,11 +1,11 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    infoMsg: function(message, hexColor, returnMsg, cmdMsgDel, deleteCooldown, reply = [false, false]) {
-        if (hexColor != "Random") hexColor = `#${hexColor}`;
+    infoMsg: function(message, color, returnMsg, cmdMsgDel, deleteCooldown, reply = [false, false]) {
+        if (color != "Random") color = `${color}`;
         
         var embed = new EmbedBuilder()
-            .setColor(hexColor)
+            .setColor(color)
             .setDescription(returnMsg)
 
         if (cmdMsgDel === true)
