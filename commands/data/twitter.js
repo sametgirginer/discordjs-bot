@@ -1,6 +1,6 @@
-const { TwitterApi } = require('twitter-api-v2');
-const { EmbedBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
-const { twitterRegex, sleep } = require('../../functions/helpers');
+const { Scraper } = require('@the-convocation/twitter-scraper');
+const { AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
+const { twitterRegex } = require('../../functions/helpers');
 const { buildText } = require('../../functions/language');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
@@ -9,37 +9,23 @@ module.exports = {
     run: async (client, interaction) => {
         if (process.env.twitterapptoken.length <= 0) return interaction.reply({ content: await buildText("command_inactive", client, { guild: interaction.guildId }), ephemeral: true })
         
-        const twitterClient = new TwitterApi(process.env.twitterapptoken);
         let url = interaction.options.getString('url');
         url = await twitterRegex(url, 2);
         let id = await twitterRegex(url, 4);
 
         if (id) {
-            let tweet = await twitterClient.v2.tweets(id, { expansions: 'attachments.media_keys', "media.fields": "type,alt_text,variants" });
+            const scraper = new Scraper();
+            let tweet = await scraper.getTweet(id);
+            let title = tweet.text.replace(/http[s]?:\/\/t.co\/[a-zA-Z0-9]*/g, "");
             let selVar = [];
 
-            tweet.includes.media.forEach(async media => {
-                if (media.variants != undefined) {
-                    media.variants.forEach(async variant => {
-                        if (variant.content_type === "video/mp4") {
-                            selVar['id'] = tweet.data[0].id;
-                            selVar['url'] = variant.url;
-                            selVar['type'] = media.type;
-                            selVar['text'] = tweet.data[0].text.replace(/http[s]?:\/\/t.co\/[a-zA-Z0-9]*/g, "");
-
-                            if (media.type === "video") {
-                                selVar['fileExtension'] = "mp4";
-                                selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
-                            }
-
-                            if (media.type === "animated_gif") {
-                                selVar['fileExtension'] = "gif";
-                                selVar['file'] = `data/twitter/${tweet.data[0].id}.${selVar['fileExtension']}`;
-                            }
-                        }
-                    });
-                }
-            });
+            if (tweet.videos.length > 0) {
+                selVar['id'] = tweet.videos[0].id;
+                selVar['url'] = tweet.videos[0].url;
+                selVar['file'] = `data/twitter/${tweet.videos[0].id}.mp4`;
+            } else {
+                return interaction.reply({ content: await buildText("twitter_notfound_media", client, { guild: interaction.guildId }), ephemeral: true });
+            }
 
             if (selVar.file) {
                 interaction.deferReply().then(async () => {
@@ -47,7 +33,7 @@ module.exports = {
     
                     let video = new AttachmentBuilder()
                         .setFile(selVar.file)
-                        .setName(`twitter-${selVar.type}.${selVar.fileExtension}`);
+                        .setName(`twitter-${selVar.id}.mp4`);
     
                     let twitterButtons = new ActionRowBuilder().addComponents(
                         new ButtonBuilder()
@@ -61,8 +47,8 @@ module.exports = {
                         ffmpeg(selVar.url)
                         .output(selVar.file)
                         .on('end', function() {
-                            if (selVar.text.length > 0) {
-                                interaction.editReply({ content: `> ${selVar.text}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
+                            if (title.length > 0) {
+                                interaction.editReply({ content: `> ${title}`, files: [video], components: [twitterButtons], embeds: [] }).then(() => {
                                     fs.unlinkSync(selVar.file);
                                 });
                             } else {

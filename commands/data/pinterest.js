@@ -23,7 +23,11 @@ module.exports = {
                 request({
                     uri: pinURL,
                     json: true,
-                    jsonReplacer: true
+                    jsonReplacer: true,
+                    headers: {
+                        "user-agent" : process.env.useragent,
+                        "cookie" : process.env.pinterestcookies,
+                    }
                 }, async function(err, response, body) {
                     if (!err && response.statusCode === 200) {
                         let pin;

@@ -1,7 +1,10 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, AttachmentBuilder, ButtonStyle } = require('discord.js');
-const { sleep, tiktokMetaVideo, getRedirectURL } = require('../../functions/helpers');
+const { sleep, getRedirectURL } = require('../../functions/helpers');
 const { buildText } = require("../../functions/language");
 const { download } = require('../../functions/download');
+const htmlparser = require("htmlparser2");
+const domutils = require("domutils");
+const request = require("request");
 const fs = require('fs');
 
 module.exports = {
@@ -21,33 +24,64 @@ module.exports = {
             let videoFile = `data/tiktok/tiktok-video-${rnd}.mp4`;
 
             try {
-                let videoURL = await tiktokMetaVideo(url, true);
-                await download(videoURL, videoFile);
+                request({
+                    uri: url,
+                    headers: {
+                        "Referer": "https://www.tiktok.com/",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+                    }
+                }, async function(err, response, body) {
+                    if (!err && response.statusCode === 200) {
+                        let tikmeta;        
+                        var handler = new htmlparser.DomHandler(async function(error, dom) {
+                            if (error) {
+                                return interaction.editReply({ content: await buildText("tiktok_error_data", client, { guild: interaction.guildId }), ephemeral: true });
+                            } else {
+                                const item = domutils.findOne(element => {
+                                    const matches = element.attribs.id === '__UNIVERSAL_DATA_FOR_REHYDRATION__';
+                                    return matches;
+                            }, dom);
+                                if (item) {
+                                    tikmeta = JSON.parse(item.children[0].data).__DEFAULT_SCOPE__['webapp.video-detail'].itemInfo.itemStruct;
+                                }
+                            }
+                        });
+                        
+                        var parser = new htmlparser.Parser(handler);
+                        parser.write(body);
+                        parser.end();
 
-                let stats = fs.statSync(videoFile);
-                stats.size = Math.round(stats.size / (1024*1024));
+                        let videoURL = tikmeta.video.downloadAddr;
+                        await download(videoURL, videoFile, response.headers['set-cookie']);
 
-                if (stats.size > 9) {
-                    fs.unlinkSync(videoFile);
-                    return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
-                        await sleep(5000);
-                        interaction.deleteReply();
-                    });
-                }
-
-                const tiktokVideo = new AttachmentBuilder()
-                    .setFile(videoFile)
-                    .setName('tiktok-video.mp4');
+                        let stats = fs.statSync(videoFile);
+                        stats.size = Math.round(stats.size / (1024*1024));
+        
+                        if (stats.size > 9) {
+                            fs.unlinkSync(videoFile);
+                            return interaction.editReply({ content: await buildText("file_size_large", client, { guild: interaction.guildId }), ephemeral: true }).then(async () => {
+                                await sleep(5000);
+                                interaction.deleteReply();
+                            });
+                        }
+        
+                        const tiktokVideo = new AttachmentBuilder()
+                            .setFile(videoFile)
+                            .setName('tiktok-video.mp4');
+                            
+                        const tiktokButton = new ActionRowBuilder().addComponents(
+                            new ButtonBuilder()
+                                .setStyle(ButtonStyle.Link)
+                                .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
+                                .setURL(url)
+                        );
                     
-                const tiktokButton = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder()
-                        .setStyle(ButtonStyle.Link)
-                        .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
-                        .setURL(url)
-                );
-            
-                return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
-                    fs.unlinkSync(videoFile);
+                        return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
+                            fs.unlinkSync(videoFile);
+                        });
+                    } else {
+                        return interaction.reply({ content: await buildText("tiktok_error_data", client, { guild: interaction.guildId }), ephemeral: true });
+                    }
                 });
             } catch (error) {
                 console.log(error);

@@ -75,34 +75,7 @@ module.exports = {
         }
     },
 
-    tiktokMetaVideo: async function(url, onlyVideo = false) {
-        var regex = /https?:\/\/(?:m|www|vm)\.tiktok\.com\/.*\b(?:(?:usr|v|embed|user|video)\/|\?shareId=|\&item_id=)(\d+)\b/;
-        if (regex.test(url)) url = "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=" + url.match(regex)[1];
-
-        return new Promise((resolve) => {
-            try {
-                request({
-                    uri: url,
-                    headers: {
-                        "Referer": "https://www.tiktok.com/",
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
-                    }
-                }, async function(err, response, body) {
-                    if (!err && response.statusCode === 200) {
-                        body = JSON.parse(body);
-                        if (onlyVideo) resolve(body.aweme_list[0].video.play_addr.url_list[0]);
-                        resolve(body);
-                    } else {
-                        resolve(false);
-                    }
-                });
-            } catch (error) {
-                resolve(false);
-            }
-        });
-      },
-
-      getRedirectURL: async function(url) {
+    getRedirectURL: async function(url) {
         return new Promise(async (resolve, reject) => {
             try {
                 request({

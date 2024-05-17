@@ -10,7 +10,7 @@ module.exports = {
         if (process.env.instagramcookies.length <= 0) return interaction.reply({ content: await buildText("command_inactive", client, { guild: interaction.guildId }), ephemeral: true });
         
         let url = interaction.options.getString("url");
-        let regex = /((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reel)\/([^/?#&]+)).*/;
+        let regex = /((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reel|reels)\/([^/?#&]+)).*/;
         let match = url.match(regex);
 
         if (match) {
@@ -20,7 +20,7 @@ module.exports = {
                     json: true,
                     jsonReplacer: true,
                     headers: {
-                        "user-agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                        "user-agent" : process.env.useragent,
                         "cookie" : process.env.instagramcookies,
                     }
                 }, async function(err, response, body) {

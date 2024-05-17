@@ -27,19 +27,19 @@ module.exports = {
                 if (!err && response.statusCode === 200) {
                     let results = JSON.parse(JSON.stringify(await body));
                     let data = results[0].data.children[0].data;
-        
+
                     if (data.is_video) {
                         if (!fs.existsSync(`data/reddit`)) fs.mkdirSync('data/reddit');
                         let rnd = Math.ceil(Math.random() * 5000);
                         let video = (data['secure_media']['reddit_video']['fallback_url']).replace("?source=fallback", "").replace("DASH_96", "DASH_720").replace("DASH_1080", "DASH_720");
-                        let audio = `${data['url_overridden_by_dest']}/HLS_AUDIO_64_K`;
+                        let audio = `${data['url_overridden_by_dest']}/DASH_AUDIO_64.mp4`;
                         let videoFile = `data/reddit/output-video-${rnd}.mp4`;
                         let audioFile = `data/reddit/output-audio-${rnd}.aac`;
                         let mergedFile = `data/reddit/output-merged-video-${rnd}.mp4`;
         
                         await download(video, videoFile);
                         request({
-                            uri: `${audio}.aac`,
+                            uri: `${audio}`,
                         }, async function(err, response, body) {
                             if (response.statusCode === 200) {
                                 await download(`${audio}.aac`, audioFile);
