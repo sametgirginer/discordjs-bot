@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js");
-const { infoMsg } = require("../../functions/message");
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require("discord.js");
 const { buildText } = require("../../functions/language");
 
 module.exports = {
@@ -27,9 +26,8 @@ module.exports = {
 
         if (!emojis[0]) return interaction.reply({ content: await buildText("emoji_not_found", client, { guild: interaction.guildId }), ephemeral: true });
 
+        let rnd = Math.ceil(Math.random() * 10000);
         emojis.forEach(emoji => {
-            let rnd = Math.ceil(Math.random() * 10000);
-
             emoji.embed = new EmbedBuilder()
                 .setColor('Random')
                 .setAuthor({ name: `Emoji: ${emoji.name}`, iconURL: interaction.user.avatarURL({ format: 'png', dynamic: true }) })
@@ -61,8 +59,8 @@ module.exports = {
             let emojiId = 0;
             interaction.reply({ embeds: [emojis[0].embed], components: [emojis[0].row] });
 
-            const filter = i => i.user.id === interaction.user.id;
-            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+            const filter = i => i.user.id === interaction.user.id && i.customId.includes(rnd);
+            const collector = interaction.channel.createMessageComponentCollector({ filter, componentType: ComponentType.Button, time: 60000 });
             
             collector.on('collect', async i => {
                 emojiId = i.customId.charAt(i.customId.length - 1) - 1;
@@ -77,7 +75,7 @@ module.exports = {
                 .addComponents(
                     new ButtonBuilder()
                         .setStyle(ButtonStyle.Link)
-                        .setLabel('\t')
+                        .setLabel('Link')
                         .setURL(emojis[0].url)
             );
 
@@ -87,7 +85,7 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('emoji')
-        .setDescription('emoji_desc')
+        .setDescription('Get emoji image.')
         .setDMPermission(false)
         .addStringOption(option =>
             option.setName('text')

@@ -15,7 +15,7 @@ module.exports = {
 		if ((!message.mentions.users.size && !args.length) || message.type === "REPLY") {
 			const user = await client.users.fetch(message.author.id, { force: true });
             const bannerUrl = user.bannerURL({ format: 'png', dynamic: true, size: 4096 });
-            if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
+            if (!bannerUrl) return infoMsg(message, 'Red', await buildText("banner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
 			const avatarEmbed = new EmbedBuilder()
 				.setColor('#adf542')
@@ -30,7 +30,7 @@ module.exports = {
 				for (i = message.mentions.users.size; i >= 1; i--) {
 					const bUser = await client.users.fetch(user.id, { force: true });
 					const bannerUrl = bUser.bannerURL({ format: 'png', dynamic: true, size: 4096 });
-                    if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
+                    if (!bannerUrl) return infoMsg(message, 'Red', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
 					const avatarEmbed = new EmbedBuilder()
 						.setColor('#adf542')
@@ -43,13 +43,13 @@ module.exports = {
 				}
 			});
 		} else if (message.mentions.users.size > 1) {
-			return infoMsg(message, 'B20000', await buildText("allowed_max_mention", client, { guild: message.guild.id, message: message }), true, 5000);
+			return infoMsg(message, 'Red', await buildText("allowed_max_mention", client, { guild: message.guild.id, message: message }), true, 5000);
 		} else {
 			let user = await search.user(client, null, message, args[0]);
 
 			if (user) {
                 const bannerUrl = user.bannerURL({ format: 'png', dynamic: true, size: 4096 });
-                if (!bannerUrl) return infoMsg(message, 'B20000', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
+                if (!bannerUrl) return infoMsg(message, 'Red', await buildText("banner_userbanner_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 
 				const avatarEmbed = new EmbedBuilder()
 					.setColor('#adf542')
@@ -60,7 +60,7 @@ module.exports = {
 
 				return message.channel.send({ embeds: [avatarEmbed] });
 			} else {
-				return infoMsg(message, 'B20000', await buildText("user_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
+				return infoMsg(message, 'Red', await buildText("user_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 			}
 		}
     }

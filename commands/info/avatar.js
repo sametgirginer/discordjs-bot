@@ -36,7 +36,7 @@ module.exports = {
 				}
 			});
 		} else if (message.mentions.users.size > 1) {
-			return infoMsg(message, 'B20000', await buildText("allowed_max_mention", client, { guild: message.guild.id, message: message }), true, 5000);
+			return infoMsg(message, 'Red', await buildText("allowed_max_mention", client, { guild: message.guild.id, message: message }), true, 5000);
 		} else {
 			let user = await search.user(client, null, message, args[0]);
 
@@ -50,7 +50,7 @@ module.exports = {
 
 				return message.channel.send({ embeds: [avatarEmbed] });
 			} else {
-				return infoMsg(message, 'B20000', await buildText("user_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
+				return infoMsg(message, 'Red', await buildText("user_notfound", client, { guild: message.guild.id, message: message }), true, 5000);
 			}
 		}
     }

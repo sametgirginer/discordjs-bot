@@ -13,8 +13,8 @@ module.exports = {
 	permissions: [PermissionFlagsBits.ViewChannel],
     run: async (client, message, args) => {
         const queue = client.queue.get(message.guild.id);
-        if (!queue) return infoMsg(message, 'B5200', await buildText("music_no_queue", client, { guild: message.guild.id }), true, 5000);
-        if (queue.songs.length <= 1) return infoMsg(message, 'B5200', await buildText("music_playing_empty_queue", client, { guild: message.guild.id }), true, 5000);
+        if (!queue) return infoMsg(message, 'Red', await buildText("music_no_queue", client, { guild: message.guild.id }), true, 5000);
+        if (queue.songs.length <= 1) return infoMsg(message, 'Red', await buildText("music_playing_empty_queue", client, { guild: message.guild.id }), true, 5000);
 
         let list = [];
         let listNumber = 0;

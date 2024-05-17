@@ -22,7 +22,7 @@ module.exports = {
             const serverQueue = message.client.queue.get(message.guild.id);
       
             const vc = message.member.voice.channel;
-            if (!vc) return infoMsg(message, 'B5200', await buildText("music_member_must_connect_vc", client, { guild: message.guild.id }), true);
+            if (!vc) return infoMsg(message, 'Red', await buildText("music_member_must_connect_vc", client, { guild: message.guild.id }), true);
             if (!args.length) return infoMsg(message, 'AA5320', await buildText("music_required_query", client, { guild: message.guild.id }));
 
             const permissions = vc.permissionsFor(message.client.user);
@@ -149,7 +149,7 @@ module.exports = {
                 }
             } else {
                 if (message.member.voice.channelId != serverQueue.connection.joinConfig.channelId)
-                    return infoMsg(message, 'B5200', await buildText("music_member_same_vc_with_bot", client, { guild: message.guild.id }), true);
+                    return infoMsg(message, 'Red', await buildText("music_member_same_vc_with_bot", client, { guild: message.guild.id }), true);
 
                 if (pltracks.length) {
                     addQueueSongs(pltracks, serverQueue);

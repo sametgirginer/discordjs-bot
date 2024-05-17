@@ -41,7 +41,7 @@ module.exports = {
             });
 
             if (komutAdi === undefined) {
-                infoMsg(message, 'B20000', await buildText("help_invaild_command", client, { guild: message.guild.id, message: message, variables: [args[0]] }), true, 10000);
+                infoMsg(message, 'Red', await buildText("help_invaild_command", client, { guild: message.guild.id, message: message, variables: [args[0]] }), true, 10000);
             } else {
                 let yes = await buildText("yes", client, { guild: message.guild.id });
                 let no = await buildText("no", client, { guild: message.guild.id });

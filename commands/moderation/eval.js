@@ -26,7 +26,7 @@ module.exports = {
                 message.reply({ content: clean(evaled), allowedMentions: { repliedUser: false } });
             }           
         } catch (error) {
-            infoMsg(message, 'B20000', `**${(await buildText("error", client, { guild: message.guild.id })).toUpperCase()}**:\n${clean(error)}`);
+            infoMsg(message, 'Red', `**${(await buildText("error", client, { guild: message.guild.id })).toUpperCase()}**:\n${clean(error)}`);
         }
     }
 }

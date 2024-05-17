@@ -11,11 +11,11 @@ module.exports = {
     supportserver: false,
     permissions: [PermissionFlagsBits.BanMembers],
     run: async (client, message, args) => {
-        if (!message.mentions.members.size) return infoMsg(message, 'B20000', await buildText("ban_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
+        if (!message.mentions.members.size) return infoMsg(message, 'Red', await buildText("ban_user_required", client, { guild: message.guild.id, message: message }), true, 5000);
 
         message.mentions.members.forEach(async member => {
             if (!member.bannable || member.permissions.has([PermissionFlagsBits.BanMembers]) || member.permissions.has([PermissionFlagsBits.KickMembers])) 
-                return infoMsg(message, 'B20000', await buildText("ban_hierarchy", client, { guild: message.guild.id, message: message }), true, 5000);
+                return infoMsg(message, 'Red', await buildText("ban_hierarchy", client, { guild: message.guild.id, message: message }), true, 5000);
 
             if(args[1]) {
                 let reason = '';
