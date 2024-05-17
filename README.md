@@ -38,14 +38,6 @@ Discord bot still in development.
 | d20           | Fun           | Prefix Command    | You can roll a D20.  |
 | kasar         | Fun           | Slash Command     | Canvas command (there is only Turkish description in image). |
 
-**👾 Game Commands 👾**
-
-| Name          | Category      | Type              | Description   |
-| ------------- | ------------- | ----------------- | ------------- |
-| chess         | Game          | Prefix Command    | Discord Activities (discord-together) |
-| poker         | Game          | Prefix Command    | Discord Activities (discord-together) |
-| youtube       | Game          | Prefix Command    | Discord Activities (discord-together) |
-
 **💡 Information Commands 💡**
 
 | Name          | Category      | Type              | Description   |
@@ -71,9 +63,6 @@ Discord bot still in development.
 | prunexp       | Moderation    | Prefix Command    | Retrieves users with less than xp value you specified. |
 | restart       | Moderation    | Prefix Command    | Restarts the bot. |
 | scmd          | Moderation    | Prefix Command    | Deletes or updates all slash commands in a guild. |
-| survey        | Moderation    | Prefix Command    | Automatically prepares a survey. |
-| tokenban      | Moderation    | Prefix Command    | Bans users from a specific user invitation from the server. |
-| tokenkick     | Moderation    | Prefix Command    | Kicks users from a specific user invitation from the server. |
 | unban         | Moderation    | Prefix Command    | Unbans a banned user from the server. |
 
 **🎶 Music Commands 🎶**

@@ -38,14 +38,6 @@ Discord botu hala geliştirme aşamasında.
 | d20           | Eğlence       | Prefix Komutu     | D20 zarı atabilirsiniz. |
 | kasar         | Eğlence       | Slash Komutu      | Canvas komutu (resimde sadece Türkçe açıklama vardır). |
 
-**👾 Oyun Komutları 👾**
-
-| Ad            | Kategori      | Tip               | Açıklama   |
-| ------------- | ------------- | ----------------- | ------------- |
-| chess         | Oyun          | Prefix Komutu     | Discord Etkinleri (discord-together) |
-| poker         | Oyun          | Prefix Komutu     | Discord Etkinleri (discord-together) |
-| youtube       | Oyun          | Prefix Komutu     | Discord Etkinleri (discord-together) |
-
 **💡 Bilgilendirme Komutları 💡**
 
 | Ad            | Kategori      | Tip               | Açıklama   |
@@ -71,9 +63,6 @@ Discord botu hala geliştirme aşamasında.
 | prunexp       | Moderasyon    | Prefix Komutu     | Belirttiğiniz xp değerinden daha düşük olan kullanıcıları getirir. |
 | restart       | Moderasyon    | Prefix Komutu     | Botu yeniden başlatır. |
 | scmd          | Moderasyon    | Prefix Komutu     | Bir sunucudaki tüm eğik çizgi komutlarını siler veya günceller. |
-| survey        | Moderasyon    | Prefix Komutu     | Otomatik olarak bir anket hazırlar. |
-| tokenban      | Moderasyon    | Prefix Komutu     | Belirli bir kullanıcı davetinden gelen kullanıcıları yasaklar. |
-| tokenkick     | Moderasyon    | Prefix Komutu     | Belirli bir kullanıcı davetinden gelen kullanıcıları atar. |
 | unban         | Moderasyon    | Prefix Komutu     | Yasaklanan bir kullanıcının sunucudaki yasağını kaldırır. |
 
 **🎶 Müzik Komutları 🎶**
