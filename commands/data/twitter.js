@@ -11,7 +11,7 @@ module.exports = {
         
         let url = interaction.options.getString('url');
         url = await twitterRegex(url, 2);
-        let id = await twitterRegex(url, 4);
+        let id = await twitterRegex(url, 6);
 
         if (id) {
             const scraper = new Scraper();
@@ -39,7 +39,7 @@ module.exports = {
                         new ButtonBuilder()
                             .setStyle(ButtonStyle.Link)
                             .setLabel('Twitter')
-                            .setURL(url)
+                            .setURL("https://" + url)
                     );
             
                     let fileExists = fs.existsSync(selVar.file);

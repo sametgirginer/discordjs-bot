@@ -24,7 +24,7 @@ module.exports = {
     },
 
     twitterRegex: async function(str, index) {
-        var regex = /(^|[^'"])(https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+))/;
+        var regex = /(^|[^'"])(https?:\/\/(twitter)|(x)\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+))/;
         if (!regex.test(str)) {
             return false;
         } else {
