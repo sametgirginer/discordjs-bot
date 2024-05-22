@@ -33,7 +33,7 @@
     "hastebin-gen": "^2.0.5",
     "htmlparser2": "^8.0.1",
     "libsodium-wrappers": "^0.7.9",
-    "mysql2": "^2.3.3",
+    "mysql2": "^3.9.7",
     "node-cmd": "^3.0.0",
     "node-html-to-image": "^3.2.4",
     "request": "^2.88.2",
