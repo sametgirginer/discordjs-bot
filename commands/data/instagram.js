@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { buildText } = require("../../functions/language");
 const { download } = require("../../functions/download");
-const { sleep } = require("../../functions/helpers");
+const { sleep, rotateMedia } = require("../../functions/helpers");
 const request = require("request");
 const fs = require("fs");
 
@@ -44,6 +44,7 @@ module.exports = {
                         
                                 try {
                                     await download(data.video_url, videoFile);
+                                    if (interaction.options.getBoolean('rotate')) videoFile = await rotateMedia(videoFile);
                         
                                     let stats = fs.statSync(videoFile);
                                     stats.size = Math.round(stats.size / (1024*1024));
@@ -56,18 +57,18 @@ module.exports = {
                                         });
                                     }
                         
-                                    const tiktokVideo = new AttachmentBuilder()
+                                    const instaVideo = new AttachmentBuilder()
                                         .setFile(videoFile)
                                         .setName('instagram-video.mp4');
                                         
-                                    const tiktokButton = new ActionRowBuilder().addComponents(
+                                    const instaButton = new ActionRowBuilder().addComponents(
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                                             .setURL(url)
                                     );
                                 
-                                    return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
+                                    return interaction.editReply({ files: [instaVideo], components: [instaButton] }).then(async () => {
                                         fs.unlinkSync(videoFile);
                                     });
                                 } catch (error) {
@@ -102,6 +103,7 @@ module.exports = {
                         
                                 try {
                                     await download(videoUrl, videoFile);
+                                    if (interaction.options.getBoolean('rotate')) videoFile = await rotateMedia(videoFile);
                         
                                     let stats = fs.statSync(videoFile);
                                     stats.size = Math.round(stats.size / (1024*1024));
@@ -114,18 +116,18 @@ module.exports = {
                                         });
                                     }
                         
-                                    const tiktokVideo = new AttachmentBuilder()
+                                    const instaVideo = new AttachmentBuilder()
                                         .setFile(videoFile)
                                         .setName('instagram-video.mp4');
                                         
-                                    const tiktokButton = new ActionRowBuilder().addComponents(
+                                    const instaButton = new ActionRowBuilder().addComponents(
                                         new ButtonBuilder()
                                             .setStyle(ButtonStyle.Link)
                                             .setLabel(await buildText("button_view_onsite", client, { guild: interaction.guildId }))
                                             .setURL(url)
                                     );
                                 
-                                    return interaction.editReply({ files: [tiktokVideo], components: [tiktokButton] }).then(async () => {
+                                    return interaction.editReply({ files: [instaVideo], components: [instaButton] }).then(async () => {
                                         fs.unlinkSync(videoFile);
                                     });
                                 } catch (error) {
@@ -165,4 +167,11 @@ module.exports = {
                     tr : "Geçerli bir bağlantı giriniz.",
                 })
                 .setRequired(true))
+        .addBooleanOption(option => 
+            option.setName('rotate')
+                .setDescription('Rotate media horizontally.')
+                .setDescriptionLocalizations({
+                    tr : "Medyayı yatay olarak döndür.",
+                })
+                .setRequired(false))
 }

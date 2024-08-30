@@ -1,3 +1,4 @@
+const ffmpeg = require("fluent-ffmpeg");
 const request = require('request');
 const fs = require('fs');
 
@@ -88,4 +89,15 @@ module.exports = {
             }
         });
     },
+
+    rotateMedia: async function(videoFile) {
+        let rotatedFile = `${videoFile}-rotated.mp4`;
+        return new Promise((resolve) => {
+            new ffmpeg(videoFile).outputOptions(['-vf transpose=2', '-vf transpose=2'])
+                .saveToFile(rotatedFile).on("end", async () => {
+                    fs.unlinkSync(videoFile);
+                    resolve(rotatedFile);
+            });
+        });
+    }
 }

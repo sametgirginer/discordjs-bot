@@ -16,6 +16,7 @@ module.exports = {
         if (id) {
             const scraper = new Scraper();
             let tweet = await scraper.getTweet(id);
+            if (!tweet) return interaction.reply({ content: await buildText("twitter_notfound_media", client, { guild: interaction.guildId }), ephemeral: true }); 
             let title = tweet.text.replace(/http[s]?:\/\/t.co\/[a-zA-Z0-9]*/g, "");
             let selVar = [];
 
