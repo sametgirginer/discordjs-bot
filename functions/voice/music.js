@@ -80,10 +80,12 @@ module.exports = {
     },
 
     getSpotifyTrack: async function(url) {
-        var regex = /https:\/\/open\.spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]{15,})/;
+        var regex = /https:\/\/open\.spotify\.com(\/intl-[a-zA-Z]*)?\/(track|album|playlist)\/([a-zA-Z0-9]{15,})/;
         var match = url.match(regex);
-        var category = match[1];
-        var id = match[2];
+        var category = match[2];
+        var id = match[3];
+
+        console.log(match);
 
         if (category === "track") {
             const data = await auth.spotify(`https://api.spotify.com/v1/tracks/${id}`);

@@ -31,7 +31,7 @@ module.exports = {
 
             const regexSwitch = (str) => {
                 var youtubeRegex = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
-                var spotifyRegex = /(https:\/\/open\.spotify\.com\/(track|album|playlist)\/)([a-zA-Z0-9]{15,})/;
+                var spotifyRegex = /(https:\/\/open\.spotify\.com(\/intl-[a-zA-Z]*)?\/(track|album|playlist)\/)([a-zA-Z0-9]{15,})/;
 
                 if (youtubeRegex.test(str)) return "youtube_url";
                 else if (spotify && spotifyRegex.test(str)) return "spotify_url";

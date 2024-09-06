@@ -10,3 +10,4 @@
 /data/pinterest/*
 /data/tiktok/*
 /commands/stats/cache/*
+/logs/errors/*.log
