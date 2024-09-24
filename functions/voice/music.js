@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core');
+const ytdl = require('@distube/ytdl-core');
 const ytSearch = require('yt-search');
 const auth = require('../authorization');
 const { EmbedBuilder } = require('discord.js');

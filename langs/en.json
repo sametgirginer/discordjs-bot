@@ -85,6 +85,9 @@
     "tiktok_invaild_url" : "You must enter a valid TikTok link.",
     "tiktok_error_data" : "An error occurred while extracting data from the site.",
 
+    "ytshorts_invaild_url" : "You must enter a valid YouTube Shorts link.",
+    "ytshorts_error_data" : "An error occurred while extracting data from the site.",
+
     "twitter_notfound_media" : "The media on this link could not be accessed.",
     "twitter_already_processing" : "The link you specified is currently being processed. Please do not process it again.",
     "twitter_unvaild_url" : "You must enter a valid link.",

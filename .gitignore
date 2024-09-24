@@ -9,5 +9,6 @@
 /data/twitter/*
 /data/pinterest/*
 /data/tiktok/*
+/data/ytshorts/*
 /commands/stats/cache/*
 /logs/errors/*.log

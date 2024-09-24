@@ -85,6 +85,9 @@
     "tiktok_invaild_url" : "Geçerli bir TikTok bağlantısı girmelisiniz.",
     "tiktok_error_data" : "Siteden veri çekilirken hata oluştu.",
 
+    "ytshorts_invaild_url" : "Geçerli bir YouTube Shorts bağlantısı girmelisiniz.",
+    "ytshorts_error_data" : "Siteden veri çekilirken hata oluştu.",
+
     "twitter_notfound_media" : "Bu bağlantıdaki medyaya erişilemedi.",
     "twitter_already_processing" : "Belirttiğiniz bağlantı şu anda işlenmektedir. Lütfen tekrar işlem yapmayınız.",
     "twitter_unvaild_url" : "Geçerli bir bağlantı girmeniz gerekmektedir.",
