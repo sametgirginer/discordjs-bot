@@ -11,7 +11,7 @@ module.exports = {
     run: async (client, interaction) => {
         let url = interaction.options.getString('url');
         let regex = /http(s)?:\/\/(\w.*\.)?tiktok\.com\/([@a-zA-Z0-9._]*)\/video\/([0-9]*)/;
-        let shortregex = /http(s)?:\/\/vm.tiktok\.com\/([@a-zA-Z0-9._]*)/;
+        let shortregex = /https?:\/\/(vm|vt)\.tiktok\.com\/([@a-zA-Z0-9._]*)/;
 
         if (url.match(regex) == null) {
             if (url.match(shortregex) != null) url = await getRedirectURL(url);

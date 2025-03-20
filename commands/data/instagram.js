@@ -90,8 +90,12 @@ module.exports = {
                     
                         if (url.includes('query')) {
                             json = await response.json();
-                            xhr_result(json);
-                            await browser.close();
+                            if (json.data != undefined) {
+                                if (json.data.xdt_shortcode_media != undefined) {
+                                    xhr_result(json);
+                                    await browser.close();
+                                } 
+                            }
                         }
                     });
                 })();
