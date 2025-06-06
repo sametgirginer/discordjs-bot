@@ -81,7 +81,12 @@ module.exports = {
                 }
                 
                 (async () => {
-                    const browser = await puppeteer.launch({ headless: false });
+                    const browser = await puppeteer.launch({ 
+                        headless: false, 
+                        defaultViewport: null,
+                        executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', 
+                        args:['--start-maximized' ]
+                    });
                     const page = await browser.newPage();
                     await page.goto(`https://www.instagram.com/p/${match[2]}/`);
 
